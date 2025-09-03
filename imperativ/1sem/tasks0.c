@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-void task1() {
+void t0_task1() {
     printf("Hello, World!\n");
 }
 
-void task2() {
+void t0_task2() {
     int a;
     int b;
 
@@ -13,7 +13,7 @@ void task2() {
     printf("%d\n", a + b);
 }
 
-void task3() {
+void t0_task3() {
     int a;
     int b;
 
@@ -28,7 +28,7 @@ void task3() {
     else printf("%d\n", b % a);
 }
 
-void task4() {
+void t0_task4() {
     int a;
     int b;
 
@@ -40,7 +40,7 @@ void task4() {
     printf("%0.2f\n", (float)(a + b) / 2);
 }
 
-void task5() {
+void t0_task5() {
     int a;
     int res;
 
