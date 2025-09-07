@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 void t1_task1() {
@@ -24,10 +25,13 @@ void t1_task2() {
 
     if (x <= 0) {
         printf("%d", -1);
+        return;
     } else if (y <= 0) {
         printf("%d", -2);
+        return;
     } else if (z <= 0) {
         printf("%d", -3);
+        return;
     }
 
     printf("%d\n", (x * y + x * z + y * z) * 2);
@@ -49,6 +53,7 @@ void t1_task3() {
             count -= 1;
         } else if (a % 10 == 0) {
             a /= 10;
+            count += 1;
             while (a > 0) {
                 if (a % 10 == 0) count += 1;
                 a /= 10;
@@ -74,7 +79,7 @@ void t1_task4() {
     for (int i = 2; i < sqrt_n; i++) {
         if (n % i == 0) {
             printf("NO\n");
-            break;
+            return;
         }
     }
 
@@ -93,10 +98,10 @@ void t1_task5() {
 }
 
 void t1_task6() {
-    int min;
+    int min = INT_MAX;
     int min_i;
 
-    int max;
+    int max = INT_MIN;
     int max_i;
 
     int n;
@@ -120,26 +125,68 @@ void t1_task6() {
 }
 
 void t1_task7() {
-    //
-}
-
-void t1_task8() {
-    //
-}
-
-void t1_task9() {
     int n;
+    int m/*номер*/, p/*подъезд*/, k/*этаж*/, l/*кол-во этажей*/;
+
     scanf("%d", &n);
+    scanf("%d %d %d %d", &m, &p, &k, &l);
 
-    int count = 0;
-
-    for (int i = 0; i * i * i <= n; i++) {
-        for (int j = i; i * i * j <= n; i++) {
-            for (int k = j; i * j * k <= n; n++) {
-                count++;
-            }
+    float g = l * (p - 1) + k - 1;
+    int c;
+    
+    for (int i = 1; i < INT_MAX; i++) {
+        float j = (m - i) / g;
+        
+        if (j == (int)j) {
+            c = j;
+            break;            
         }
     }
 
-    printf("%d\n", count);
+    int i;
+    for (i = 1; i * l * c < n; i++);
+
+    int j;
+    for (j = 1; (i-1) * l * c + j * c <= n; j++);
+
+    printf("%d %d", i, j - 1);
+}
+
+void t1_task8() {
+    int h, m, s, k;
+
+    scanf("%d %d %d %d", &h, &m, &s, &k);
+
+    s += k;
+    m += s / 60;
+    s %= 60;
+    h += m / 60;
+    m %= 60;
+    h %= 24;
+
+    printf("%d %d %d", h, m, s);
+}
+
+typedef long long i64;
+
+void t1_task9() {
+    i64 n;
+    scanf("%lld", &n);
+    
+    i64 count = 0;
+    i64 max_a = cbrt(n);
+    
+    for (i64 a = 1; a <= max_a; a++) {
+        i64 m = n / a;
+        i64 b_max = sqrt(m);
+        
+        for (i64 b = a; b <= b_max; b++) {
+            i64 max_c = m / b;
+            if (max_c >= b) {
+                count += (max_c - b + 1);
+            }
+        }
+    }
+    
+    printf("%lld\n", count);
 }

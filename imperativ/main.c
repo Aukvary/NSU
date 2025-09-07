@@ -1,11 +1,7 @@
-#include <stdio.h>
+#include "f_sem/tasks1.c"
 
 int main() {
-    const int a = 10;
-    printf("%d\n", a);
-    
-    *((int*)&a) = 2;
-    printf("%d\n", a);
+    t1_task9();
 
     return 0;
 }
