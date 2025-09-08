@@ -94,7 +94,8 @@ void t1_task5() {
     printf("%d ", (int)floor(a / b));
     printf("%d ", (int)ceil(a / b));
     printf("%d ", (int)round(a / b));
-    printf("%d", (int)floor(a / b)); //------//
+
+    printf("%d\n", ((int)a % (int)b) + (a < 0 ? (int)b : 0)); 
 }
 
 void t1_task6() {
