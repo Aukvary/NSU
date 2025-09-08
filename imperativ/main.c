@@ -1,12 +1,8 @@
-#include "f_sem/tasks1.c"
+#include <stdio.h>
+#include <math.h>
 
 int main() {
-    t1_task5();
-
-    // int a = -100;
-    // int b = 3;
-
-    // printf("%d", (a % b) + (a < 0 ? b : 0));
+    printf("%d", -4 % 2);
 
     return 0;
 }
