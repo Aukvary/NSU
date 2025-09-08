@@ -2,6 +2,7 @@
 
 int main(void) {
     int n;
+
     scanf("%d", &n);
 
     int res = 0;
