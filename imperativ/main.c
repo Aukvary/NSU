@@ -2,7 +2,7 @@
 #include <math.h>
 
 int main() {
-    printf("%d", -4 % 2);
+    printf("%d", -4 % -3);
 
     return 0;
 }

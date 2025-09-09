@@ -7,23 +7,21 @@ int main(void) {
     scanf("%d", &n);
     scanf("%d %d %d %d", &m, &p, &k, &l);
 
-    float g = l * (p - 1) + k - 1;
-    int c;
-    
-    for (int i = 1; i < 0x7FFFFFFF; i++) {
-        float j = (m - i) / g;
-        
-        if (j == (int)j) {
-            c = j;
-            break;            
-        }
+    int c = 1;
+
+    while (1) {
+        int min = ((p - 1) * l + k - 1) * c + 1;
+        int max = ((p - 1) * l + k - 1) * c + c;
+
+        if (m >= min && m <= max)
+            break;
+
+        c++;
     }
 
-    int i;
-    for (i = 1; i * l * c < n; i++);
+    int a = (n - 1) / c;
+    int i = a / l + 1;
+    int j = a % l + 1;
 
-    int j;
-    for (j = 1; (i-1) * l * c + j * c <= n; j++);
-
-    printf("%d %d", i, j - 1);
+    printf("%d %d", i, j);
 }

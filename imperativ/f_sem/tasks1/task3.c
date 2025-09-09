@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main() {
-        int n;
+    int n;
     scanf("%d", &n);
 
     int count = 0;
@@ -18,7 +18,8 @@ int main() {
             a /= 10;
             count += 1;
             while (a > 0) {
-                if (a % 10 == 0) count += 1;
+                if (a % 10 == 0) 
+                    count += 1;
                 a /= 10;
             }
         }
@@ -26,3 +27,26 @@ int main() {
 
     printf("%d\n", count);
 }
+
+// int main() {
+//     int n;
+//     scanf("%d", &n);
+    
+//     int count = 0;
+    
+//     for (int i = 0; i < n; i++) {
+//         int a;
+//         scanf("%d", &a);
+        
+//         a--;
+//         count += 2;
+        
+//         while (a > 0 && a % 10 == 9) {
+//             count++;
+//             a /= 10;
+//         }
+//     }
+    
+//     printf("%d\n", count);
+//     return 0;
+// }

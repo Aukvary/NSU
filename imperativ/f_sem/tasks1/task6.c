@@ -6,9 +6,6 @@ int main() {
     int max = 0x80000000;
     int max_i;
 
-    printf("%d\n", min);
-    printf("%d\n", max);
-
     int n;
 
     scanf("%d", &n);

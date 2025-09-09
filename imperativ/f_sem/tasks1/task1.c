@@ -10,7 +10,7 @@ int main(void) {
         int a;
         scanf("%d", &a);
 
-        if (a % 2 == 1)
+        if (a % 2 != 0)
             res += a;
     }
 
