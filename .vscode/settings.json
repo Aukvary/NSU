@@ -2,6 +2,14 @@
     "files.associations": {
         "stdlib.h": "c",
         "stdio.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "optional": "c",
+        "ostream": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }
