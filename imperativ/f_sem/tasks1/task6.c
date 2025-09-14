@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 int main() {
-    int min = 0x7FFFFFFF;
+    int min = 10001;
     int min_i;
-    int max = 0x80000000;
+    int max = -10001;
     int max_i;
 
     int n;
@@ -17,7 +17,8 @@ int main() {
         if (a < min) {
             min = a;
             min_i = i;
-        } else if (a > max) {
+        } 
+        if (a > max) {
             max = a;
             max_i = i;
         }
