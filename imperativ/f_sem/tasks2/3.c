@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 int main() {
-    double n;
-    scanf("%lf", &n);
+    int n;
+    scanf("%d", &n);
 
-    double min = 0;
-    double zero = 0;
-    double max = 0;
+    int min = 0;
+    int zero = 0;
+    int max = 0;
 
     for (int i = 0; i < n; i++) {
-        double a;
+        int a;
 
-        scanf("%lf", &a);
+        scanf("%d", &a);
 
         if (a < 0) {
             min += 1;
@@ -22,7 +22,9 @@ int main() {
         }
     }
 
-    printf("%.5lf, %.5lf, %.5lf", min / n, zero / n, max/ n);
+    double count = (double)n;
+
+    printf("%.5f, %.5f, %.5f", min / count, zero / count, max/ count);
     
     return 0;
 }
