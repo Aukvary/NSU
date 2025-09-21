@@ -6,8 +6,9 @@ int main() {
 
     char c;
     int num;
+    int i = 0;
 
-    for (int i = 0; i < n; i++) {
+    for (; i < n; i++) {
         scanf("%c", &c);
 
         if (c != '1' && c != '0') {
@@ -24,5 +25,8 @@ int main() {
         }
     }
 
-    printf("%d", num);
+    if (i % 8 != 0) 
+        printf("%d ", num);
+
+    return 0;
 }
