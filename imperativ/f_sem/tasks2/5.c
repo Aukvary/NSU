@@ -2,25 +2,20 @@
 
 int main() {
     int n;
-    scanf("%d", &n);
-
     char c;
-    int num;
+    scanf("%d\n", &n);
+
     int i = 0;
+    int num = 0;
 
     for (; i < n; i++) {
         scanf("%c", &c);
-
-        if (c != '1' && c != '0') {
-            i--;
-            continue;
-        }
         
-        if (c == '1')
+        if (c == '1') 
             num += 1 << (i % 8);
 
-        if (i % 8 == 7) {
-            printf("%d ", num);
+        if (i > 0 && i % 8 == 7) {
+            printf("%d ", num); 
             num = 0;
         }
     }
