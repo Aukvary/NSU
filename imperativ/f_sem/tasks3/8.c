@@ -17,6 +17,6 @@ int main() {
     int max = 0;
 
     while (l < r) {
-    
+        
     }
 }
