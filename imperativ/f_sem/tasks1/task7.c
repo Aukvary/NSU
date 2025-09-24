@@ -10,7 +10,7 @@ int main(void) {
     int c = 1;
 
     while (1) {
-        int min = ((p - 1) * l + k - 1) * c + 1;
+        int min = ((p - 1) * l  + k - 1) * c + 1;
         int max = ((p - 1) * l + k - 1) * c + c;
 
         if (m >= min && m <= max)

@@ -7,7 +7,6 @@ int main() {
     
     int count = 0;
     int range = r - l + 1;
-    int step = (range / k) + (range % k == 0 ? 0 : 1);
 
     for (int i = 1; i <= range; i++) {
         for (int j = l; j <= r; j++) {
