@@ -15,12 +15,10 @@ int main() {
     }
 
     for (int i = 1; i < n; i++) {
-        int j = i;
-        while ((j > 0) && (nums[j] < nums[j - 1])) {
+        for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--) {
             int temp = nums[j - 1];
             nums[j - 1] = nums[j];
             nums[j] = temp;
-            j--; 
         }
     }
 
