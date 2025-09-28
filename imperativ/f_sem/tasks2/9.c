@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int main() {
+    freopen("output.txt", "w", stdout);
     char c;
     char prev;
 
@@ -9,18 +10,20 @@ int main() {
 
     FILE* in = fopen("input.txt", "r");
 
+    int init = 1;
 
     while (fscanf(in, "%c", &c) != -1) {
-        
+      
         if (block_com && prev == '*' && c == '/') {
             block_com = 0;
             prev = 0;
+            init = 1;
             continue;
         } else if (com && c == '\n') {
             com = 0;
             prev = c;
             continue;
-        } else {
+        } else if (!com && !block_com) {
             if (prev == '/' && c == '/') {
                 com = 1;
                 prev = 0;
@@ -31,14 +34,16 @@ int main() {
                 continue;
             }
         }
-        
-        if ((!block_com && !com) || prev == '\n' || prev == ' ' || prev == '\t')
+
+        if ( init == 1 ) {
+            init = 0;
+        } else if ((!block_com && !com) || prev == '\n')
             printf("%c", prev);
 
         prev = c;
     }
 
-    if ((!block_com && !com) || prev == '\n' || prev == ' ' || prev == '\t')
+    if ((!block_com && !com) || prev == '\n')
         printf("%c", prev);
 
     return 0;

@@ -3,23 +3,21 @@
 int main() {
     char s[1001];
 
-    fgets(s, sizeof(s), stdin);
+    fgets(s, sizeof(s), fopen("input.txt", "r"));
 
     int n = 0;
     while (s[++n] != '\0');
-
-    s[n] = ' ';
     
     int l = 0;
     int r = 0;
-    for (; r < n; r++) {
-        if (s[r + 1] != ' ') 
+    for (; r <= n; r++) {
+        if (s[r] != ' ' && s[r] != '\0') 
             continue;
             
-        if (l == r) {
+        if (l == r - 1 || s[l] == ' ' || s[l] == '\0') {
             printf("%c ", s[l]);
         } else {
-            printf("%c%d%c ", s[l], r - l - 1, s[r]);
+            printf("%c%d%c ", s[l], r - l - 2, s[r - 1]);
         }
         
         l = r + 1;
