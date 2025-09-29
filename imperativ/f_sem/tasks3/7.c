@@ -1,26 +1,32 @@
 #include <stdio.h>
 
 int main() {
-    char s[1001];
+    char str[1001] = { 0 };
+    fgets(str, sizeof(str), fopen("input.txt", "r"));
 
-    fgets(s, sizeof(s), fopen("input.txt", "r"));
+    char* s = str;
 
-    int n = 0;
-    while (s[++n] != '\0');
-    
-    int l = 0;
-    int r = 0;
-    for (; r <= n; r++) {
-        if (s[r] != ' ' && s[r] != '\0') 
-            continue;
-            
-        if (l == r - 1 || s[l] == ' ' || s[l] == '\0') {
-            printf("%c ", s[l]);
-        } else {
-            printf("%c%d%c ", s[l], r - l - 2, s[r - 1]);
-        }
+    while (*s) {
+        while (*s == ' ')
+            s++;
         
-        l = r + 1;
+        if (!(*s)) 
+            break;
+
+        int len = 0;
+
+        while (*(s + 1) != ' ' && *(s + 1) != '\0') {
+            s++;
+            len++;
+        }
+
+        if (len == 0){
+            printf("%c ", *s);
+            s++;
+        } else {
+            printf("%c%d%c ", *(s - len), len - 1, *s);
+            s++;
+        }
     }
 
     return 0;
