@@ -10,7 +10,7 @@ int main() {
     int h = 0;
     int c = 0;
     for (int i = 0; (ch = fgetc(in)) != EOF; i++) {
-        if (ch == '.' || ch == ',' || ch == ':' || ch == ';') {
+        if (ch == '.' || ch == ',' || ch == ':' || ch == ';' || ch == '\0' || ch == '\n') {
             if (c > 0)
                 printf("%d/%d %s\n", h, c, buf);
 
@@ -26,9 +26,6 @@ int main() {
             h++;
         buf[bp++] = ch;
     }
-
-    if (c > 0)
-        printf("%d/%d %s\n", h, c, buf);
 
     return 0;
 }
