@@ -11,7 +11,9 @@ int main() {
         return 0;
     }
 
-    int sizes[100001], l[100001], r[100001];
+    int sizes[100001];
+    int l[100001];
+    int r[100001];
 
     for (int i = 0; i < n; i++) 
         fscanf(in, "%d", &sizes[i]);
