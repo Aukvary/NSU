@@ -51,7 +51,7 @@ int main() {
 
 
     for (int i = 0; i < n; i++)
-            printf("%c ", s[i]);
+        printf("%c ", s[i]);
 
     return 0;
 }
