@@ -1,48 +1,54 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SIZE 500
+int main(void) {
+    char words[200][1000];
+    char pref[200][1000];
+    int n = 0;
+    char line[1000];
+    while (fgets(line, 1000, stdin)) {
+        int l = strlen(line);
+        if (l && line[l-1] == '\n') 
+            line[--l] = '\0';
+        if (l && line[l-1] == '\r') 
+            line[--l] = '\0';
+        if (l == 0) 
+            break;
 
-int main() {
-    char words[SIZE][SIZE];
-    FILE* in = fopen("input.txt", "r");
-    int count = 0;
-    char buf[SIZE * SIZE];
-    
-    while (fgets(buf, sizeof(buf), in) != NULL) {        
-        char* word = strtok(buf, " \0\n\t"); 
-        while (word != NULL) {
-            strcpy(words[count++], word);
-            word = strtok(NULL, " \0\n\t");
+        for (char *p = strtok(line, " "); p; p = strtok(NULL, " ")) {
+            strncpy(words[n], p, 1000);
+            words[n][999] = '\0';
+            n++;
         }
     }
-    
-    for (int i = count - 1; i > -1; i--) {
-        int len = strlen(words[i]);
-        int res = len;
 
-        for (int j = 1; j <= len; j++) {
-            char uniq = 1;
-            for (int k = 0; k < count; k++) {
-                if (i == k)
-                    continue;
-
-                if (!strncmp(words[i], words[k], j)) {
-                    uniq = 0;
-                    break;
+    for (int i = 0; i < n; i++) {
+        int l = strlen(words[i]);
+        int k = 1;
+        for (; k <= l; k++) {
+            int uniq = 1;
+            for (int j = 0; j < n; j++) if (j != i)
+                if (!strncmp(words[i], words[j], k)) { 
+                    uniq = 0; 
+                    break; 
                 }
-            }
-
-            if (uniq) {
-                res = j;
+            if (uniq) 
                 break;
-            }
         }
-
-        printf("%.*s", res, words[i]);
-        if (i != 0)
-            printf("#");
+        if (k > l) 
+            strcpy(pref[i], words[i]);
+        else {
+            strncpy(pref[i], words[i], k);
+            pref[i][k] = '\0';
+        }
     }
 
+    char out[1000000] = "";
+    for (int i = n - 1; i >= 0; i--) {
+        if (n - 1 != i) 
+            strcat(out, "#");
+        strcat(out, pref[i]);
+    }
+    puts(out);
     return 0;
 }
