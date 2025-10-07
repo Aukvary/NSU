@@ -1,36 +1,24 @@
 #include <stdio.h>
 
-int fac(int n) {
-    if (n == 0) return 1;
-    int res = 1;
-
-    for (int i = 2; i <= n; i++) {
-        res *= i;
-    }
-
-    return res;
-}
-
-double p(double x, int y) {
-    double n = 1.0;
-
-    for (int i = 0; i < y; i++) {
-        n *= x;
-    }
-
-    return n;
-}
-
-#define ABS(x) (x < 0 ? -x : x)
-
 double e(double x) {
-    double res = 0;
-
-    for (double i = 0; i <= ABS(x); i++) {
-        res += p(x, i) / (double)fac((int)i);
+    if (x < 0) {
+        return 1.0 / e(-x);
     }
-
-    return res;
+    
+    double result = 1.0;
+    double term = 1.0;
+    int n = 1;                
+    
+    while (term > 1e-20 || term < -1e-20) {
+        term = term * x / n;  
+        result += term;
+        n++;
+        
+        if (n > 1000) 
+            break;
+    }
+    
+    return result;
 }
 
 int main() {
