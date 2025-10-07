@@ -9,7 +9,7 @@ double e(double x) {
     double term = 1.0;
     int n = 1;                
     
-    while (term > 1e-20 || term < -1e-20) {
+    while (term > 1e-15 || term < -1e-15) {
         term = term * x / n;  
         result += term;
         n++;
