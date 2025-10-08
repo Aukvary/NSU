@@ -17,6 +17,7 @@ double e(double x) {
         if (n > 1000) 
             break;
     }
+    printf("%d\n", n);
     
     return result;
 }

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-char* concat(char* pref, char* suff, char cp) {
+char* concat(char* pref, char* suff) {
     int pn = strlen(pref);
     int sn =  strlen(suff);
 
@@ -19,7 +19,6 @@ char* concat(char* pref, char* suff, char cp) {
 
     new[pn + sn] = '\0';
     
-    if (cp) free(pref);
 
 
     return new;
@@ -36,11 +35,11 @@ int main() {
         char s[100];
         fscanf(in, "%s\n", s);
         if (i == 0)
-            res = concat(res, s, 0);
+            res = concat(res, s);
         else if (i == 1)
-            res = concat(res, s, 1);
+            res = concat(res, s);
         else 
-            res = concat(res, s, 1);
+            res = concat(res, s);
     }
 
     printf("%s", res);
