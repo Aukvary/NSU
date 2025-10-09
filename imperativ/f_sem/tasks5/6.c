@@ -59,6 +59,15 @@ LongNum mult(LongNum* num1, LongNum* num2) {
     return res;
 }
 
+LongNum newLongNum(int num) {
+    LongNum new = {0, { 0 } };
+
+    while (num > 0) {
+        new.arr[new.len++] = num % 10;
+        num /= 10;
+    }
+}
+
 int main() {
     LongNum res = { 1, { 1 }};  
     
@@ -66,7 +75,12 @@ int main() {
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
-        res = mult(&res, )
+        LongNum num = newLongNum(n + 1);
+        res = mult(&res, &num);
+    }
+
+        for (int i = res.len - 1; i > -1; i--) {
+        printf("%d", res.arr[i]);
     }
     
     return 0;
