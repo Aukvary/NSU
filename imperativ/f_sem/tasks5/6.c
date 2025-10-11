@@ -8,67 +8,31 @@ typedef struct LongNum_s {
 } LongNum;
 
 void print(const LongNum* num) {
+    char zeros = 1;
 
-    for (int i = 0; i < num->len; i++) {
+    for (int i = num->len - 1; i > -1; i--) {
+        if (zeros && num->arr[i] != 0)
+            zeros = 0;
+
+        if (!zeros)
             printf("%d", num->arr[i]);
     }
+    printf("\n");
 }
 
-void add(LongNum* num1, LongNum* num2) {
-    int len = MAX(num1->len, num2->len);
-
-    num1->len = len;
-
-    char temp = 0;
-
-    for (int i = num1->len - 1; i > -1; i--) {
-        num1->arr[i] += num2->arr[i] + temp;
-        temp = 0;
-        if (num1->arr[i] > 9) 
-            temp = 1;
-        
-        num1->arr[i] %= 10;
+void mult(LongNum* num, int multiplier) {
+    int carry = 0;
+    
+    for (int i = 0; i < num->len; i++) {
+        int product = num->arr[i] * multiplier + carry;
+        num->arr[i] = product % 10;
+        carry = product / 10;
     }
-    if (temp)
-        num1->arr[num1->len++] = 1;
-}
-
-void mult10(LongNum* num) {
-    num->arr[num->len++] = 0;
-}
-
-LongNum mult(LongNum* num1, LongNum* num2) {
-    int len = MAX(num1->len, num2->len);
-
-    LongNum res = {0, { 0 }};
-    LongNum temp = {len, { 0 }};
-
-    int ost = 0;
-
-    for (int i = 0; i < len; i++) {
-        for (int j = 0; j < len; j++) {
-            temp.arr[j] = num1->arr[i] * num2->arr[j] + ost;
-            ost = 0;
-            if(temp.arr[j] > 9) {
-                ost = temp.arr[j] / 10;
-            }
-            temp.arr[j] %= 10;
-        }
-        
-        if (ost != 0) 
-            temp.arr[temp.len++] = ost;
-        
-        ost = 0;
-        
-        for (int j = 0; j < i; j++) {
-            mult10(&temp);    
-        }
-        add(&res, &temp);
-
-        temp = (LongNum){ len, { 0 }};
+    
+    while (carry > 0) {
+        num->arr[num->len++] = carry % 10;
+        carry /= 10;
     }
-
-    return res;
 }
 
 LongNum newLongNum(int num) {
@@ -87,23 +51,16 @@ LongNum newLongNum(int num) {
 }
 
 int main() {
-    // int n;
-    // scanf("%d", &n);
+    int n;
+    scanf("%d", &n);
 
-    // LongNum res = newLongNum(1);
+    LongNum res = newLongNum(1);
 
-    // for (int i = 2; i <= n; i++) {
-    //     LongNum temp = newLongNum(i);
-    //     res = mult(&res, &temp);
-    // }
+    for (int i = 2; i <= n; i++) {
+        mult(&res, i);
+    }
 
-    LongNum v1 = newLongNum(5);
-    LongNum v2 = newLongNum(16);
-
-    add(&v1, &v2);
-
-    print(&v1);
-    printf("\n");
+    print(&res);
 
     return 0;
 }

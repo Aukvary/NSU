@@ -2,15 +2,12 @@
 #include <math.h>
 #include <stdlib.h>
 
-void func() {
-    int a;
-    printf("%d\n", a);
-
-    a = 10;
-}
-
 int main() {
-    printf("%d", 15 * 16);
+    char buf[10];
+
+    scanf("%3s", buf);
+
+    printf("%s", buf);
 
     return 0;
 }
