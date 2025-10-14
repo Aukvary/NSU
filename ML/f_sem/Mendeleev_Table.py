@@ -15,5 +15,3 @@ elements = {
     'Db': 268.0, 'Sg': 269.0, 'Bh': 270.0, 'Hs': 269.0, 'Mt': 278.0, 'Ds': 281.0, 'Rg': 282.0, 'Cn': 285.0,
     'Nh': 286.0, 'Fl': 289.0, 'Mc': 289.0, 'Lv': 293.0, 'Ts': 294.0, 'Og': 294.0
 }
-
-list_elements = {el: i+1 for i, el in enumerate(elements.keys())}

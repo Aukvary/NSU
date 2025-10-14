@@ -1,6 +1,5 @@
-from Mendeleev_Table import list_elements, elements
+from Mendeleev_Table import elements
 
-nums = '123456789'
 F = 96485
 
 def split_material(mat: str):
@@ -9,24 +8,21 @@ def split_material(mat: str):
     n = len(mat)
     
     while i < n:
-        # Находим начало элемента (заглавная буква)
         if mat[i].isupper():
-            # Находим конец элемента (строчные буквы)
             j = i + 1
             while j < n and mat[j].islower():
                 j += 1
             
             element = mat[i:j]
             
-            # Находим число после элемента
             k = j
             while k < n and mat[k].isdigit():
                 k += 1
+            if k > j:
+                for a in range(int(mat[j:k])):
+                    words.append(element)
             
-            count = int(mat[j:k]) if j < k else 1
-            words.extend([element] * count)
-            
-            i = k  # Переходим к следующему элементу
+            i = k 
         else:
             i += 1
     
@@ -35,7 +31,6 @@ def split_material(mat: str):
 def calculate_cap(mat: str):
     materials = split_material(mat)
 
-    z = sum([list_elements[el] for el in materials])
     m = sum([elements[el] for el in materials])
 
-    return (z * F) / (3.6 * m)    
+    return F / (3.6 * m)    
