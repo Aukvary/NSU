@@ -6,38 +6,18 @@ long long f(long long* nums, int i, long long c) {
 }
 
 int func(long long* nums, int n, long long c) {
-    int l = 0;
-    int r = n - 1;
+    int res = 0;
+    long long mx = f(nums, 0, c);
     
-    while (r - l > 2) {
-        int m1 = l + (r - l) / 3;
-        int m2 = r - (r - l) / 3;
-        
-        long long f1 = f(nums, m1, c);
-        long long f2 = f(nums, m2, c);
-        
-        if (f1 < f2) {
-            r = m2 - 1;
-        } else if (f1 > f2) {
-            l = m1 + 1;
-        } else {
-            l = m1;
-            r = m2;
+    for (int i = 0; i < n; i++) {
+        long long cur = f(nums, i, c);
+        if (cur < mx) {
+            mx = cur;
+            res = i;
         }
     }
     
-    int index = l;
-    long long best_val = f(nums, l, c);
-    
-    for (int i = l + 1; i <= r; i++) {
-        long long current_val = f(nums, i, c);
-        if (current_val < best_val) {
-            best_val = current_val;
-            index = i;
-        }
-    }
-    
-    return index;
+    return res;
 }
 
 int main() {
@@ -46,10 +26,10 @@ int main() {
     int n;
     fscanf(in, "%d", &n);
     
-    long long* ns = calloc(n, sizeof(long long));
+    long long* nums = calloc(n, sizeof(long long));
     
     for (int i = 0; i < n; i++) {
-        fscanf(in, "%lld", &ns[i]);
+        fscanf(in, "%lld", &nums[i]);
     }
     
     int q;
@@ -59,7 +39,7 @@ int main() {
         long long c;
         fscanf(in, "%lld", &c);
         
-        int result = func(ns, n, c);
+        int result = func(nums, n, c);
         printf("%d\n", result);
     }
     

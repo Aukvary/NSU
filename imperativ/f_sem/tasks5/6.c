@@ -20,18 +20,18 @@ void print(const LongNum* num) {
     printf("\n");
 }
 
-void mult(LongNum* num, int multiplier) {
-    int carry = 0;
+void mult(LongNum* num, int val) {
+    int ost = 0;
     
     for (int i = 0; i < num->len; i++) {
-        int product = num->arr[i] * multiplier + carry;
+        int product = num->arr[i] * val + ost;
         num->arr[i] = product % 10;
-        carry = product / 10;
+        ost = product / 10;
     }
     
-    while (carry > 0) {
-        num->arr[num->len++] = carry % 10;
-        carry /= 10;
+    while (ost > 0) {
+        num->arr[num->len++] = ost % 10;
+        ost /= 10;
     }
 }
 

@@ -43,17 +43,7 @@ LongNum newLongNumFromString(const char* str) {
     }
     
     for (int i = len - 1; i >= start; i--) {
-        if (isdigit(str[i])) {
-            num.arr[num.len++] = str[i] - '0';
-        }
-    }
-    
-    while (num.len > 1 && num.arr[num.len - 1] == 0) {
-        num.len--;
-    }
-    
-    if (num.len == 1 && num.arr[0] == 0) {
-        num.sign = 0;
+        num.arr[num.len++] = str[i] - '0';
     }
     
     return num;
@@ -77,19 +67,15 @@ LongNum addAbs(const LongNum* v1, const LongNum* v2) {
     int len = MAX(v1->len, v2->len);
     LongNum num = {len, 0, {0}};
     
-    int carry = 0;
-    for (int i = 0; i < len; i++) {
-        int digit1 = (i < v1->len) ? v1->arr[i] : 0;
-        int digit2 = (i < v2->len) ? v2->arr[i] : 0;
-        
-        int sum = digit1 + digit2 + carry;
+    int ost = 0;
+    for (int i = 0; i < len; i++) {        
+        int sum = v1->arr[i] + v2->arr[i] + ost;
         num.arr[i] = sum % 10;
-        carry = sum / 10;
+        ost = sum / 10;
     }
     
-    if (carry > 0 && num.len < 100) {
-        num.arr[num.len++] = carry;
-    }
+    if (ost > 0)
+        num.arr[num.len++] = ost;
     
     return num;
 }
@@ -97,17 +83,14 @@ LongNum addAbs(const LongNum* v1, const LongNum* v2) {
 LongNum subAbs(const LongNum* v1, const LongNum* v2) {
     LongNum num = {v1->len, 0, {0}};
     
-    int borrow = 0;
-    for (int i = 0; i < v1->len; i++) {
-        int digit1 = v1->arr[i];
-        int digit2 = (i < v2->len) ? v2->arr[i] : 0;
-        
-        int diff = digit1 - digit2 - borrow;
+    int temp = 0;
+    for (int i = 0; i < v1->len; i++) {        
+        int diff = v1->arr[i] - v2->arr[i] - temp;
         if (diff < 0) {
             diff += 10;
-            borrow = 1;
+            temp = 1;
         } else {
-            borrow = 0;
+            temp = 0;
         }
         
         num.arr[i] = diff;
@@ -145,10 +128,10 @@ LongNum sum(const LongNum* v1, const LongNum* v2) {
 }
 
 LongNum sub(const LongNum* v1, const LongNum* v2) {
-    LongNum v2_opposite = *v2;
-    v2_opposite.sign = !v2_opposite.sign;
+    LongNum temp = *v2;
+    temp.sign = !temp.sign;
     
-    return sum(v1, &v2_opposite);
+    return sum(v1, &temp);
 }
 
 LongNum mult(const LongNum* v1, int v2) {
@@ -157,24 +140,23 @@ LongNum mult(const LongNum* v1, int v2) {
         return zero;
     }
     
-    LongNum num = {v1->len, 0, {0}};
+    LongNum num = {v1->len, v1->sign, {0}};
     
-    num.sign = v1->sign;
     if (v2 < 0) {
         num.sign = !num.sign;
         v2 = -v2;
     }
     
-    int carry = 0;
+    int ost = 0;
     for (int i = 0; i < v1->len; i++) {
-        int product = v1->arr[i] * v2 + carry;
-        num.arr[i] = product % 10;
-        carry = product / 10;
+        int temp = v1->arr[i] * v2 + ost;
+        num.arr[i] = temp % 10;
+        ost = temp / 10;
     }
     
-    while (carry > 0 && num.len < 100) {
-        num.arr[num.len++] = carry % 10;
-        carry /= 10;
+    while (ost > 0) {
+        num.arr[num.len++] = ost % 10;
+        ost /= 10;
     }
     
     if (num.len == 1 && num.arr[0] == 0) {
@@ -195,17 +177,15 @@ LongNum multLong(const LongNum* v1, const LongNum* v2) {
     result.sign = v1->sign ^ v2->sign;
     
     for (int i = 0; i < v2->len; i++) {
-        LongNum temp = mult(v1, v2->arr[i]);
+        LongNum mul = mult(v1, v2->arr[i]);
         
-        LongNum shifted = {temp.len + i, temp.sign, {0}};
-        for (int j = 0; j < i; j++) {
-            shifted.arr[j] = 0;
-        }
-        for (int j = 0; j < temp.len; j++) {
-            shifted.arr[j + i] = temp.arr[j];
+        LongNum temp = {mul.len + i, mul.sign, {0}};
+
+        for (int j = 0; j < mul.len; j++) {
+            temp.arr[j + i] = mul.arr[j];
         }
         
-        LongNum new_result = addAbs(&result, &shifted);
+        LongNum new_result = addAbs(&result, &temp);
         new_result.sign = result.sign; 
         result = new_result;
     }
@@ -228,10 +208,7 @@ int main() {
     
     fgets(buf, sizeof(buf), in);
     
-    for (int i = 0; i < n; i++) {
-        if (!fgets(buf, sizeof(buf), in)) 
-            break;
-        
+    for (int i = 0; fgets(buf, sizeof(buf), in); i++) {
         char* mode = strtok(buf, " \n");
         
         switch (mode[0]) {
