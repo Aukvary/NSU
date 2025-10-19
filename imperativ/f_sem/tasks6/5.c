@@ -5,26 +5,23 @@
 
 #pragma pack(push, 1)
 typedef struct {
-    uint8_t name[20];
-
+    uint8_t name[21];
     uint64_t size;
-
     uint8_t is_dir;
-
     uint64_t create_time;
     uint64_t update_time;
-
     uint8_t is_hidden;
 } fileData;
 #pragma pack(pop)
 
 int filesCmp(const void* v1, const void* v2) {
-    return strcmp(((const fileData*)v1)->name, ((const fileData*) v2)->name);
+    const fileData* f1 = (const fileData*)v1;
+    const fileData* f2 = (const fileData*)v2;
+    return strcmp((const char*)f1->name, (const char*)f2->name);
 }
 
-
 int main() {
-    FILE* in = fopen("input.in", "rb");
+    FILE* in = fopen("input.txt", "rb");
     FILE* out = fopen("output.txt", "wb");
 
     uint32_t n;
@@ -32,27 +29,30 @@ int main() {
     
     uint64_t a;
     uint64_t b;
+
     fread(&a, sizeof(uint64_t), 1, in);
     fread(&b, sizeof(uint64_t), 1, in);
+    
+    fileData* files = malloc(n * sizeof(fileData));
 
-    fileData* files = calloc(n, sizeof(fileData));
+    size_t read_count = fread(files, sizeof(fileData), n, in);
 
-    fread(files, sizeof(fileData), n, in);
-
-    uint64_t count = 0;
+    fileData* filtered = calloc(n, sizeof(fileData));
+    uint32_t count = 0;
 
     for (int i = 0; i < n; i++) {
-        if (files[i].create_time < a)               continue;
-        if (files[i].update_time > b)               continue;
-        if (files[i].is_dir || files[i].is_hidden)  continue;
-
-        files[count++] = files[i];
+        if (files[i].is_dir || files[i].is_hidden) {
+            continue;
+        }
+        
+        if (files[i].create_time >= a && files[i].update_time <= b) {
+            filtered[count++] = files[i];
+        }
     }
 
-    qsort(files, count, sizeof(fileData), filesCmp);
+    qsort(filtered, count, sizeof(fileData), filesCmp);
 
-    fwrite(files, sizeof(fileData), count, out);
-    
+    fwrite(filtered, sizeof(fileData), count, out);
     
     return 0;
 }
