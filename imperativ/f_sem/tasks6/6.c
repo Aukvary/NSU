@@ -3,7 +3,6 @@
 #include <stdint.h>
 
 int main() {
-    // system("chcp 65001");
     FILE* in = fopen("input.txt", "rb");
 
     uint32_t size;
