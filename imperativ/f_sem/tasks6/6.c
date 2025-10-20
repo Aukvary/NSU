@@ -4,7 +4,7 @@
 
 int main() {
     // system("chcp 65001");
-    FILE* in = fopen("input.in", "rb");
+    FILE* in = fopen("input.txt", "rb");
 
     uint32_t size;
     fread(&size, sizeof(size), 1, in);
@@ -20,7 +20,7 @@ int main() {
         }
         first = 0;
 
-        printf("\"");
+        printf("    \"");
 
         uint8_t name_byte;
 
