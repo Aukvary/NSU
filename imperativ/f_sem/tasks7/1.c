@@ -24,13 +24,9 @@ const char* types_name[] = {
 };
 
 const int type_sizes[][7] = {
-    // LP32
     {1, 2, 2, 4, 4, 8, 8},
-    // ILP32
     {1, 2, 4, 4, 4, 8, 8},
-    // LLP64
     {1, 2, 4, 4, 4, 8, 8},
-    // LP64
     {1, 2, 4, 8, 4, 8, 8}
 };
 
@@ -41,16 +37,13 @@ typedef struct {
 
 field parse_field(const char* str) {
     field f = { 0 };
-    char* name = strtok(str, " *");
+
+    while(*str == ' ') str++;
 
     for (int i = 0; i < sizeof(types_name) / 8; i++) {
-        if (!strcmp(name, types_name[i])) continue;
-
-        f.type = i;
-        break;
+        size_t n = strlen(str);
+        if (!strncmp(str, types_name[i], n)) continue;
     }
-
-    char* is_ptr = strtok(NULL, "");
 }
 
 

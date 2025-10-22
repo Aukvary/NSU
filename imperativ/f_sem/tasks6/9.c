@@ -6,7 +6,7 @@
 #define CHUNK_SIZE 64
 typedef uint64_t bitword;
 
-uint8_t bit_count[256] = {
+uint8_t one_count[256] = {
     0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,
     1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
     1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
@@ -109,7 +109,7 @@ int bitsetCount(const bitword* arr, int left, int right) {
     for (int i = l + 1; i < r; i++) {
         uint64_t chunk = arr[i];
         for (int j = 0; j < 8; j++) {
-            count += bit_count[chunk & 0xFF];
+            count += one_count[chunk & 0xFF];
             chunk >>= 8;
         }
     }

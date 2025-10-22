@@ -36,7 +36,7 @@ typedef struct {
 } BMPInfoHeader;
 #pragma pack(pop)
 
-void decode_rle(FILE* file, uint8_t* output, uint32_t width, uint32_t height, uint8_t pixel_size) {
+void decode_rle(FILE* file, uint8_t* out, uint32_t width, uint32_t height, uint8_t pixel_size) {
     uint32_t total_pixels = width * height;
     uint32_t decoded = 0;
     
@@ -56,16 +56,10 @@ void decode_rle(FILE* file, uint8_t* output, uint32_t width, uint32_t height, ui
             }
             
             for (int i = 0; i < packet_count; i++) {
-                if (pixel_size == 4) {
-                    output[0] = pixel[0];
-                    output[1] = pixel[1];
-                    output[2] = pixel[2];
-                } else {
-                    output[0] = pixel[0];
-                    output[1] = pixel[1];
-                    output[2] = pixel[2];
-                }
-                output += 3;
+                out[0] = pixel[0];
+                out[1] = pixel[1];
+                out[2] = pixel[2];
+                out += 3;
                 decoded++;
             }
         } else {
@@ -75,25 +69,20 @@ void decode_rle(FILE* file, uint8_t* output, uint32_t width, uint32_t height, ui
                     break;
                 }
                 
-                if (pixel_size == 4) {
-                    output[0] = pixel[0];
-                    output[1] = pixel[1];
-                    output[2] = pixel[2];
-                } else {
-                    output[0] = pixel[0];
-                    output[1] = pixel[1];
-                    output[2] = pixel[2];
-                }
-                output += 3;
+                out[0] = pixel[0];
+                out[1] = pixel[1];
+                out[2] = pixel[2];
+                
+                out += 3;
                 decoded++;
             }
         }
     }
 }
 
-void read_uncompressed_tga(FILE* file, uint8_t* output, uint32_t width, uint32_t height, uint8_t pixel_size, int is_top_down) {
+void read_uncompressed_tga(FILE* file, uint8_t* out, uint32_t width, uint32_t height, uint8_t pixel_size, int is_top_down) {
     uint32_t row_size = width * pixel_size;
-    uint8_t* row_buffer = (uint8_t*)malloc(row_size);
+    uint8_t* row_buffer = malloc(row_size);
     
     for (uint32_t y = 0; y < height; y++) {
         if (fread(row_buffer, row_size, 1, file) != 1) {
@@ -101,21 +90,15 @@ void read_uncompressed_tga(FILE* file, uint8_t* output, uint32_t width, uint32_t
         }
         
         uint32_t target_y = is_top_down ? y : (height - 1 - y);
-        uint8_t* target_row = output + target_y * width * 3;
+        uint8_t* target_row = out + target_y * width * 3;
         
         for (uint32_t x = 0; x < width; x++) {
             uint8_t* src_pixel = row_buffer + x * pixel_size;
             uint8_t* dst_pixel = target_row + x * 3;
             
-            if (pixel_size == 4) {
-                dst_pixel[0] = src_pixel[0];
-                dst_pixel[1] = src_pixel[1];
-                dst_pixel[2] = src_pixel[2];
-            } else {
-                dst_pixel[0] = src_pixel[0];
-                dst_pixel[1] = src_pixel[1];
-                dst_pixel[2] = src_pixel[2];
-            }
+            dst_pixel[0] = src_pixel[0];
+            dst_pixel[1] = src_pixel[1];
+            dst_pixel[2] = src_pixel[2];
         }
     }
     
@@ -123,15 +106,14 @@ void read_uncompressed_tga(FILE* file, uint8_t* output, uint32_t width, uint32_t
 }
 
 int main() {
-    FILE* input = fopen("input.txt", "rb");
-    
-    FILE* output = fopen("output.txt", "wb");
+    FILE* in = fopen("input.txt", "rb");
+    FILE* out = fopen("output.txt", "wb");
 
     TGAHeader tga_header;
-    fread(&tga_header, sizeof(TGAHeader), 1, input);
+    fread(&tga_header, sizeof(TGAHeader), 1, in);
 
     if (tga_header.id_length > 0) {
-        fseek(input, tga_header.id_length, SEEK_CUR);
+        fseek(in, tga_header.id_length, SEEK_CUR);
     }
 
     uint16_t width = tga_header.width;
@@ -144,12 +126,12 @@ int main() {
     uint8_t* pixel_data = malloc(pixel_count * 3);
 
     if (tga_header.image_type == 2) {
-        read_uncompressed_tga(input, pixel_data, width, height, pixel_size, is_top_down);
+        read_uncompressed_tga(in, pixel_data, width, height, pixel_size, is_top_down);
     } else if (tga_header.image_type == 10) {
-        decode_rle(input, pixel_data, width, height, pixel_size);
+        decode_rle(in, pixel_data, width, height, pixel_size);
         if (!is_top_down) {
             uint32_t row_size = width * 3;
-            uint8_t* temp_row = (uint8_t*)malloc(row_size);
+            uint8_t* temp_row = malloc(row_size);
             
             for (uint32_t i = 0; i < height / 2; i++) {
                 uint8_t* row1 = pixel_data + i * row_size;
@@ -161,8 +143,6 @@ int main() {
             free(temp_row);
         }
     }
-
-    fclose(input);
 
     uint32_t row_size = (width * 3 + 3) & ~3; 
     uint32_t image_size = row_size * height;
@@ -184,21 +164,17 @@ int main() {
         .bits_per_pixel = 24
     };
 
-    fwrite(&bmp_file_header, sizeof(BMPFileHeader), 1, output);
-    fwrite(&bmp_info_header, sizeof(BMPInfoHeader), 1, output);
+    fwrite(&bmp_file_header, sizeof(BMPFileHeader), 1, out);
+    fwrite(&bmp_info_header, sizeof(BMPInfoHeader), 1, out);
 
-    uint8_t* row_buffer = (uint8_t*)malloc(row_size);
+    uint8_t* row_buffer = malloc(row_size);
     memset(row_buffer, 0, row_size);
 
     for (int32_t y = height - 1; y >= 0; y--) {
         uint8_t* src_row = pixel_data + y * width * 3;
         memcpy(row_buffer, src_row, width * 3);
-        fwrite(row_buffer, row_size, 1, output);
+        fwrite(row_buffer, row_size, 1, out);
     }
-
-    free(row_buffer);
-    free(pixel_data);
-    fclose(output);
 
     return 0;
 }

@@ -60,6 +60,5 @@ int main() {
 
     fwrite(res, sizeof(uint8_t), len, out);
 
-
     return 0;
 }
