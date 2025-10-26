@@ -21,7 +21,7 @@ int main() {
     node* nodes = calloc(n + q, sizeof(node));
 
     for (int i = 0; i < n; i++) {
-
+        
     }
 
     return 0;

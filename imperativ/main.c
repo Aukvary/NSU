@@ -3,11 +3,7 @@
 #include <stdlib.h>
 
 int main() {
-    char buf[10];
-
-    scanf("%3s", buf);
-
-    printf("%s", buf);
+    printf("%d", !(-1));
 
     return 0;
 }
