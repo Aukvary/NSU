@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj": {}
+    "C:\\Users\\Admin\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj": {
+    "C:\\Users\\Admin\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
         "projectName": "dotnet",
-        "projectPath": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
-        "packagesPath": "C:\\Users\\aukvary\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\projects\\NSU\\dotnet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\aukvary\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
