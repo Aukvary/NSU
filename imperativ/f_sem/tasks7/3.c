@@ -1,63 +1,53 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define SIZE 1000001
-#define STRLEN 10
 
-typedef struct Node {
-    char str[STRLEN];
-    struct Node* next;
-} Node;
+typedef struct node {
+    char str[8];
+    struct node* next;
+} node;
 
-Node* head[SIZE];
-Node* tail[SIZE];
+node* nodes[SIZE] = { NULL };
 
-void push(int key, char* word) {
-    Node* new_node = malloc(sizeof(Node));
-    strcpy(new_node->str, word);
-    new_node->next = NULL;
-    
-    if (head[key] == NULL) {
-        head[key] = new_node;
-        tail[key] = new_node;
-    } else {
-        tail[key]->next = new_node;
-        tail[key] = new_node;
+void pushNode(node* head, node* value) {
+    node* cur = head;
+    node* prev = NULL;
+
+    while (cur != NULL) {
+        prev = cur;
+        cur = cur->next;
     }
-}
 
-void output() {
-    for (int i = 0; i < SIZE; i++) {
-        Node* current = head[i];
-        while (current != NULL) {
-            printf("%d %s\n", i, current->str);
-            Node* temp = current;
-            current = current->next;
-            free(temp);
-        }
-        head[i] = NULL;
-        tail[i] = NULL;
-    }
+    prev->next = value;
 }
 
 int main() {
-    int count;
-    scanf("%d", &count);
-    
+    int n;
+    FILE* in = fopen("input.txt", "r");
+    fscanf(in, "%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        node* n = malloc(sizeof(node));
+        n->next = NULL;
+        int idx;
+        fscanf(in, "%d %s", &idx, n->str);
+        if (nodes[idx] == NULL) {
+            nodes[idx] = n;
+        } else {
+            pushNode(nodes[idx], n);
+        }
+    }
+
     for (int i = 0; i < SIZE; i++) {
-        head[i] = NULL;
-        tail[i] = NULL;
+        node* cur = nodes[i];
+
+        while (cur != NULL) {
+            printf("%d %s\n", i, cur->str);
+            cur = cur->next;
+        }
     }
-    
-    for (int i = 0; i < count; i++) {
-        int key;
-        char word[STRLEN];
-        scanf("%d %s", &key, word);
-        push(key, word);
-    }
-    
-    output();
-    
+
     return 0;
 }
