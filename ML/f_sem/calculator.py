@@ -1,63 +1,41 @@
-from inspect import signature
 from functools import wraps
 
-def debug_log(func):
-    @wraps(func)  
-    def wrapper(*args, **kwargs):
-        if __debug__:
-            args_list = [repr(arg) for arg in args]
-            kwargs_list = [f"{name}={repr(value)}" for name, value in kwargs.items()]
-            all_args = ', '.join(args_list + kwargs_list)
-            
-            print(f'{func.__name__}({all_args})')
-
-        return func(*args, **kwargs)
-
-    return wrapper
-
-@debug_log
-def sum(v1: int | float, v2: int | float) -> int | float:
+def summ(v1: int | float, v2: int | float) -> int | float:
     """
         вычисляет сумму двух чисел
     """
     return v1 + v2
 
-@debug_log
 def sub(v1: int | float, v2: int | float) -> int | float:
     """
         вычисляет разность двух чисел
     """
     return v1 - v2
 
-@debug_log
 def mult(v1: int | float, v2: int | float) -> int | float:
     """
         вычисляет сумму двух чисел
     """
     return v1 * v2
 
-@debug_log
 def div(v1: int | float, v2: int | float) -> int | float:
     """
         вычисляет отношение двух чиселЦ
     """
     return v1 / v2
 
-@debug_log
 def mod(v1: int, v2: int) -> int:
     """
         вычисляет отстаток от деления v1 на v2
     """
     return v1 % v2
 
-@debug_log
 def pow(v: int | float, s: int | float) -> int | float:
     """
         возводит число v в степень s
     """
     return v**s
 
-@debug_log
 def factorial(v: int) -> int:
     """
         вычисляет факториал числа v
@@ -69,35 +47,35 @@ def factorial(v: int) -> int:
 
     return res
 
-@debug_log
 def is_prime(v: int) -> bool:
     """
         определяет явялется ли число простым
     """
     return v > 1 and all(v % i != 0 for i in range(2, int(v**0.5) + 1))
 
-@debug_log
 def mid_val(*args) -> float:
     """
         вычисляет среднее значение из значений, переданных аргументов
     """
     return sum(args) / len(args)
 
-@debug_log
-def get_matrix(iter_i, iter_j) -> list[list]:
+def matrix(n = 0, m = 0, val = 0):
     """
-        формирует матрицу на основе двух переданных итераторов
+        n - кол-во строк 
+        m - кол-во рядов(если m = 0, то используется знчение n)
+        val - знчение по умолчанию    
     """
-    return [[el for el in iter_j] for _ in iter_i]
-
-@debug_log
+    if m == 0:
+        return [[val for _ in range(n)] for _ in range(n)]
+    else:
+        return [[val for _ in range(m)] for _ in range(n)]
+    
 def transpose(matrix: list[list]) -> list[list]:
     """
         транспонирует матрицу
     """
-    return [list(row) for row in zip(*matrix)]
+    return list(map(list, map(lambda *x: x, *matrix)))
 
-@debug_log
 def get_area(mode: str, a = 0, b = 0, c = 0) -> int | float:
     """
         вычисляет площадь фигуры:
