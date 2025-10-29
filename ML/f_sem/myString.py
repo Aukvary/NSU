@@ -1,3 +1,5 @@
+from fnmatch import fnmatch
+
 
 glasnii = "aeiouAEIOU"
 soglasnii = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
@@ -27,6 +29,20 @@ def sgl_count(s: str) -> int:
         определяет кол-во гласных букв
     """
     return sum(1 for c in s if c in soglasnii)
+
+def symbols() -> str:
+    """
+        возвращает строку, в которой содержаться все специальные символы
+    """
+    return '-+,.;%!@#$%^&*()_={}[]"\'№:?/<>`~'
+
+def is_russian_phone_number(s: str) -> bool:
+    """
+
+    """
+    my_s = s.replace(' ', '')
+    return fnmatch(my_s, '+7??????????') or fnmatch(my_s, '8??????????')
+    
 
 def anagrams(s1: str, s2: str) -> bool:
     """
