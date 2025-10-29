@@ -1,51 +1,142 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 
+#pragma pack(push, 1)
 typedef struct node {
-    double data;
-
+    double value;
     struct node* prev;
     struct node* next;
 } node;
-
-node* head;
+#pragma pack(pop)
 
 double* initList() {
-    node* n = malloc(sizeof(node));
-    head = n;
+    node *head = (node*)malloc(sizeof(node));
 
-    n->prev = NULL;
-    n->next = NULL;
+    head->prev = head;
+    head->next = head;
 
-    n->data = 0;
-
-    return &n->data;
+    head->value = 0.0;
+    return &(head->value);
 }
 
-double* getNext(double* curr) {
-    node* n = (node*)curr;
-
-    return &n->next->data;
+node* get(double *pval) {
+    return (node*)((char*)pval - offsetof(node, value));
 }
 
-double* getPrev(double* curr) {
-    node* n = (node*)curr;
+double *getNext(double *curr_val) {
+    node *curr = get(curr_val);
 
-    return &n->prev->data;
+    return &(curr->next->value);
 }
 
-double* addAfter(double* where, double newVal) {
-    node* n = (node*)where;
+double *getPrev(double *curr_val) {
+    node *curr = get(curr_val);
 
-    node* newN = malloc(sizeof(node));
+    return &(curr->prev->value);
 }
 
-void freeList(node* h) {
-    node* cur = h;
+double *addAfter(double *where_val, double newval) {
+    node *where = get(where_val);
+    
+    node *n = (node*)malloc(sizeof(node));
+    n->value = newval;
+    n->next = where->next;
+    n->prev = where;
 
-    while (cur) {
-        node* temp = cur->next;
+    where->next->prev = n;
+    where->next = n;
+
+    return &(n->value);
+}
+
+double *addBefore(double *where_val, double newval) {
+    node *where = get(where_val);
+    node *n = (node*)malloc(sizeof(node));
+    
+    n->value = newval;
+    n->prev = where->prev;
+    n->next = where;
+    
+    where->prev->next = n;
+    where->prev = n;
+    
+    return &(n->value);
+}
+
+void erase(double *what_val) {
+    node *what = get(what_val);
+
+    what->prev->next = what->next;
+    what->next->prev = what->prev;
+    
+    free(what);
+}
+
+void freeList(double *head_val) {
+    node *head = get(head_val);
+    node *cur = head->next;
+
+    while (cur != head) {
+        node *tmp = cur->next;
         free(cur);
-        cur = h;
+        cur = tmp;
     }
+
+    free(head);
+}
+
+void func(FILE* in) {
+    int q;
+    fscanf(in, "%d", &q);
+    double* head = initList();
+    double** nodes = calloc(q, sizeof(double*));
+    int count = 0;
+
+    for (int i = 0; i < q; ++i) {
+        int type, idx;
+        fscanf(in, "%d %d", &type, &idx);
+
+        if (type == 1) {
+            double val;
+            fscanf(in, "%lf", &val);
+            double* where = (idx == -1 ? head : nodes[idx]);
+            nodes[count] = addAfter(where, val);
+            count++;
+        } else if (type == -1) {
+            double val;
+            fscanf(in, "%lf", &val);
+            double* where = (idx == -1 ? head : nodes[idx]);
+            nodes[count] = addBefore(where, val);
+            count++;
+        } else if (type == 0) {
+            double *what = nodes[idx];
+            printf("%0.3lf\n", *what);
+            erase(what);
+        }
+    }
+
+    printf("===\n");
+
+    double* cur = getNext(head);
+    while (cur != head) {
+        printf("%0.3lf\n", *cur);
+        cur = getNext(cur);
+    }
+    printf("===\n");
+
+    free(nodes);
+    freeList(head);
+}
+
+int main() {
+    FILE* in = fopen("input.txt", "r");
+
+    int t;
+    fscanf(in, "%d", &t);
+    for (int i = 0; i < t; i++) {
+        func(in);
+    }
+
+    return 0;
 }

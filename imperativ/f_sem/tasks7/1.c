@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -9,7 +10,8 @@
         X(long)\
         X(float)\
         X(int64_t)\
-        X(double)
+        X(double)\
+        X(ptr)
 
 typedef enum {
     #define X(t) type_##t,
@@ -23,36 +25,57 @@ const char* types_name[] = {
     #undef X
 };
 
-typedef struct {
-    types type;
-    uint8_t is_ptr;
-} field;
+const int types_size[][4] = {
+    {1, 1, 1, 1},
+    {2, 2, 2, 2},
+    {2, 4, 4, 4},
+    {4, 4, 4, 8},
+    {4, 4, 4, 4},
+    {8, 8, 8, 8},
+    {8, 8, 8, 8},
+    {2, 4, 8, 8}
+};
 
-field parse_field(const char* str) {
-    field f = { .type = -1, .is_ptr = 0 };
-
+types parse_field(const char* str) {
     while(*str == ' ') str++;
+    if (strchr(str, '*')) return type_ptr;
 
-    for (int i = 0; i < (sizeof(types_name) / sizeof(types_name[0])); i++) {
+    for (int i = (sizeof(types_name) / sizeof(types_name[0])) - 1; i > -1; i--) {
         size_t len = strlen(types_name[i]);
         
         if (strncmp(str, types_name[i], len) != 0)
             continue; 
 
-        f.type = i;
-        str += len;
+        return i;
+    }
+}
 
-        while (*str != ';' && *str != '\0' && *str != '\n') {
-            if (*str == '*') {
-                f.is_ptr = 1;
-                break;
-            }
-            str++;
+types fields[100000] = { 0 };
+
+void insert_sort(types* fields, int len, int mode) {
+    for (int i = 1; i < len; i++) {
+        for (int j = i; j > 0 && types_size[fields[j - 1]][mode] > types_size[fields[j]][mode]; j--) {
+            types temp = fields[j - 1];
+            fields[j - 1]= fields[j];
+            fields[j] = temp;
         }
-        break;
+    }
+}
+
+int get_min(int n, int mode) {
+    int res = 0;
+    int padding = 1;
+
+    for (int i = n - 1; i > -1; i--) {
+        int size = types_size[fields[i]][mode];
+        while (res % size) res++;
+        if (padding < size) padding = size;
+        res += size;
     }
 
-    return f;
+    while (res % padding) res++;
+
+    return res < 8 ? 8 : res;
 }
 
 int main() {
@@ -61,9 +84,16 @@ int main() {
     char buf[100];
     fgets(buf, sizeof(buf), in);
     fgets(buf, sizeof(buf), in);
-    fgets(buf, sizeof(buf), in);
 
-    printf("%s", types_name[parse_field(buf).type]);
+    int n;
+    while(fgets(buf, sizeof(buf), in)[0] != '}') {
+        fields[n++] = parse_field(buf);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        insert_sort(fields, n, i);
+        printf("%d\n", get_min(n, i));
+    }
 
     return 0;
 }
