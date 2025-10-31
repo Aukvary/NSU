@@ -21,7 +21,7 @@ double* initList() {
 }
 
 node* get(double *pval) {
-    return (node*)((char*)pval - offsetof(node, value));
+    return (node*)(pval);
 }
 
 double *getNext(double *curr_val) {
