@@ -19,12 +19,14 @@ const char* key_words_strs[] = {
     #undef X
 };
 
-const char* ch[] = {
-    
+const char* replace_kw[] = {
+    #define X(kw, replace) [kw_##kw] = replace,
+    DECLARE_KEY_WORDS
+    #undef X
 };
 
-const char* replace_kw[] = {
-    #define X(kw, replace) [kw_##kw] replace,
-    REPLACE_KEY_WORDS
-    #undef X 
-};
+int main() {
+
+
+    return 0;
+}
