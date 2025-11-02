@@ -51,7 +51,6 @@ types parse_field(const char* str) {
 }
 
 types fields[100000] = { 0 };
-
 void insert_sort(types* fields, int len, int mode) {
     for (int i = 1; i < len; i++) {
         for (int j = i; j > 0 && types_size[fields[j - 1]][mode] > types_size[fields[j]][mode]; j--) {
@@ -114,6 +113,8 @@ int main() {
     char buf[100];
     fgets(buf, sizeof(buf), in);
     fgets(buf, sizeof(buf), in);
+
+    
 
     int n;
     while(fgets(buf, sizeof(buf), in)[0] != '}') {
