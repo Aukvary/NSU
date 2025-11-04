@@ -54,7 +54,7 @@ int main() {
 
     for (int c = getc(in); c != EOF; c = getc(in)) {
         if (c == SPACE) {
-            if ()
+            if (replace = is_key_word())
             puts(word_buf);
             for (int i = 0; i < len; i++) word_buf[i] = 0;
             len = 0;
