@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum {
-    SPACE = ' ',
-} symbs;
-
 #define DECLARE_KEY_WORDS\
         X(PUK, "#include <stdio.h>#include <stdlib.h>#include <memory.h>#include <ctype.h>#include <math.h>#include <string.h>")\
         X(YAZ, "freopen(\"input.txt\", \"r\", stdin);\nfreopen(\"output.txt\", \"w\", stdout);")\
@@ -53,8 +49,7 @@ int main() {
     FILE* in = fopen("input.txt", "r");
 
     for (int c = getc(in); c != EOF; c = getc(in)) {
-        if (c == SPACE) {
-            if (replace = is_key_word())
+        if (c == ' ') {
             puts(word_buf);
             for (int i = 0; i < len; i++) word_buf[i] = 0;
             len = 0;
