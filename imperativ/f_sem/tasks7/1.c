@@ -38,7 +38,7 @@ const int types_size[][4] = {
 
 types parse_field(const char* str) {
     while(*str == ' ') str++;
-    if (strchr(str, '*')) return type_ptr;
+    if (strchr(str, '*') != NULL) return type_ptr;
 
     for (int i = (sizeof(types_name) / sizeof(types_name[0])) - 2; i > -1; i--) {
         size_t len = strlen(types_name[i]);
@@ -50,7 +50,7 @@ types parse_field(const char* str) {
     }
 }
 
-types fields[100000] = { 0 };
+types fields[1000000] = { 0 };
 void insert_sort(types* fields, int len, int mode) {
     for (int i = 1; i < len; i++) {
         for (int j = i; j > 0 && types_size[fields[j - 1]][mode] > types_size[fields[j]][mode]; j--) {
@@ -110,14 +110,17 @@ int get_max(int n, int mode) {
 int main() {
     FILE* in = fopen("input.txt", "r");
 
-    char buf[100];
+    char buf[10000];
     fgets(buf, sizeof(buf), in);
-    fgets(buf, sizeof(buf), in);
+    if (strchr(buf, '{') == NULL)
+        fgets(buf, sizeof(buf), in);
 
     
 
-    int n;
-    while(fgets(buf, sizeof(buf), in)[0] != '}') {
+    int n = 0;
+    while(fgets(buf, sizeof(buf), in)) {
+        if (strchr(buf, '}') != NULL) break;
+        
         fields[n++] = parse_field(buf);
     }
 
@@ -126,7 +129,6 @@ int main() {
         printf("%d %d\n", get_min(n, i), get_max(n, i));
     }
 
-    // printf("8 12\n12 12\n16 24\n16 24\n");
 
     return 0;
 }
