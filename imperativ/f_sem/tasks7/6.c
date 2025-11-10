@@ -11,7 +11,7 @@ typedef struct node {
 #pragma pack(pop)
 
 double* initList() {
-    node *head = (node*)malloc(sizeof(node));
+    node *head = malloc(sizeof(node));
 
     head->prev = head;
     head->next = head;

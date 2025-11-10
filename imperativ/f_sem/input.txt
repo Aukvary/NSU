@@ -1,0 +1,5 @@
+31 23 -1 11 10
+sort
+print
+search 10
+search 20

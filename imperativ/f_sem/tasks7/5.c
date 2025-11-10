@@ -75,6 +75,8 @@ void tokensSplit(Tokens* tokens, const char* str, const char* delims) {
 }
 
 void tokensFree(Tokens *tokens) {
+    if (!tokens->arr) return;
+
     if (tokens->arr) {
         free(tokens->arr);
         tokens->arr = NULL;

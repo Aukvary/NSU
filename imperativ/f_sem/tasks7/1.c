@@ -40,7 +40,7 @@ types parse_field(const char* str) {
     while(*str == ' ') str++;
     if (strchr(str, '*') != NULL) return type_ptr;
 
-    for (int i = (sizeof(types_name) / sizeof(types_name[0])) - 2; i > -1; i--) {
+    for (int i = type_double; i > -1; i--) {
         size_t len = strlen(types_name[i]);
         
         if (strncmp(str, types_name[i], len) != 0)

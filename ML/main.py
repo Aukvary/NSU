@@ -1,7 +1,6 @@
-f = lambda r, q, p, A: (((not r) or (not q)) and ((not r) or p) and (not A)) or (A and ((not p) or q) and r)
+a = 314159 
 
-for r in range(2):
-    for q in range(2):
-        for p in range(2):
-            if not f(r, q, p, 1):
-                print('op')
+for i in range(2, int(a**0.5) + 1):
+    if a % i == 0: print(i)
+
+print('end')

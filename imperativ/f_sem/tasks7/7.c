@@ -14,10 +14,14 @@ int list_length = 0;
 
 node* new_node(int data, int big) {
     node* new_node = malloc(sizeof(node));
-    new_node->data = data;
-    new_node->next = NULL;
-    new_node->next_big = (void*)(long long)big;
-    new_node->big_step = 0;
+
+    *new_node = (node) {
+        .data = data,
+        .next = NULL,
+        .next_big = (void*)(long long)big,
+        .big_step = 0
+    };
+
     return new_node;
 }
 
@@ -67,7 +71,7 @@ void insert_node(int k, int data) {
     }
 }
 
-void update_big_links() {
+void cange_Links() {
     int big_step_size = (int)sqrt(list_length);
     if (big_step_size < 1) return;
     
@@ -83,7 +87,7 @@ void update_big_links() {
         node* temp = current->next;
         int steps = 1;
         
-        while (temp && steps <= big_step_size * 2) {
+        while (temp && steps <= big_step_size) {
             if (temp->next_big) {
                 current->next_big = temp;
                 current->big_step = steps;
@@ -117,7 +121,7 @@ int main() {
             int data;
             fscanf(in, "%d %d", &k, &data);
             insert_node(k, data);
-            update_big_links();
+            cange_Links();
         }
     }
     

@@ -7,11 +7,11 @@ int bin_search(int* nums, int len, int target) {
     int result = -1;
 
     while (l <= r) {
-        int m = l + (r - l) / 2;  // Исправлено вычисление среднего
+        int m = l + (r - l) / 2;  
 
         if (nums[m] == target) {
-            result = m;  // Запоминаем найденный индекс
-            l = m + 1;   // Продолжаем искать справа для максимального индекса
+            result = m;  
+            l = m + 1;   
         } else if (nums[m] < target) {
             l = m + 1;
         } else {
@@ -49,6 +49,5 @@ int main() {
     }
     
     free(nums);
-    fclose(in);
     return 0;
 }
