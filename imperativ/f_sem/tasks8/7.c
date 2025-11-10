@@ -9,7 +9,6 @@ int main() {
     
     char buf[3000] = { 0 };
     int len = fread(buf, 1, sizeof(buf) - 1, in);
-    fclose(in);
     buf[len] = '\0';
     
     int len1 = 0;

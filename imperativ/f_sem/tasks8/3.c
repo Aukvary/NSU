@@ -1,132 +1,105 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <stdlib.h>
 
-// Проверка, совпадает ли слово с учетом одной ошибки
-int is_similar(const char *word, const char *target) {
-    int len_word = strlen(word);
-    int len_target = strlen(target);
-    
-    // Если длины отличаются больше чем на 1 - не может быть одной ошибки
-    if (abs(len_word - len_target) > 1) {
-        return 0;
-    }
-    
-    // Проверка на точное совпадение
-    if (strcmp(word, target) == 0) {
-        return 1;
-    }
-    
-    // Проверка на одну ошибку (замена символа)
-    if (len_word == len_target) {
-        int errors = 0;
-        for (int i = 0; i < len_word; i++) {
-            if (word[i] != target[i]) {
-                errors++;
-                if (errors > 1) return 0;
-            }
-        }
-        return errors == 1;
-    }
-    
-    // Проверка на пропуск/вставку одного символа
-    if (len_word == len_target + 1) {
-        // word длиннее на 1 (возможно, вставлен лишний символ)
-        int i = 0, j = 0, errors = 0;
-        while (i < len_word && j < len_target) {
-            if (word[i] != target[j]) {
-                errors++;
-                i++;
-                if (errors > 1) return 0;
-            } else {
-                i++;
-                j++;
-            }
-        }
-        return 1;
-    }
-    
-    if (len_word + 1 == len_target) {
-        // word короче на 1 (возможно, пропущен символ)
-        int i = 0, j = 0, errors = 0;
-        while (i < len_word && j < len_target) {
-            if (word[i] != target[j]) {
-                errors++;
-                j++;
-                if (errors > 1) return 0;
-            } else {
-                i++;
-                j++;
-            }
-        }
-        return 1;
-    }
-    
-    return 0;
-}
+#define DECLARE_KEY_WORDS\
+    X(puk, "#include <stdio.h>\n#include <stdlib.h>\n#include <memory.h>\n#include <ctype.h>\n#include <math.h>\n#include <string.h>")\
+    X(yaz, "freopen(\"input.txt\", \"r\", stdin);\n    freopen(\"output.txt\", \"w\", stdout);")\
+    X(hiya, "__auto_type")
 
-// Функция для обработки слова
-void process_word(const char *word, FILE *out) {
-    if (is_similar(word, "puk")) {
-        fprintf(out, "#include <stdio.h>\n");
-        fprintf(out, "#include <stdlib.h>\n");
-        fprintf(out, "#include <memory.h>\n");
-        fprintf(out, "#include <ctype.h>\n");
-        fprintf(out, "#include <math.h>\n");
-        fprintf(out, "#include <string.h>\n");
-    } else if (is_similar(word, "hiya")) {
-        fprintf(out, "__auto_type");
-    } else if (is_similar(word, "yaz")) {
-        fprintf(out, "freopen(\"input.txt\", \"r\", stdin);\n");
-        fprintf(out, "freopen(\"output.txt\", \"w\", stdout);");
-    } else {
-        fprintf(out, "%s", word);
+typedef enum {
+    #define X(kw, replace) kw,
+    DECLARE_KEY_WORDS
+    #undef X
+    NOT_KEYWORD
+} key_words;
+
+const char* kw_keys[] = {
+    #define X(kw, replace) #kw,
+    DECLARE_KEY_WORDS
+    #undef X
+};
+
+const char* kw_replaces[] = {
+    #define X(kw, replace) replace,
+    DECLARE_KEY_WORDS
+    #undef X
+};
+
+int is_key_word(const char* word) {
+    for (int i = 0; i <= hiya; i++) {
+        int len1 = strlen(word);
+        int len2 = strlen(kw_keys[i]);
+        
+        if (len1 < len2 - 1 || len1 > len2 + 1) {
+            continue;
+        }
+        
+        int dif_count = 0;
+        int j = 0, k = 0;
+        
+        while (j < len1 && k < len2) {
+            if (word[j] != kw_keys[i][k]) {
+                dif_count++;
+                if (dif_count > 1) break;
+                
+                if (len1 > len2) j++;
+                else if (len2 > len1) k++;
+                else { j++; k++; }
+            } else {
+                j++;
+                k++;
+            }
+        }
+        
+        dif_count += (len1 - j) + (len2 - k);
+        
+        if (dif_count <= 1) {
+            return i;
+        }
     }
+    return -1;
 }
 
 int main() {
-    FILE *in = fopen("input.txt", "r");
-    FILE *out = fopen("output.txt", "w");
-    
-    if (!in || !out) {
-        printf("Error opening files\n");
-        return 1;
-    }
-    
-    char ch;
-    char word[100];
-    int word_index = 0;
+    FILE* in = fopen("input.txt", "r");
+
+    int c;
+    char buf[100] = {0};
+    int buf_index = 0;
     int in_word = 0;
-    
-    while ((ch = fgetc(in)) != EOF) {
-        if (isalnum(ch) || ch == '_') {
-            // Мы внутри слова
-            if (!in_word) {
-                in_word = 1;
-                word_index = 0;
-            }
-            if (word_index < 99) {
-                word[word_index++] = ch;
-            }
+
+    while ((c = fgetc(in)) != EOF) {
+        if (isalpha(c)) {
+            buf[buf_index++] = c;
+            in_word = 1;
         } else {
-            // Мы вне слова
             if (in_word) {
-                word[word_index] = '\0';
-                process_word(word, out);
+                buf[buf_index] = '\0';
+                int kw_index = is_key_word(buf);
+                if (kw_index != -1) {
+                    printf("%s", kw_replaces[kw_index]);
+                } else {
+                    printf("%s", buf);
+                }
+                buf_index = 0;
                 in_word = 0;
             }
-            fputc(ch, out);
+            
+            printf("%c", c);
         }
     }
-    
-    // Обработка последнего слова, если файл заканчивается словом
+
     if (in_word) {
-        word[word_index] = '\0';
-        process_word(word, out);
+        buf[buf_index] = '\0';
+        int kw_index = is_key_word(buf);
+        if (kw_index != -1) {
+            printf("%s", kw_replaces[kw_index]);
+        } else {
+            printf("%s", buf);
+        }
     }
-    
+
     fclose(in);
-    fclose(out);
     return 0;
 }

@@ -74,10 +74,7 @@ int handle_collision(int cell) {
 
 int main() {
     FILE *in = fopen("input.txt", "r");
-    if (in == NULL) {
-        printf("Error opening input file\n");
-        return 1;
-    }
+    FILE *out = fopen("output.txt", "w");
     
     int N, M, T;
     fscanf(in, "%d %d %d", &N, &M, &T);
@@ -150,22 +147,15 @@ int main() {
     }
     
     // Выводим результат
-    FILE *out = fopen("output.txt", "w");
-    if (out == NULL) {
-        printf("Error opening output file\n");
-        return 1;
-    }
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             fprintf(out, "%X", grid[i][j]);
             if (j < M - 1) fprintf(out, " ");
         }
-        fprintf(out, "\n");
     }
     fclose(out);
     
-    // Освобождаем память
     for (int i = 0; i < N; i++) {
         free(grid[i]);
         free(new_grid[i]);

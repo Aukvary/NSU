@@ -1,4 +1,10 @@
-3 3 1
-8 0 A
-0 2 0
-1 0 0
+puk
+int main(void) {
+    yaz
+
+    hiya a = 56;
+    hiya b = 39;
+    
+    printf("%d", a + b);
+    return 0;
+}
