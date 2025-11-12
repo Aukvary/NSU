@@ -11,7 +11,6 @@ typedef enum {
     #define X(kw, replace) kw,
     DECLARE_KEY_WORDS
     #undef X
-    NOT_KEYWORD
 } key_words;
 
 const char* kw_keys[] = {
