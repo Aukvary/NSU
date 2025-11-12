@@ -66,32 +66,29 @@ int main() {
 
     int c;
     char buf[100] = {0};
-    int buf_index = 0;
-    int in_word = 0;
+    int buf_ptr = 0;
 
     while ((c = fgetc(in)) != EOF) {
         if (isalpha(c)) {
-            buf[buf_index++] = c;
-            in_word = 1;
+            buf[buf_ptr++] = c;
         } else {
-            if (in_word) {
-                buf[buf_index] = '\0';
+            if (buf_ptr) {
+                buf[buf_ptr] = '\0';
                 int kw_index = is_key_word(buf);
                 if (kw_index != -1) {
                     printf("%s", kw_replaces[kw_index]);
                 } else {
                     printf("%s", buf);
                 }
-                buf_index = 0;
-                in_word = 0;
+                buf_ptr = 0;
             }
             
             printf("%c", c);
         }
     }
 
-    if (in_word) {
-        buf[buf_index] = '\0';
+    if (buf_ptr) {
+        buf[buf_ptr] = '\0';
         int kw_index = is_key_word(buf);
         if (kw_index != -1) {
             printf("%s", kw_replaces[kw_index]);
@@ -100,6 +97,5 @@ int main() {
         }
     }
 
-    fclose(in);
     return 0;
 }

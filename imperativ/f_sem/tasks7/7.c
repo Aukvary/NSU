@@ -10,7 +10,7 @@ typedef struct node_s {
 } node;
 
 node* head = NULL;
-int list_length = 0;
+int len = 0;
 
 node* new_node(int data, int big) {
     node* new_node = malloc(sizeof(node));
@@ -43,8 +43,8 @@ node* get(int k) {
     return cur;
 }
 
-void insert_node(int k, int data) {
-    int big_step_size = (int)sqrt(list_length + 1);
+void push_node(int k, int data) {
+    int big_step_size = (int)sqrt(len + 1);
     if (big_step_size < 1) big_step_size = 1;
     
     int is_big = (rand() % big_step_size == 0);
@@ -52,14 +52,14 @@ void insert_node(int k, int data) {
     
     if (head == NULL) {
         head = n;
-        list_length++;
+        len++;
         return;
     }
     
     if (k == 0) {
         n->next = head;
         head = n;
-        list_length++;
+        len++;
         return;
     }
     
@@ -67,12 +67,12 @@ void insert_node(int k, int data) {
     if (prev != NULL) {
         n->next = prev->next;
         prev->next = n;
-        list_length++;
+        len++;
     }
 }
 
 void cange_Links() {
-    int big_step_size = (int)sqrt(list_length);
+    int big_step_size = (int)sqrt(len);
     if (big_step_size < 1) return;
     
     node* current = head;
@@ -120,7 +120,7 @@ int main() {
             int k;
             int data;
             fscanf(in, "%d %d", &k, &data);
-            insert_node(k, data);
+            push_node(k, data);
             cange_Links();
         }
     }

@@ -27,8 +27,8 @@ int main() {
     int result_len = len1 + len2;
     int* result = calloc(3000, sizeof(int));
     
-    for (int i = len1 - 1; i >= 0; i--) {
-        for (int j = len2 - 1; j >= 0; j--) {
+    for (int i = len1 - 1; i > -1; i--) {
+        for (int j = len2 - 1; j > -1; j--) {
             int mul = (num1[i] - '0') * (num2[j] - '0');
             int sum = result[i + j + 1] + mul;
             

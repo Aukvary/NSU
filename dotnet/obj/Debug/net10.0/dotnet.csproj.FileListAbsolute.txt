@@ -1,0 +1,15 @@
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\bin\Debug\net10.0\dotnet.exe
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\bin\Debug\net10.0\dotnet.deps.json
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\bin\Debug\net10.0\dotnet.runtimeconfig.json
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\bin\Debug\net10.0\dotnet.dll
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\bin\Debug\net10.0\dotnet.pdb
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.AssemblyInfoInputs.cache
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.AssemblyInfo.cs
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.csproj.CoreCompileInputs.cache
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.sourcelink.json
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.dll
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\refint\dotnet.dll
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.pdb
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\dotnet.genruntimeconfig.cache
+C:\Users\aukvary\OneDrive\Документы\projects\NSU\dotnet\obj\Debug\net10.0\ref\dotnet.dll

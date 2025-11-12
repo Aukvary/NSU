@@ -11,7 +11,7 @@ typedef struct node {
 #pragma pack(pop)
 
 double* initList() {
-    node *head = malloc(sizeof(node));
+    node* head = malloc(sizeof(node));
 
     head->prev = head;
     head->next = head;
@@ -36,7 +36,7 @@ double *getPrev(double *curr_val) {
     return &(curr->prev->value);
 }
 
-double *addAfter(double *where_val, double newval) {
+double* push_front(double *where_val, double newval) {
     node *where = get(where_val);
     
     node *n = (node*)malloc(sizeof(node));
@@ -50,7 +50,7 @@ double *addAfter(double *where_val, double newval) {
     return &(n->value);
 }
 
-double *addBefore(double *where_val, double newval) {
+double *push_back(double *where_val, double newval) {
     node *where = get(where_val);
     node *n = (node*)malloc(sizeof(node));
     
@@ -101,13 +101,13 @@ void func(FILE* in) {
             double val;
             fscanf(in, "%lf", &val);
             double* where = (idx == -1 ? head : nodes[idx]);
-            nodes[count] = addAfter(where, val);
+            nodes[count] = push_front(where, val);
             count++;
         } else if (type == -1) {
             double val;
             fscanf(in, "%lf", &val);
             double* where = (idx == -1 ? head : nodes[idx]);
-            nodes[count] = addBefore(where, val);
+            nodes[count] = push_back(where, val);
             count++;
         } else if (type == 0) {
             double *what = nodes[idx];

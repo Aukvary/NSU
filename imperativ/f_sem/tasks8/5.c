@@ -3,35 +3,44 @@
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-typedef struct { int idx; int val; } pair;
+typedef struct { int idx; long long val; } pair;
 
-pair bin_search(int* nums, int len, int target) {
-    int l = 0;
-    int r = len - 1;
-    
-    int idx = 0;
-    int val = ABS(target - nums[0]);
-    
-    while (l <= r) {
+pair bin_search(int* nums, int len, long long target) {
+    int l = 0, r = len;
+    while (l < r) {
         int m = l + (r - l) / 2;
-        
-        int dif = ABS(target - nums[m]);
-        
-        if (dif < val) {
-            val = dif;
-            idx = m;
-        }
-        
-        if (nums[m] == target) {
-            break;
-        } else if (nums[m] < target) {
-            l = m + 1;  
-        } else {
-            r = m - 1;  
-        }
+        if (nums[m] < target) l = m + 1;
+        else r = m;
     }
-    
-    return (pair){ idx, val };
+
+    int pos = l;
+    int idx;
+    int dif;
+
+    if (pos == 0) {
+        idx = 0;
+        dif = abs(nums[0] - target);
+    } else if (pos == len) {
+        idx = len - 1;
+        dif = abs(nums[len - 1] - target);
+    } else {
+        int dif_r = abs(nums[pos] - target);
+        int dif_l = abs(nums[pos - 1] - target);
+        if (dif_r < dif_l) { 
+            idx = pos; 
+            dif = dif_r; 
+        }
+        else if (dif_l < dif_r) { 
+            idx = pos - 1; 
+            dif = dif_l; 
+        }
+        else { 
+            idx = pos; 
+            dif = dif_r; 
+        } 
+    }
+
+    return (pair){idx, dif};
 }
 
 int main() {
@@ -40,7 +49,7 @@ int main() {
     int n;
     fscanf(in, "%d", &n);
 
-    int* nums = malloc(n * sizeof(int));
+    int* nums = calloc(n, sizeof(int));
 
     for (int i = 0; i < n; i++)
         fscanf(in, "%d", nums + i);

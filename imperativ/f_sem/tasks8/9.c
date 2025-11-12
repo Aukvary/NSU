@@ -16,7 +16,7 @@ void subtract(char* a, const char* b) {
     int len_b = strlen(b);
     
     int borrow = 0;
-    int i = len_a - 1;
+    int i = len_a - 1;  
     int j = len_b - 1;
     
     while (i >= 0) {

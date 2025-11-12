@@ -10,9 +10,9 @@ typedef struct node {
 
 int main() {
     FILE* in = fopen("input.txt", "r");
-    int n, k;
+    int n;
+    int k;
     fscanf(in, "%d %d", &n, &k);
-    fclose(in);
 
     node* nodes = calloc(n, sizeof(node));
     

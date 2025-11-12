@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
+      "projectUniqueName": "C:\\Users\\aukvary\\OneDrive\\Документы\\projects\\NSU\\dotnet\\dotnet.csproj",
       "projectName": "dotnet",
-      "projectPath": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\dotnet.csproj",
+      "projectPath": "C:\\Users\\aukvary\\OneDrive\\Документы\\projects\\NSU\\dotnet\\dotnet.csproj",
       "packagesPath": "C:\\Users\\aukvary\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aukvary\\Documents\\projects\\NSU\\dotnet\\obj\\",
+      "outputPath": "C:\\Users\\aukvary\\OneDrive\\Документы\\projects\\NSU\\dotnet\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\aukvary\\AppData\\Roaming\\NuGet\\NuGet.Config",

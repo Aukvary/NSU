@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-const char* pattern = "GGGGCC";
+#define PATTERN "GGGGCC"
 
 int main() {
     FILE* in = fopen("input.txt", "r");
@@ -17,7 +17,7 @@ int main() {
         buf[i] = c;
     }
     
-    if (strcmp(buf, pattern) == 0) {
+    if (strcmp(buf, PATTERN) == 0) {
         row_count = 1;
     }
     
@@ -26,7 +26,7 @@ int main() {
         memmove(buf, buf + 1, 5);
         buf[5] = c;
         
-        if (strcmp(buf, pattern) == 0) {
+        if (strcmp(buf, PATTERN) == 0) {
             row_count++;
         }
 

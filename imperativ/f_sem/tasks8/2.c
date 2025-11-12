@@ -11,7 +11,6 @@ int bin_search(int* nums, int len, int target) {
 
         if (nums[m] == target) {
             result = m;  
-            l = m + 1;   
         } else if (nums[m] < target) {
             l = m + 1;
         } else {
@@ -28,7 +27,7 @@ int main() {
     int n;
     fscanf(in, "%d", &n);
 
-    int* nums = malloc(n * sizeof(int));
+    int* nums = calloc(n, sizeof(int));
     for (int i = 0; i < n; i++) {
         fscanf(in, "%d", &nums[i]);
     }
