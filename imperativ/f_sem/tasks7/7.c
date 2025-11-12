@@ -47,7 +47,7 @@ void push_node(int k, int data) {
     int big_step_size = (int)sqrt(len + 1);
     if (big_step_size < 1) big_step_size = 1;
     
-    int is_big = (rand() % big_step_size == 0);
+    int is_big = (rand() % 2 == 0);
     node* n = new_node(data, is_big);
     
     if (head == NULL) {

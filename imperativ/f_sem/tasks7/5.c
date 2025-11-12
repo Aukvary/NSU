@@ -62,7 +62,21 @@ char* get_next(const char* str, const char* delims) {
 
 void tokensSplit(Tokens* tokens, const char* str, const char* delims) {
     int count = word_count(str, delims);
-    if (!tokens->arr)
+    if (!tokens->arr) {
+            int n = 0;
+            const char* s = str;
+            while (*s) {
+                while (*s && isSep(*s, delims))
+                    s++;
+                
+                if (!(*s)) break;
+                
+                n++;
+                while (*s && !isSep(*s, delims)) 
+                    s++;
+                }
+                return n;
+    }
         tokens->arr = calloc(count, sizeof(char*));
     
     tokens->arr[0] = get_next(str, delims);
