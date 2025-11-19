@@ -9,27 +9,27 @@ void swap(int* a, int* b) {
     *b = temp;
 }
 
-int partition(int* arr, int low, int high) {
-    int pivot = arr[high];
-    
-    int i = (low - 1);
-    
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] <= pivot) {
+int partition(int* nums, int low, int high) {
+    int pivot = nums[high];
+
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (nums[j] <= pivot) {
             i++;
-            swap(&arr[i], &arr[j]);
+            swap(nums + i, nums + i);
         }
     }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+    swap(&nums[i + 1], &nums[high]);
+    return i + 1;
 }
 
-void sort(int* arr, int low, int high) {
+void sort(int* nums, int low, int high) {
     if (low < high) {
-        int pi = partition(arr, low, high);
-        
-        sort(arr, low, pi - 1);
-        sort(arr, pi + 1, high);
+        int pi = partition(nums, low, high);
+
+        sort(nums, low, pi - 1);
+        sort(nums, pi + 1, high);
     }
 }
 

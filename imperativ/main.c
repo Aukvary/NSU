@@ -8,7 +8,7 @@ typedef enum {
     SEARCH,
 } commands;
 
-int compare(const void *a, const void *b) {
+int cmp(const void *a, const void *b) {
     return (*(int*)a - *(int*)b);
 }
 commands choose_command(const char* str) {

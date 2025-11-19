@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int compare(const void *a, const void *b) {
+int cmp(const void *a, const void *b) {
     long long x = *(long long*)a;
     long long y = *(long long*)b;
     if (x < y) return -1;
@@ -21,7 +21,7 @@ int main() {
         fscanf(in, "%lld", &arr[i]);
     }
     
-    qsort(arr, n, sizeof(long long), compare);
+    qsort(arr, n, sizeof(long long), cmp);
     
     long long *unique = malloc(n * sizeof(long long));
     int k = 0;

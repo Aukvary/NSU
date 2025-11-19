@@ -17,7 +17,7 @@ void insert_sort(int* nums, int n) {
     }
 }
 
-int median_of_three(int* nums, int low, int high) {
+int mid(int* nums, int low, int high) {
     int mid = low + (high - low) / 2;
     
     if (nums[low] > nums[mid])
@@ -31,7 +31,7 @@ int median_of_three(int* nums, int low, int high) {
 }
 
 int partition(int* nums, int low, int high) {
-    int pivot_index = median_of_three(nums, low, high);
+    int pivot_index = mid(nums, low, high);
     int pivot = nums[pivot_index];
     
     swap(&nums[pivot_index], &nums[high]);

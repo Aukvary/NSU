@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int compare(const void *a, const void *b) {
+int cmp(const void *a, const void *b) {
     long long x = *(long long*)a;
     long long y = *(long long*)b;
     return x - y;
@@ -19,7 +19,7 @@ int main() {
         fscanf(in, "%lld", &arr[i]);
     }
     
-    qsort(arr, n, sizeof(long long), compare);
+    qsort(arr, n, sizeof(long long), cmp);
     
     long long sum = 0;
 
