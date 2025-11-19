@@ -54,7 +54,5 @@ int main() {
     fwrite(nums, sizeof(KeyValuePair), n, out);
 
     free(nums);
-    fclose(in);
-    fclose(out);
     return 0;
 }
