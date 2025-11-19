@@ -56,7 +56,5 @@ int main() {
     fwrite(nums, sizeof(int32_t), n, out);
 
     free(nums);
-    fclose(in);
-    fclose(out);
     return 0;
 }
