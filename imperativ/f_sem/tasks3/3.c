@@ -6,8 +6,8 @@ int main() {
     int n = 0;
     scanf("%d", &n);
     
-    int nums[n];
-    int enumerated[n];
+    int nums[100000];
+    int enumerated[100000];
 
     for (int i = 0; i < n; i++) {
         scanf("%d", &nums[i]);

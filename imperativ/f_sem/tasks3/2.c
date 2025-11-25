@@ -5,7 +5,7 @@ int main() {
 
     scanf("%d", &n);
 
-    int buf[n];
+    int buf[10000];
 
     for (int i = 0; i < n; i++) {
         scanf("%d", &buf[i]);

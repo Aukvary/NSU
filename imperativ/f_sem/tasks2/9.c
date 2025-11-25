@@ -35,7 +35,7 @@ int main() {
             }
         }
 
-        if ( init == 1 ) {
+        if (init == 1) {
             init = 0;
         } else if ((!block_com && !com) || prev == '\n')
             printf("%c", prev);

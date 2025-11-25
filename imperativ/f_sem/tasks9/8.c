@@ -94,9 +94,11 @@ void sort(int* nums, int low, int high, int depth, int max_depth, int k) {
         return;
     }
     
-    int pi = partition(nums, low, high);
-    sort(nums, low, pi - 1, depth + 1, max_depth, k);
-    sort(nums, pi + 1, high, depth + 1, max_depth, k);
+    if (low < high) {
+        int pi = partition(nums, low, high);
+        sort(nums, low, pi - 1, depth + 1, max_depth, k);
+        sort(nums, pi + 1, high, depth + 1, max_depth, k);
+    }
 }
 
 int main() {
