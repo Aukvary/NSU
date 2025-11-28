@@ -79,7 +79,7 @@ int main() {
         push_back(&right, -(i + 1));
     }
 
-    char operations[m + 1];
+    char* operations = calloc(m + 1, sizeof(char));
     fscanf(in, "%s", operations);
 
     for (int i = 0; i < m; i++) {

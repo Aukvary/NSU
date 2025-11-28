@@ -8,26 +8,22 @@
 #define MAX_FORMULA_LENGTH 1000
 
 typedef struct {
-    char name[3];  // Химический элемент (1-2 символа)
+    char name[3]; 
     int count;
 } Element;
 
 Element elements[MAX_ELEMENTS];
 int elements_count = 0;
 
-// Функция сравнения для сортировки
 int compare_elements(const void* a, const void* b) {
     return strcmp(((Element*)a)->name, ((Element*)b)->name);
 }
 
-// Рекурсивная функция разбора формулы
 void parse_formula(const char** formula, int multiplier) {
     while (**formula && **formula != ')') {
         if (**formula == '(') {
-            // Рекурсивно разбираем выражение в скобках
-            (*formula)++; // Пропускаем '('
+            (*formula)++;
 
-            // Временное хранилище для элементов внутри скобок
             Element temp_elements[MAX_ELEMENTS];
             int temp_count = 0;
             memcpy(temp_elements, elements, sizeof(Element) * elements_count);
@@ -36,7 +32,6 @@ void parse_formula(const char** formula, int multiplier) {
             elements_count = 0;
             parse_formula(formula, 1);
 
-            // Получаем множитель после скобок
             int bracket_multiplier = 0;
             while (isdigit(**formula)) {
                 bracket_multiplier = bracket_multiplier * 10 + (**formula - '0');
@@ -44,7 +39,6 @@ void parse_formula(const char** formula, int multiplier) {
             }
             if (bracket_multiplier == 0) bracket_multiplier = 1;
 
-            // Умножаем counts элементов из скобок и добавляем к основным
             for (int i = 0; i < elements_count; i++) {
                 int found = 0;
                 for (int j = 0; j < temp_count; j++) {
@@ -64,18 +58,15 @@ void parse_formula(const char** formula, int multiplier) {
             memcpy(elements, temp_elements, sizeof(Element) * temp_count);
             elements_count = temp_count;
         } else {
-            // Разбор химического элемента
             char element[3] = {0};
             element[0] = **formula;
             (*formula)++;
 
-            // Проверяем вторую букву (строчная)
             if (**formula && islower(**formula)) {
                 element[1] = **formula;
                 (*formula)++;
             }
 
-            // Получаем количество
             int count = 0;
             while (isdigit(**formula)) {
                 count = count * 10 + (**formula - '0');
@@ -83,7 +74,6 @@ void parse_formula(const char** formula, int multiplier) {
             }
             if (count == 0) count = 1;
 
-            // Добавляем/обновляем элемент
             int found = 0;
             for (int i = 0; i < elements_count; i++) {
                 if (strcmp(elements[i].name, element) == 0) {
@@ -101,7 +91,7 @@ void parse_formula(const char** formula, int multiplier) {
     }
 
     if (**formula == ')') {
-        (*formula)++; // Пропускаем ')'
+        (*formula)++; 
     }
 }
 
@@ -110,10 +100,8 @@ char* countOfAtoms(char* formula) {
     const char* ptr = formula;
     parse_formula(&ptr, 1);
 
-    // Сортируем элементы по имени
     qsort(elements, elements_count, sizeof(Element), compare_elements);
 
-    // Формируем результирующую строку
     static char result[1000];
     result[0] = '\0';
 
