@@ -6,10 +6,10 @@
 #define MOD 1000000007
 #define P 131
 
-typedef long long ll;
+typedef long long i64;
 
 typedef struct HashNode {
-    ll hash;
+    i64 hash;
     int color;
     struct HashNode* next;
 } HashNode;
@@ -17,7 +17,7 @@ typedef struct HashNode {
 HashNode* hash_table[MAX_N];
 int color_counter = 0;
 
-int find_or_insert(ll hash) {
+int find_or_insert(i64 hash) {
     int index = hash % MAX_N;
     if (index < 0) index += MAX_N;
     
@@ -45,13 +45,13 @@ int main() {
     char S[MAX_N + 1];
     scanf("%s", S);
     
-    ll* p_pow = malloc(N * sizeof(ll));
+    i64* p_pow = malloc(N * sizeof(i64));
     p_pow[0] = 1;
     for (int i = 1; i < N; i++) {
         p_pow[i] = (p_pow[i-1] * P) % MOD;
     }
     
-    ll* h = malloc((N + 1) * sizeof(ll));
+    i64* h = malloc((N + 1) * sizeof(i64));
     h[0] = 0;
     for (int i = 0; i < N; i++) {
         h[i+1] = (h[i] + (S[i] - 'a' + 1) * p_pow[i]) % MOD;
@@ -60,7 +60,7 @@ int main() {
     int* colors = malloc((N - B + 1) * sizeof(int));
     
     for (int i = 0; i <= N - B; i++) {
-        ll cur_h = (h[i + B] - h[i] + MOD) % MOD;
+        i64 cur_h = (h[i + B] - h[i] + MOD) % MOD;
         cur_h = (cur_h * p_pow[N - 1 - i]) % MOD;
         
         colors[i] = find_or_insert(cur_h);

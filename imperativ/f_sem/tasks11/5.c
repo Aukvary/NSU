@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define SAMPLES 100000
+
 uint64_t A, B, M, R, S;
 
 uint32_t hashFunc(uint32_t x) {
     return (((A * x + B) % M) % R) / S;
 }
 
-uint32_t xorshift32(uint32_t* state) {
-    uint32_t x = *state;
-    x ^= x << 13;
-    x ^= x >> 17;
-    x ^= x << 5;
-    *state = x;
-    return x;
+uint32_t get_rand(uint32_t state) {
+    state ^= state << 13;
+    state ^= state >> 17;
+    state ^= state << 5;
+    return state;
 }
 
 int main() {
@@ -24,13 +24,13 @@ int main() {
     scanf("%llu %llu %llu %llu %llu", &A, &B, &M, &R, &S);
     
 
-    const int SAMPLES = 100000;
     int changes[32][32] = {0};
     
     uint32_t rng_state = 42;
     
     for (int k = 0; k < SAMPLES; k++) {
-        uint32_t x = xorshift32(&rng_state);
+        uint32_t x = get_rand(rng_state);
+        rng_state = x;
         uint32_t h1 = hashFunc(x);
         
         for (int i = 0; i < 32; i++) {

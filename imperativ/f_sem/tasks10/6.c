@@ -23,9 +23,11 @@ int main() {
     }
 
     int* right = calloc(count, sizeof(int));
+
     int** next = calloc(count, sizeof(int *));
     int* next_size = calloc(count, sizeof(int));
     int* next_capacity = calloc(count, sizeof(int));
+    
     int* stack = calloc(count, sizeof(int));
     int top = 0;
 
@@ -42,7 +44,7 @@ int main() {
         if (top > 0) {
             int u = stack[top - 1];
             if (next_size[u] == next_capacity[u]) {
-                int nc = next_capacity[u] ? next_capacity[u] * 2 : 2;
+                int nc = next_capacity[u] ? next_capacity[u] * 2 : 10;
                 next[u] = realloc(next[u], nc * sizeof(int));
                 next_capacity[u] = nc;
             }

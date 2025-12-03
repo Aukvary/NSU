@@ -60,10 +60,10 @@ VALUE_TYPE eraseLeft(node* l, node* r) {
 VALUE_TYPE eraseRight(node* l, node* r) {
     size_t link = (size_t)r->xorLinks ^ (size_t)l;
 
-    node* ll = (node*)link;
+    node* i64 = (node*)link;
 
-    ll->xorLinks ^= (size_t)r;
-    ll->xorLinks ^= (size_t)l;
+    i64->xorLinks ^= (size_t)r;
+    i64->xorLinks ^= (size_t)l;
     
     l->xorLinks ^= (size_t)r;
     l->xorLinks ^= link;

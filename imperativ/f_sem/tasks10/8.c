@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 
 #define SIZE 100000
 
@@ -19,10 +18,10 @@ int main() {
     long long dp[SIZE];
     int queue[SIZE];
     int front = 0;
-    int back = -1;
+    int back = 0;
     
     dp[0] = nums[0];
-    queue[++back] = 0;
+    queue[back] = 0;
     
     for (int i = 1; i < n; i++) {
         while (front <= back && queue[front] < i - k) {
