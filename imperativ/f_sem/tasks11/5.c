@@ -18,8 +18,6 @@ uint32_t xorshift32(uint32_t* state) {
 }
 
 int main() {
-    printf("start\n");
-
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);  
     
@@ -53,7 +51,7 @@ int main() {
         for (int j = 0; j < 32; j++) {
             int percent = (changes[i][j] * 100 + SAMPLES / 2) / SAMPLES;
             if (j > 0) printf(" ");
-            printf("%3d", percent);
+            printf("%d", percent);
         }
         printf("\n");
     }

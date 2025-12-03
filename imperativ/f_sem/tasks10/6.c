@@ -16,15 +16,10 @@ int main() {
 
     while (scanf("%d", &val) == 1) {
         if (count == size) {
-            size = size ? size * 2 : 8;
+            size = size ? size * 2 : 10;
             nums = realloc(nums, size * sizeof(int));
         }
         nums[count++] = val;
-    }
-    if (count == 0) {
-        printf("0\n");
-        free(nums);
-        return 0;
     }
 
     int* right = calloc(count, sizeof(int));

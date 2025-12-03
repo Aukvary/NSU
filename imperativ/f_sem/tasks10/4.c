@@ -1,18 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
-
-#define MAX_ELEMENTS 100
-#define MAX_FORMULA_LENGTH 1000
 
 typedef struct {
     char name[3]; 
     int count;
 } Element;
 
-Element elements[MAX_ELEMENTS];
+Element elements[100];
 int elements_count = 0;
 
 int compare_elements(const void* a, const void* b) {
@@ -24,7 +19,7 @@ void parse_formula(const char** formula, int multiplier) {
         if (**formula == '(') {
             (*formula)++;
 
-            Element temp_elements[MAX_ELEMENTS];
+            Element temp_elements[100];
             int temp_count = 0;
             memcpy(temp_elements, elements, sizeof(Element) * elements_count);
             temp_count = elements_count;
@@ -121,7 +116,7 @@ int main() {
     FILE* input = fopen("input.txt", "r");
     FILE* output = fopen("output.txt", "w");
 
-    char formula[MAX_FORMULA_LENGTH];
+    char formula[1000];
     fscanf(input, "%s", formula);
 
     char* result = countOfAtoms(formula);

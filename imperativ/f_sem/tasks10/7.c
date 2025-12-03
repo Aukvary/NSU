@@ -22,7 +22,7 @@ int main() {
 
     while (scanf("%lld %lld", &x, &y) != EOF) {
         if (n == size) {
-            size = size ? size * 2 : 8;
+            size = size ? size * 2 : 10;
             pts = realloc(pts, size * sizeof(Point));
         }
         pts[n].x = x;

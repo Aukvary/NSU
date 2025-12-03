@@ -13,11 +13,11 @@ typedef struct HashEntry {
 HashEntry* hashTable[HASH_SIZE];
 
 unsigned int hash(uint64_t value) {
-    return value % HASH_SIZE;
+    return ;
 }
 
 void hash_insert(uint64_t value, int index) {
-    unsigned int idx = hash(value);
+    unsigned int idx = value % HASH_SIZE;
     HashEntry* entry = malloc(sizeof(HashEntry));
     entry->value = value;
     entry->index = index;
@@ -26,7 +26,7 @@ void hash_insert(uint64_t value, int index) {
 }
 
 int hash_find(uint64_t value) {
-    unsigned int idx = hash(value);
+    unsigned int idx = value % HASH_SIZE;
     HashEntry* entry = hashTable[idx];
     while (entry != NULL) {
         if (entry->value == value) {
@@ -35,18 +35,6 @@ int hash_find(uint64_t value) {
         entry = entry->next;
     }
     return -1;
-}
-
-void hash_free() {
-    for (int i = 0; i < HASH_SIZE; i++) {
-        HashEntry* entry = hashTable[i];
-        while (entry != NULL) {
-            HashEntry* next = entry->next;
-            free(entry);
-            entry = next;
-        }
-        hashTable[i] = NULL;
-    }
 }
 
 uint64_t func(uint64_t state, uint64_t a, uint64_t b, uint64_t c, uint64_t M) {
@@ -83,7 +71,6 @@ int main() {
             break;
         }
     }
-    
-    hash_free();
+
     return 0;
 }

@@ -79,11 +79,11 @@ int main() {
         push_back(&right, -(i + 1));
     }
 
-    char* operations = calloc(m + 1, sizeof(char));
-    fscanf(in, "%s", operations);
+    char* ops = calloc(m + 1, sizeof(char));
+    fscanf(in, "%s", ops);
 
     for (int i = 0; i < m; i++) {
-        char ch_mode = operations[i];
+        char ch_mode = ops[i];
         int mode;
 
         if (ch_mode >= '0' && ch_mode <= '9') {
