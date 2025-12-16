@@ -5,7 +5,7 @@
 typedef struct {
     char name[3]; 
     int count;
-} Element;
+} Object;
 
 Element elements[100];
 int elements_count = 0;

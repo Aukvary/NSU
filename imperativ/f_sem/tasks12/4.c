@@ -36,7 +36,7 @@ int binary_search(ActorInMovie* movies, int m, const char* name) {
         
         if (cmp == 0) {
             res = m;
-            break;
+            r = m - 1;
         } else if (cmp < 0) {
             l = m + 1;
         } else {
