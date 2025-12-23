@@ -1,25 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct Block {
+    double value;
+    struct Block* next;
+} Block;
+
 typedef struct MyDoubleHeap_s {
-    char* memory;
-    void** free_list_head;
-    int slots_count;
+    Block* memory;
+    Block* free_list_head;
+    int count;
 } MyDoubleHeap;
 
 MyDoubleHeap initAllocator(int slotsCount) {
     MyDoubleHeap heap;
-    heap.slots_count = slotsCount;
-    heap.memory = (char*)malloc(slotsCount * 8);
-    heap.free_list_head = (void**)heap.memory;
+    heap.count = slotsCount;
+    heap.memory = (Block*)malloc(slotsCount * sizeof(Block));
+    heap.free_list_head = heap.memory;
     
     for (int i = 0; i < slotsCount - 1; i++) {
-        void** current = (void**)(heap.memory + i * 8);
-        *current = (void*)(heap.memory + (i + 1) * 8);
+        heap.memory[i].next = &heap.memory[i + 1];
     }
-    
-    void** last = (void**)(heap.memory + (slotsCount - 1) * 8);
-    *last = NULL;
+    heap.memory[slotsCount - 1].next = NULL;
     
     return heap;
 }
@@ -29,14 +31,15 @@ double* allocDouble(MyDoubleHeap* heap) {
         return NULL;
     }
     
-    void** block = heap->free_list_head;
-    heap->free_list_head = (void**)(*block);
-    return (double*)block;
+    Block* block = heap->free_list_head;
+    heap->free_list_head = block->next;
+    block->next = NULL;
+    return &(block->value);
 }
 
 void freeDouble(MyDoubleHeap* heap, double* ptr) {
-    void** block = (void**)ptr;
-    *block = (void*)heap->free_list_head;
+    Block* block = (Block*)((char*)ptr - ((char*)&((Block*)0)->value));
+    block->next = heap->free_list_head;
     heap->free_list_head = block;
 }
 
@@ -50,7 +53,7 @@ int main() {
     
     MyDoubleHeap heap = initAllocator(n);
     double* operations[300005];
-    
+
     for (int i = 0; i < q; i++) {
         int t;
         scanf("%d", &t);
@@ -65,10 +68,7 @@ int main() {
             if (ptr == NULL) {
                 printf("00000000\n");
             } else {
-                printf("%08llX\n", (unsigned long long)ptr);
-            }
-            
-            if (ptr != NULL) {
+                printf("%p\n", (void*)ptr);
                 *ptr = value;
             }
         }

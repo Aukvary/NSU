@@ -19,7 +19,7 @@ typedef struct {
 
 #define ALPHA 0.7
 
-node* create_node(int val) {
+node* new_node(int val) {
     node* new_node = malloc(sizeof(node));
     new_node->val = val;
     new_node->left = NULL;
@@ -100,7 +100,7 @@ void rebuild(ScapegoatTree *tree, node *scapegoat) {
 node* push_node(node *root, int val, node **scapegoat, node **parent_ptr, int *inserted) {
     if (root == NULL) {
         *inserted = 1;
-        return create_node(val);
+        return new_node(val);
     }
     
     if (val == root->val) {

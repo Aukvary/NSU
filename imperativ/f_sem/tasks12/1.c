@@ -10,7 +10,7 @@ typedef struct node {
     int count;
 } node;
 
-node* create_node(int val) {
+node* new_node(int val) {
     node* new_node = (node*)malloc(sizeof(node));
     new_node->val = val;
     new_node->count = 1;
@@ -19,15 +19,15 @@ node* create_node(int val) {
     return new_node;
 }
 
-void insert(node** root, int val) {
+void push(node** root, int val) {
     if (*root == NULL) {
-        *root = create_node(val);
+        *root = new_node(val);
         return;
     }
     if (val < (*root)->val) {
-        insert(&((*root)->left), val);
+        push(&((*root)->left), val);
     } else if (val > (*root)->val) {
-        insert(&((*root)->right), val);
+        push(&((*root)->right), val);
     } else {
         (*root)->count++;
     }
@@ -53,7 +53,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         int value;
         fread(&value, sizeof(int), 1, in);
-        insert(&head, value);
+        push(&head, value);
     }
 
     print(head, out);
