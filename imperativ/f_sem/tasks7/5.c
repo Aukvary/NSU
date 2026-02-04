@@ -75,7 +75,7 @@ void tokensSplit(Tokens* tokens, const char* str, const char* delims) {
                 while (*s && !isSep(*s, delims)) 
                     s++;
                 }
-                return n;
+                return;
     }
         tokens->arr = calloc(count, sizeof(char*));
     
