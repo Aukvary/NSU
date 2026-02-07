@@ -10,55 +10,57 @@ void func(i64 p) {
         printf("no solutions\n");
         return;
     }
-    
-    i64 m0 = 0;
-    i64 d0 = 1;
-    i64 a0 = (i64)sqrt(p);
-    
-    i64 m = m0;
-    i64 d = d0;
-    i64 a = a0;
-    
-    i64 p1 = 0, q1 = 1;
-    i64 p2 = 1, q2 = 0;
-    
+
+    i64 start_m = 0;
+    i64 start_d = 1;
+    i64 start_a = (i64)sqrt(p);
+
+    i64 m = start_m;
+    i64 d = start_d;
+    i64 a = start_a;
+
+    i64 p1 = 0;
+    i64 q1 = 1;
+    i64 p2 = 1;
+    i64 q2 = 0;
+
     while (1) {
-        i64 p_curr = a * p2 + p1;
-        i64 q_curr = a * q2 + q1;
-        
-        if (p_curr > LIMIT || q_curr > LIMIT) {
+        i64 cur_p = a * p2 + p1;
+        i64 cur_q = a * q2 + q1;
+
+        if (cur_p > LIMIT || cur_q > LIMIT) {
             printf("no solutions\n");
             return;
         }
-        
-        if (p_curr * p_curr - p * q_curr * q_curr == -1) {
-            printf("%lld %lld\n", p_curr, q_curr);
+
+        if (cur_p * cur_p - p * cur_q * cur_q == -1) {
+            printf("%lld %lld\n", cur_p, cur_q);
             return;
         }
-        
+
         p1 = p2;
         q1 = q2;
-        p2 = p_curr;
-        q2 = q_curr;
-        
+        p2 = cur_p;
+        q2 = cur_q;
+
         m = d * a - m;
         d = (p - m * m) / d;
-        a = (a0 + m) / d;
+        a = (start_a + m) / d;
     }
 }
 
 int main(void) {
     freopen("input.txt", "r", stdin);
-    
+
     int t;
     i64 p;
-    
+
     scanf("%d", &t);
-    
+
     while (t--) {
         scanf("%lld", &p);
         func(p);
     }
-    
+
     return 0;
 }
