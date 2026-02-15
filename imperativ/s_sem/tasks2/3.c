@@ -1,11 +1,10 @@
 #include <stdio.h>
 
 typedef enum Mode {
-    SEPARATING,
-    ALONE_ARG,
-    QUATS_ARG
+    SEPARATING = 1,
+    ALONE_ARG = 2,
+    QUATS_ARG = 4
 } Mode;
-
 
 int main() {
     freopen("input.txt", "r", stdin);
@@ -13,23 +12,21 @@ int main() {
     char c;
     Mode mode = SEPARATING;
 
-    while((c = getc(stdin)) != -1) {
-        switch (mode)
-        {
+    while ((c = getc(stdin)) != EOF) {
+        switch (mode) {
             case SEPARATING: {
-                if (c == ' ') break;
-
-                mode = (c == '\"') ? QUATS_ARG : ALONE_ARG;
-
+                if (c == ' ') {
+                    break;  
+                }
+                
                 printf("[");
-
+                
                 if (c == '\"') {
                     mode = QUATS_ARG;
                 } else {
                     mode = ALONE_ARG;
                     printf("%c", c);
                 }
-
                 break;
             }
 
@@ -55,7 +52,9 @@ int main() {
         }
     }
 
-    printf("]");
+    if (mode & (ALONE_ARG | QUATS_ARG)) {
+        printf("]");
+    }
     
     return 0;
 }
