@@ -77,7 +77,7 @@ i64 long_num_mod(const LongNum *a, i64 m) {
 void long_num_print(const LongNum *a) {
     printf("%u", a->d[a->len - 1]);
     for (int i = a->len - 2; i >= 0; i--) {
-        printf("%09u", a->d[i]);
+        printf("%u", a->d[i]);
     }
     printf("\n");
 }
@@ -107,34 +107,34 @@ int main() {
     int k;
     scanf("%d", &k);
 
-    i64 M[2005];
-    i64 A[2005];
-    for (int i = 0; i < k; i++) scanf("%lld", &M[i]);
-    for (int i = 0; i < k; i++) scanf("%lld", &A[i]);
+    i64 m[2005];
+    i64 a[2005];
+    for (int i = 0; i < k; i++) scanf("%lld", &m[i]);
+    for (int i = 0; i < k; i++) scanf("%lld", &a[i]);
 
     LongNum cur;
     LongNum mod;
     LongNum tmp;
-    long_num_new(&cur, A[0]);
-    long_num_new(&mod, M[0]);
+    long_num_new(&cur, a[0]);
+    long_num_new(&mod, m[0]);
 
     for (int i = 1; i < k; i++) {
-        i64 m = M[i];
-        i64 a = A[i];
+        i64 m_i = m[i];
+        i64 a_i = a[i];
 
-        i64 cur_mod = long_num_mod(&cur, m);
-        i64 rhs = (a - cur_mod) % m;
-        if (rhs < 0) rhs += m;
+        i64 cur_mod = long_num_mod(&cur, m_i);
+        i64 rhs = (a_i - cur_mod) % m_i;
+        if (rhs < 0) rhs += m_i;
 
-        i64 mod_mod = long_num_mod(&mod, m);
-        i64 inv = long_num_modinv(mod_mod, m);
-        i64 t = (rhs * inv) % m;
+        i64 mod_mod = long_num_mod(&mod, m_i);
+        i64 inv = long_num_modinv(mod_mod, m_i);
+        i64 t = (rhs * inv) % m_i;
 
         long_num_copy(&tmp, &mod);
         long_num_mul(&tmp, t);
         long_num_add(&cur, &tmp);
 
-        long_num_mul(&mod, m);
+        long_num_mul(&mod, m_i);
     }
 
     long_num_print(&cur);
