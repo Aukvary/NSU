@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_N 1000000
+#define SIZE 1000000
 #define MOD 1000000007
 #define P 131
 
@@ -14,12 +14,12 @@ typedef struct HashNode {
     struct HashNode* next;
 } HashNode;
 
-HashNode* hash_table[MAX_N];
+HashNode* hash_table[SIZE];
 int color_counter = 0;
 
 int find_or_insert(i64 hash) {
-    int index = hash % MAX_N;
-    if (index < 0) index += MAX_N;
+    int index = hash % SIZE;
+    if (index < 0) index += SIZE;
     
     HashNode* node = hash_table[index];
     while (node != NULL) {
@@ -42,7 +42,7 @@ int main() {
     int N, B;
     scanf("%d %d", &N, &B);
     
-    char S[MAX_N + 1];
+    char S[SIZE + 1];
     scanf("%s", S);
     
     i64* p_pow = malloc(N * sizeof(i64));
