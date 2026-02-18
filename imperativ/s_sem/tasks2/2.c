@@ -66,12 +66,8 @@ void gauss_slau() {
 }
 
 void iter_slau() {
-    double x_old[SIZE];
+    double x_old[SIZE] = {0.0};
     double x_new[SIZE];
-    
-    for (int i = 0; i < n; i++) {
-        x_old[i] = 0.0;
-    }
     
     for (int iter = 0; iter < MAX_ITER; iter++) {
         for (int i = 0; i < n; i++) {

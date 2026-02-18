@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-int main(long long argc, char* argv[]) {
+int main(int argc, char* argv[]) {
     if (argc == 1) {
         fprintf(stderr, "No parameters specified.");
         return 13;

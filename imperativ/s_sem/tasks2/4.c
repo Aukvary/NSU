@@ -30,7 +30,10 @@ int inv_mod(int x, int mod) {
 }
 
 int gauss() {
-    int i, j, row = 0, col = 0;
+    int i;
+    int j;
+    int row = 0;
+    int col = 0;
     int max_row;
     
     while (row < k && col < n) {
