@@ -126,7 +126,7 @@ int main() {
                 }
             }
         }
-        
+        printf("1\n");
         for (int i = 0; i < n; i++) {
             printf("%d\n", x[i]);
         }

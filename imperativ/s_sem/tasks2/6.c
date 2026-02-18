@@ -1,71 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
-#define SIZE 105
+#define SIZE 100
+#define EPS 1e-10
 
-int gauss_solve(double m[SIZE][SIZE], double b[SIZE], int n) {
-    double a[SIZE][SIZE + 1];
+int n;
+double x[SIZE], y[SIZE];
+double g[SIZE][SIZE];
+double f[SIZE];
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            a[i][j] = m[i][j];
-        }
-        a[i][n] = b[i];
+double basis_func(double x_val, int j) {
+    if (j == 0) return 1.0;
+    double res = 1.0;
+    for (int k = 0; k < j; k++) {
+        res *= x_val;
     }
-
-    for (int col = 0; col < n; col++) {
-        int p_row = col;
-        double max_val = fabs(a[col][col]);
-        for (int row = col + 1; row < n; row++) {
-            if (fabs(a[row][col]) > max_val) {
-                max_val = fabs(a[row][col]);
-                p_row = row;
-            }
-        }
-
-        if (max_val < 1e-12) {
-            return -1;
-        }
-
-        if (p_row != col) {
-            for (int k = 0; k <= n; k++) {
-                double tmp = a[col][k];
-                a[col][k] = a[p_row][k];
-                a[p_row][k] = tmp;
-            }
-        }
-
-        double pivot = a[col][col];
-        for (int k = col; k <= n; k++) {
-            a[col][k] /= pivot;
-        }
-
-        for (int row = col + 1; row < n; row++) {
-            double factor = a[row][col];
-            if (fabs(factor) > 1e-12) {
-                for (int k = col; k <= n; k++) {
-                    a[row][k] -= factor * a[col][k];
-                }
-            }
-        }
-    }
-
-    for (int i = n - 1; i >= 0; i--) {
-        b[i] = a[i][n];
-        for (int j = i + 1; j < n; j++) {
-            b[i] -= a[i][j] * b[j];
-        }
-    }
-
-    return 0;
-}
-
-double power(double base, int exp) {
-    double result = 1.0;
-    for (int i = 0; i < exp; i++) {
-        result *= base;
-    }
-    return result;
+    return res;
 }
 
 int main() {
@@ -76,27 +27,30 @@ int main() {
     double y[SIZE];
     
     scanf("%d", &n);
+    
+    double x_mean = 0, x_scale = 1;
+    double x_norm[SIZE];
+    
     for (int i = 0; i < n; i++) {
         scanf("%lf %lf", &x[i], &y[i]);
-    }
-    
-    double x_mean = 0.0;
-    for (int i = 0; i < n; i++) {
         x_mean += x[i];
     }
     x_mean /= n;
     
-    double x_max = 0.0;
     for (int i = 0; i < n; i++) {
-        double diff = fabs(x[i] - x_mean);
-        if (diff > x_max) {
-            x_max = diff;
-        }
+        x_norm[i] = x[i] - x_mean;
     }
     
-    double xn[SIZE];
+    x_scale = 0;
     for (int i = 0; i < n; i++) {
-        xn[i] = (x[i] - x_mean) / x_max;
+        if (fabs(x_norm[i]) > x_scale) {
+            x_scale = fabs(x_norm[i]);
+        }
+    }
+    if (x_scale < EPS) x_scale = 1;
+    
+    for (int i = 0; i < n; i++) {
+        x_norm[i] /= x_scale;
     }
     
     double a[SIZE][SIZE];
@@ -104,46 +58,89 @@ int main() {
     
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            a[i][j] = power(xn[i], j);
+            g[i][j] = 0.0;
+            for (int k = 0; k < n; k++) {
+                g[i][j] += basis_func(x_norm[k], i) * basis_func(x_norm[k], j);
+            }
         }
         b[i] = y[i];
     }
     
-    if (gauss_solve(a, b, n) != 0) {
-        for (int i = 0; i < n; i++) {
-            printf("0.000000 ");
+    for (int i = 0; i < n; i++) {
+        f[i] = 0.0;
+        for (int k = 0; k < n; k++) {
+            f[i] += basis_func(x_norm[k], i) * y[k];
         }
-    } else {
-        double c[SIZE] = {0};
+    }
+    
+    double a[SIZE][SIZE + 1];
+    double c[SIZE] = {0};
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            a[i][j] = g[i][j];
+        }
+        a[i][n] = f[i];
+    }
+    
+    for (int i = 0; i < n; i++) {
+        int max_row = i, max_col = i;
+        double max_val = fabs(a[i][i]);
         
-        for (int i = 0; i < n; i++) {
-            double scale = 1.0;
-            for (int k = 0; k < i; k++) {
-                scale *= x_max;
-            }
-            
-            for (int k = 0; k <= i; k++) {
-                long long C = 1;
-                for (int t = 1; t <= k; t++) {
-                    C = C * (i - t + 1) / t;
-                }
-                
-                double term = b[i] * C * power(-x_mean, i - k) / scale;
-                
-                if (k < n) {
-                    c[k] += term;
+        for (int r = i; r < n; r++) {
+            for (int c = i; c < n; c++) {
+                if (fabs(a[r][c]) > max_val) {
+                    max_val = fabs(a[r][c]);
+                    max_row = r;
+                    max_col = c;
                 }
             }
         }
         
-        for (int i = 0; i < n; i++) {
-            if (fabs(c[i]) < 1e-8) {
-                printf("0.000000 ");
-            } else {
-                printf("%.6f ", c[i]);
+        if (max_val < EPS) {
+            continue;
+        }
+        
+        if (max_row != i) {
+            for (int j = i; j <= n; j++) {
+                double temp = a[i][j];
+                a[i][j] = a[max_row][j];
+                a[max_row][j] = temp;
+            }
+        }
+        
+        if (max_col != i) {
+            for (int r = 0; r < n; r++) {
+                double temp = a[r][i];
+                a[r][i] = a[r][max_col];
+                a[r][max_col] = temp;
+            }
+        }
+        
+        double divisor = a[i][i];
+        for (int j = i; j <= n; j++) {
+            a[i][j] /= divisor;
+        }
+        
+        for (int k = 0; k < n; k++) {
+            if (k != i && fabs(a[k][i]) > EPS) {
+                double factor = a[k][i];
+                for (int j = i; j <= n; j++) {
+                    a[k][j] -= factor * a[i][j];
+                }
             }
         }
     }
+    
+    for (int i = 0; i < n; i++) {
+        c[i] = a[i][n];
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (i > 0) printf(" ");
+        printf("%.10f", c[i]);
+    }
+    printf("\n");
     
     return 0;
 }
