@@ -9,8 +9,6 @@ typedef enum Mode {
 int main() {
     freopen("input.txt", "r", stdin);
 
-
-    char has = 0;
     char c;
     Mode mode = SEPARATING;
 
