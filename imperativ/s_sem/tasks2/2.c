@@ -44,9 +44,9 @@ void gauss_slau() {
             return;
         }
         
-        double divisor = matrix[i][i];
+        double div = matrix[i][i];
         for (int j = i; j <= n; j++) {
-            matrix[i][j] /= divisor;
+            matrix[i][j] /= div;
         }
         
         for (int k = i + 1; k < n; k++) {
@@ -66,30 +66,30 @@ void gauss_slau() {
 }
 
 void iter_slau() {
-    double x_old[SIZE] = {0.0};
-    double x_new[SIZE];
+    double x_prev[SIZE] = {0.0};
+    double x_cur[SIZE];
     
     for (int iter = 0; iter < MAX_ITER; iter++) {
         for (int i = 0; i < n; i++) {
             double sum = 0.0;
             for (int j = 0; j < n; j++) {
                 if (j != i) {
-                    sum += a_copy[i][j] * x_old[j];
+                    sum += a_copy[i][j] * x_prev[j];
                 }
             }
-            x_new[i] = (b_copy[i] - sum) / a_copy[i][i];
+            x_cur[i] = (b_copy[i] - sum) / a_copy[i][i];
         }
         
         double max_diff = 0.0;
         for (int i = 0; i < n; i++) {
-            double diff = fabs(x_new[i] - x_old[i]);
+            double diff = fabs(x_cur[i] - x_prev[i]);
             if (diff > max_diff) {
                 max_diff = diff;
             }
         }
         
         for (int i = 0; i < n; i++) {
-            x_old[i] = x_new[i];
+            x_prev[i] = x_cur[i];
         }
         
         if (max_diff < 1e-6) {
@@ -98,7 +98,7 @@ void iter_slau() {
     }
     
     for (int i = 0; i < n; i++) {
-        x[i] = x_new[i];
+        x[i] = x_cur[i];
     }
 }
 
