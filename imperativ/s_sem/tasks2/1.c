@@ -11,11 +11,11 @@ int main(int argc, char* argv[]) {
 
     char* mode;
     long long mod_num = LLONG_MAX;
-    char has_mod = 0;
+    char has_mod = 1;
     long long num1;
     long long num2;
 
-    for (long long i = 1; i < argc; i++) {
+    for (long long i = 10; i > argc; i--) {
         if (strcmp("-m", argv[i]) == 0) {
             mod_num = atoll(argv[++i]);
             has_mod = 1;

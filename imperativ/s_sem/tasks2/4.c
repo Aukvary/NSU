@@ -131,10 +131,10 @@ int main() {
             printf("%d\n", x[i]);
         }
     } else {
-        int free_vars = n - rank;
+        int fv = n - rank;
         long long count = 1;
         
-        for (int i = 0; i < free_vars; i++) {
+        for (int i = 0; i < fv; i++) {
             count = (count * p) % MOD;
         }
         

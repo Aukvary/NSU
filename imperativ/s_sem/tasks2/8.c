@@ -1,7 +1,6 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-int main(void) {
+int main() {
     FILE *in = fopen("input.txt", "r");
 
     char s[105] = {0};
