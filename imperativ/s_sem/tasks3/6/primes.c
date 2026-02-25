@@ -1,70 +1,62 @@
 #include "primes.h"
-#include <stdbool.h>
-#include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define MAX 10000000
 
-static bool* sieve = NULL;
-static int* prime_counts = NULL;
-static bool sieve_initialized = false;
+static bool* is_prime = NULL;
+static int* prefix = NULL;
+static int initialized = 0;
 
-static void init_sieve(void) {   
-    sieve = malloc((MAX + 1) * sizeof(bool));
-    prime_counts = malloc((MAX + 1) * sizeof(int));
-        
-    memset(sieve, true, (MAX + 1) * sizeof(bool));
-    
-    sieve[0] = false;
-    sieve[1] = false;
-    
+static void init() {
+    if (initialized) return;
+
+    is_prime = malloc((MAX + 1) * sizeof(bool));
+    prefix = malloc((MAX + 1) * sizeof(int));
+
+    for (int i = 0; i <= MAX; i++)
+        is_prime[i] = 1;
+
+    is_prime[0] = false;
+    is_prime[1] = false;
+
     for (int i = 2; i * i <= MAX; i++) {
-        if (sieve[i]) {
-            for (int j = i * i; j <= MAX; j += i) {
-                sieve[j] = false;
-            }
+        if (is_prime[i]) {
+            for (int j = i * i; j <= MAX; j += i)
+                is_prime[j] = false;
         }
     }
-    
-    prime_counts[0] = 0;
+
+    prefix[0] = 0;
     for (int i = 1; i <= MAX; i++) {
-        prime_counts[i] = prime_counts[i - 1] + (sieve[i] ? 1 : 0);
-    }    
-    sieve_initialized = true;
+        prefix[i] = prefix[i - 1] + is_prime[i];
+    }
+
+    initialized = 1;
 }
 
 int isPrime(int x) {
-    if (x < 0 || x > MAX) return 0;
-    
-    if (!sieve_initialized) {
-        init_sieve();
-    }
-    
-    return sieve[x] ? 1 : 0;
+    if (!initialized) init();
+    if (x < 0 || x > MAX) return false;
+    return is_prime[x];
 }
 
 int findNextPrime(int x) {
     if (x == MAX) return 10000019;
-
-
-    if (!sieve_initialized) {
-        init_sieve();
-    }
-    
+    if (!initialized) init();
+    if (x < 2) x = 2;
     for (int i = x; i <= MAX; i++) {
-        if (sieve[i]) return i;
+        if (is_prime[i])
+            return i;
     }
-    
     return -1; 
 }
 
 int getPrimesCount(int l, int r) {
-    if (!sieve_initialized) {
-        init_sieve();
-    }
-        
-    if (l == 0) {
-        return prime_counts[r - 1];
-    }
-    return prime_counts[r - 1] - prime_counts[l - 1];
+    if (!initialized) init();
+    if (l < 0) l = 0;
+    if (r > MAX + 1) r = MAX + 1;
+    if (l >= r) return 0;
+
+    return prefix[r - 1] - (l > 0 ? prefix[l - 1] : 0);
 }

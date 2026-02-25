@@ -1,4 +1,1 @@
-gcc -c zlib/*.c -I. -I zlib -I minizip -D_LARGEFILE64_SOURCE=1 -D_FILE_OFFSET_BITS=64
-gcc -c minizip/ioapi.c minizip/unzip.c -I. -I zlib -I minizip -DUSE_CRYPT
-gcc -c test.c -I. -I zlib -I minizip
-gcc -o checked_solution.exe *.o
+gcc -DUSE_CRYPT -DZ_HAVE_UNISTD_H -Izlib -Izlib/minizip test.c zlib/*.c zlib/minizip/unzip.c zlib/minizip/ioapi.c -o checked_solution

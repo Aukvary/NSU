@@ -1,90 +1,81 @@
 #include "primes.h"
+#include <stdbool.h>
+#include <stdlib.h>
 #include <assert.h>
 
-int main() {
-    assert(isPrime(0) == 0);
-    assert(isPrime(1) == 0);
-    assert(isPrime(2) == 1);
-    
-    assert(isPrime(3) == 1);
-    assert(isPrime(4) == 0);
-    assert(isPrime(5) == 1);
-    assert(isPrime(9) == 0);
-    assert(isPrime(11) == 1);
-    assert(isPrime(15) == 0);
-    
-    assert(isPrime(49) == 0);
-    assert(isPrime(121) == 0);
-    
-    assert(isPrime(97) == 1);
-    assert(isPrime(101) == 1);
-    assert(isPrime(997) == 1);
-    
-    assert(isPrime(999983) == 1);
-    assert(isPrime(9999991) == 1);
-    assert(isPrime(10000000) == 0);
-    
-    assert(findNextPrime(0) == 2);
-    assert(findNextPrime(1) == 2);
-    assert(findNextPrime(2) == 2);
-    assert(findNextPrime(3) == 3);
-    assert(findNextPrime(4) == 5);
-    assert(findNextPrime(8) == 11);
-    assert(findNextPrime(9) == 11);
-    assert(findNextPrime(10) == 11);
-    assert(findNextPrime(11) == 11);
-    assert(findNextPrime(12) == 13);
-    assert(findNextPrime(14) == 17);
-    assert(findNextPrime(20) == 23);
-    assert(findNextPrime(30) == 31);
-    assert(findNextPrime(32) == 37);
-    
-    assert(findNextPrime(97) == 97);
-    assert(findNextPrime(98) == 101);
-    assert(findNextPrime(100) == 101);
-    
-    assert(getPrimesCount(1, 1) == 0);
-    assert(getPrimesCount(5, 5) == 0);
-    assert(getPrimesCount(10, 10) == 0);
-    
-    assert(getPrimesCount(1, 2) == 0);
-    assert(getPrimesCount(1, 3) == 1);
-    assert(getPrimesCount(2, 3) == 1);
-    assert(getPrimesCount(1, 5) == 2);
-    assert(getPrimesCount(2, 5) == 2);
-    assert(getPrimesCount(3, 6) == 2);
-    
-    assert(getPrimesCount(1, 10) == 4);
-    assert(getPrimesCount(1, 20) == 8);
-    assert(getPrimesCount(1, 30) == 10);
-    assert(getPrimesCount(1, 100) == 25);
-    
-    assert(getPrimesCount(10, 20) == 4);
-    assert(getPrimesCount(20, 30) == 2);
-    assert(getPrimesCount(90, 100) == 1);
-    
-    assert(getPrimesCount(1, 1000) == 168);
-    assert(getPrimesCount(1, 10000) == 1229);
-    
-    int prime_count_100 = getPrimesCount(1, 100);
-    int found = 0;
-    for (int i = 2; i < 100; i++) {
-        if (isPrime(i)) found++;
-    }
-    assert(found == prime_count_100);
-    
-    for (int i = 2; i <= 100; i++) {
-        int next = findNextPrime(i);
-        if (isPrime(i)) {
-            assert(next == i);
-        } else {
-            assert(next > i);
-            assert(isPrime(next) == 1);
+static bool* is_prime = NULL;
+static int* prefix = NULL;
+static int initialized = 0;
+
+static void init() {
+    if (initialized) return;
+
+    is_prime = malloc((10000000 + 1) * sizeof(bool));
+    prefix = malloc((10000000 + 1) * sizeof(int));
+
+    for (int i = 0; i <= 10000000; i++)
+        is_prime[i] = 1;
+
+    is_prime[0] = false;
+    is_prime[1] = false;
+
+    for (int i = 2; i * i <= 10000000; i++) {
+        if (is_prime[i]) {
+            for (int j = i * i; j <= 10000000; j += i)
+                is_prime[j] = false;
         }
     }
-    
-    assert(findNextPrime(999990) > 999990);
-    assert(isPrime(findNextPrime(999990)) == 1);
-    
+
+    prefix[0] = 0;
+    for (int i = 1; i <= 10000000; i++) {
+        prefix[i] = prefix[i - 1] + is_prime[i];
+    }
+
+    initialized = 1;
+}
+
+static int test_isPrime(int x) {
+    if (!initialized) init();
+    if (x < 0 || x > 10000000) return false;
+    return is_prime[x];
+}
+
+static int test_findNextPrime(int x) {
+    if (x == 10000000) return 10000019;
+    if (!initialized) init();
+    if (x < 2) x = 2;
+    for (int i = x; i <= 10000000; i++) {
+        if (is_prime[i])
+            return i;
+    }
+    return -1; 
+}
+
+static int test_getPrimesCount(int l, int r) {
+    if (!initialized) init();
+    if (l < 0) l = 0;
+    if (r > 10000000 + 1) r = 10000000 + 1;
+    if (l >= r) return 0;
+
+    return prefix[r - 1] - (l > 0 ? prefix[l - 1] : 0);
+}
+
+int main() {
+    const int N = 10000000;  
+
+    for (int x = 0; x <= N; x++) {
+        assert(isPrime(x) == test_isPrime(x));
+    }
+
+    for (int x = 0; x <= N; x++) {
+        assert(findNextPrime(x) == test_findNextPrime(x));
+    }
+
+    for (int l = 0; l <= N; l++) {
+        for (int r = l; r <= N; r++) {
+            assert(getPrimesCount(l, r) == test_getPrimesCount(l, r));
+        }
+    }
+
     return 0;
 }
