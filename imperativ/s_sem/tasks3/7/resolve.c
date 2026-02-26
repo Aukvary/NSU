@@ -2,19 +2,19 @@
 #include <stdint.h>
 
 #define MAX 300001
-void* visited[MAX];
-int visited_count = 0;
+void* checked[MAX];
+int count = 0;
 
 __declspec(dllexport)
 void* resolve(void* address) {
-    for (int i = 0; i < visited_count; i++) {
-        if (visited[i] == address) {
+    for (int i = 0; i < count; i++) {
+        if (checked[i] == address) {
             return NULL; 
         }
     }
     
-    if (visited_count < MAX) {
-        visited[visited_count++] = address;
+    if (count < MAX) {
+        checked[count++] = address;
     }
     
     uint8_t* addr = (uint8_t*)address;
