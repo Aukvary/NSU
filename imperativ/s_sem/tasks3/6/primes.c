@@ -44,7 +44,6 @@ int isPrime(int x) {
 int findNextPrime(int x) {
     if (x == MAX) return 10000019;
     if (!initialized) init();
-    if (x < 2) x = 2;
     for (int i = x; i <= MAX; i++) {
         if (is_prime[i])
             return i;
@@ -54,9 +53,5 @@ int findNextPrime(int x) {
 
 int getPrimesCount(int l, int r) {
     if (!initialized) init();
-    if (l < 0) l = 0;
-    if (r > MAX + 1) r = MAX + 1;
-    if (l >= r) return 0;
-
     return prefix[r - 1] - (l > 0 ? prefix[l - 1] : 0);
 }

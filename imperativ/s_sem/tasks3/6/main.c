@@ -61,18 +61,18 @@ static int test_getPrimesCount(int l, int r) {
 }
 
 int main() {
-    const int N = 10000000;  
+    const int n = 10000000;  
 
-    for (int x = 0; x <= N; x++) {
+    for (int x = 0; x <= n; x++) {
         assert(isPrime(x) == test_isPrime(x));
     }
 
-    for (int x = 0; x <= N; x++) {
+    for (int x = 0; x <= n; x++) {
         assert(findNextPrime(x) == test_findNextPrime(x));
     }
 
-    for (int l = 0; l <= N; l++) {
-        for (int r = l; r <= N; r++) {
+    for (int l = 0; l <= n; l++) {
+        for (int r = l; r <= n; r++) {
             assert(getPrimesCount(l, r) == test_getPrimesCount(l, r));
         }
     }
