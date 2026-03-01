@@ -1,6 +1,0 @@
-Collecting portalocker
-  Using cached portalocker-3.2.0-py3-none-any.whl.metadata (8.7 kB)
-Requirement already satisfied: pywin32>=226 in c:\users\aukvary\appdata\roaming\python\python313\site-packages (from portalocker) (311)
-Using cached portalocker-3.2.0-py3-none-any.whl (22 kB)
-Installing collected packages: portalocker
-Successfully installed portalocker-3.2.0
