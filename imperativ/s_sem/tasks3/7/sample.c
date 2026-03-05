@@ -10,8 +10,6 @@ char memory[1024] = {
 };
 
 int main() {
-
-    
     assert(sizeof(void*) == 4);
     #define FIXADDR(offset) *(uint32_t*)(&memory[offset]) += (uint32_t)memory;
     FIXADDR(0x06)
