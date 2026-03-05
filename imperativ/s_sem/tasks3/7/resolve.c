@@ -1,37 +1,39 @@
 #include <windows.h>
 #include <stdint.h>
 
-#define MAX 300001
-void* checked[MAX];
-int count = 0;
+static void* step(void *address) {
+    uint8_t b0 = *(uint8_t*)address;
 
-__declspec(dllexport)
-void* resolve(void* address) {
-    for (int i = 0; i < count; i++) {
-        if (checked[i] == address) {
-            return NULL; 
-        }
+    if (b0 == 0xE9) {
+        int rel = *(int32_t*)((uint8_t*)address + 1);
+        return (uint8_t*)address + 5 + rel;
     }
-    
-    if (count < MAX) {
-        checked[count++] = address;
+
+    if (b0 == 0xFF && *((uint8_t*)address + 1) == 0x25) {
+        uint32_t ptr = *((uint32_t*)((uint8_t*)address + 2));
+        return *(void**)(uint8_t*)ptr;
     }
-    
-    uint8_t* addr = (uint8_t*)address;
-    uint8_t op1 = addr[0];
-    uint8_t op2 = addr[1];
-    
-    if (op1 == 0xE9) {
-        int32_t offset = *(int32_t*)(addr + 1);
-        void* destAddr = (void*)((uint8_t*)address + 5 + offset);
-        return resolve(destAddr);  
-    }
-    
-    if (op1 == 0xFF && op2 == 0x25) {
-        uint32_t* ptr = (uint32_t*)(addr + 2);
-        void* destAddr = (void*)*ptr;
-        return resolve(destAddr);  
-    }
-    
+
     return address;
+}
+
+__declspec(dllexport) 
+void* resolve(void* address) {
+    void* n1 = step(address);
+    if (n1 == address) return address;
+
+    void* slow = address;
+    void* fast = address;
+
+    while (1) {
+        slow = step(slow);
+        if (slow == step(slow)) return slow;
+
+        fast = step(fast);
+        if (fast == step(fast)) return fast;
+        fast = step(fast);
+        if (fast == step(fast)) return fast;
+
+        if (slow == fast) return NULL;
+    }
 }
