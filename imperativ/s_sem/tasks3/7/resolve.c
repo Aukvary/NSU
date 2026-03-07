@@ -1,7 +1,8 @@
 #include <windows.h>
 #include <stdint.h>
+#include <stdlib.h>
 
-static void* step(void *address) {
+static void* next(void *address) {
     uint8_t b0 = *(uint8_t*)address;
 
     if (b0 == 0xE9) {
@@ -19,20 +20,20 @@ static void* step(void *address) {
 
 __declspec(dllexport) 
 void* resolve(void* address) {
-    void* n1 = step(address);
+    void* n1 = next(address);
     if (n1 == address) return address;
 
     void* slow = address;
     void* fast = address;
 
     while (1) {
-        slow = step(slow);
-        if (slow == step(slow)) return slow;
+        slow = next(slow);
+        if (slow == next(slow)) return slow;
 
-        fast = step(fast);
-        if (fast == step(fast)) return fast;
-        fast = step(fast);
-        if (fast == step(fast)) return fast;
+        fast = next(fast);
+        if (fast == next(fast)) return fast;
+        fast = next(fast);
+        if (fast == next(fast)) return fast;
 
         if (slow == fast) return NULL;
     }
