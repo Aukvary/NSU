@@ -1,2 +1,2 @@
-cl /O2 /I. matrixsqr.c sample.c /Fechecked_solution.exe /link /LIBPATH:. libopenblas.lib
+cl /O2 /I. matrixsqr.c main.c /Fechecked_solution.exe /link /LIBPATH:. libopenblas.lib
 cl myblas.c matrixsqr.c /LD /O2 /I. /link /EXPORT:cblas_dgemm,@6491 
