@@ -1,2 +1,2 @@
-gcc -O2 -I. matrixsqr.c jury_main.c -o checked_solution -L. -lopenblas -Wl,-rpath=.
+gcc -O2 -I. matrixsqr.c sample.c -o checked_solution -L. -lopenblas -Wl,-rpath=.
 gcc myblas.c -shared -fPIC -O2 -o myblas.so
