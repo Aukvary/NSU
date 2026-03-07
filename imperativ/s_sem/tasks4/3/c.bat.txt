@@ -1,1 +1,1 @@
-cl /LD /DBUILDING_DLL integerset.c
+cl /LD  /I. /DBUILDING_DLL integerset.c
