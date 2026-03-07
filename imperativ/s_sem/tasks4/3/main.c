@@ -1,6 +1,7 @@
 #include "integerset.h"
 #include <assert.h>
 #include <limits.h>
+#include <stdio.h>
 
 int main() {
     int myarr[] = {1, 2, 3};
@@ -36,5 +37,7 @@ int main() {
     largearr[7] = 5;
     sLarge = CreateSet(largearr, 8); // now it has equal elements
     assert(sLarge == 0);
+
+    printf("Succsess!!!\n");
     return 0;
 }
