@@ -1,0 +1,10 @@
+9 10
+int symbol0;
+double symbol1;
+int *symbol2;
+int symbol3();
+int symbol4(int);
+int symbol5(int, int);
+double symbol6(double);
+int (*symbol7)(double);
+int symbol8;
