@@ -8,3 +8,13 @@ int symbol5(int, int);
 double symbol6(double);
 int (*symbol7)(double);
 int symbol8;
+0
+1
+2
+3
+4 0
+8
+5 0 8
+6 1
+7 1
+5 0 0

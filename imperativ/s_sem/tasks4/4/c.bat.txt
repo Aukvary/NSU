@@ -1,1 +1,1 @@
-cl matrixsqr.c main.c libopenblas.lib /O2 /I. /Fe:checked_solution.exe /link /LIBPATH:. 
+cl /O2 /I. main.c matrixsqr.c libopenblas.lib /Fe:checked_solution.exe

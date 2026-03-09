@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 void cblas_dgemm(int Layout, int TransA, int TransB,
                  int M, int N, int K,
                  double alpha, const double *A, int lda,

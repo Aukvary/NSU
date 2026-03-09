@@ -1,1 +1,1 @@
-gcc matrixsqr.c main.c libopenblas.so -o checked_solution -O2 -I. -L. -Wl,-rpath=.
+gcc -O2 -fPIC main.c matrixsqr.c -I. -L. -lopenblas -Wl,-rpath,. -o checked_solution
