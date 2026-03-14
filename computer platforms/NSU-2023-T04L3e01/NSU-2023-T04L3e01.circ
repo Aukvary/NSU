@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="2.7.1" version="1.0">
-This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
-<lib desc="#Wiring" name="0">
+  This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+
+  <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="facing" val="north"/>
       <a name="fanout" val="1"/>
@@ -81,13 +82,51 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabel" val=""/>
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(140,220)" to="(140,230)"/>
+    <wire from="(160,220)" to="(160,230)"/>
+    <wire from="(260,100)" to="(260,110)"/>
+    <wire from="(200,200)" to="(200,210)"/>
+    <wire from="(110,100)" to="(160,100)"/>
+    <wire from="(200,210)" to="(310,210)"/>
+    <wire from="(330,170)" to="(330,190)"/>
+    <wire from="(160,100)" to="(160,180)"/>
+    <wire from="(650,40)" to="(650,130)"/>
+    <wire from="(360,130)" to="(360,210)"/>
+    <wire from="(160,200)" to="(160,220)"/>
+    <wire from="(200,210)" to="(200,230)"/>
+    <wire from="(140,210)" to="(180,210)"/>
+    <wire from="(140,150)" to="(180,150)"/>
+    <wire from="(160,100)" to="(260,100)"/>
+    <wire from="(180,110)" to="(210,110)"/>
+    <wire from="(110,150)" to="(140,150)"/>
+    <wire from="(180,110)" to="(180,150)"/>
+    <wire from="(130,170)" to="(130,210)"/>
+    <wire from="(110,210)" to="(130,210)"/>
+    <wire from="(160,180)" to="(180,180)"/>
+    <wire from="(140,220)" to="(160,220)"/>
+    <wire from="(360,130)" to="(510,130)"/>
+    <wire from="(350,210)" to="(360,210)"/>
+    <wire from="(510,130)" to="(650,130)"/>
+    <wire from="(280,130)" to="(360,130)"/>
+    <wire from="(230,130)" to="(240,130)"/>
+    <wire from="(130,170)" to="(330,170)"/>
+    <wire from="(140,150)" to="(140,210)"/>
+    <comp lib="0" loc="(200,200)" name="Transistor">
+      <a name="type" val="n"/>
+    </comp>
+    <comp lib="0" loc="(230,130)" name="Transistor">
+      <a name="type" val="n"/>
+    </comp>
     <comp lib="0" loc="(110,150)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="B"/>
     </comp>
-    <comp lib="0" loc="(110,210)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="C"/>
+    <comp lib="0" loc="(280,130)" name="Transistor">
+      <a name="type" val="n"/>
+    </comp>
+    <comp lib="0" loc="(510,130)" name="Pull Resistor">
+      <a name="facing" val="north"/>
+      <a name="pull" val="1"/>
     </comp>
     <comp lib="0" loc="(110,100)" name="Pin">
       <a name="tristate" val="false"/>
@@ -100,5 +139,17 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="R"/>
       <a name="labelloc" val="east"/>
     </comp>
+    <comp lib="0" loc="(190,130)" name="Ground"/>
+    <comp lib="0" loc="(350,210)" name="Transistor">
+      <a name="type" val="n"/>
+    </comp>
+    <comp lib="0" loc="(110,210)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="C"/>
+    </comp>
+    <comp lib="0" loc="(200,230)" name="Transistor">
+      <a name="type" val="n"/>
+    </comp>
+    <comp lib="0" loc="(140,230)" name="Ground"/>
   </circuit>
 </project>

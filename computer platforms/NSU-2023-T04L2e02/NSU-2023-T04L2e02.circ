@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="2.7.1" version="1.0">
-This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
-<lib desc="#Wiring" name="0">
+  This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+
+  <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="facing" val="north"/>
       <a name="fanout" val="1"/>
@@ -28,6 +29,9 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     </tool>
     <tool name="Pull Resistor">
       <a name="facing" val="north"/>
+    </tool>
+    <tool name="Transistor">
+      <a name="type" val="n"/>
     </tool>
   </lib>
   <lib desc="#Gates" name="1"/>
@@ -81,25 +85,53 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabel" val=""/>
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
-    <comp lib="0" loc="(110,150)" name="Pin">
+    <wire from="(110,100)" to="(290,100)"/>
+    <wire from="(160,170)" to="(160,190)"/>
+    <wire from="(290,100)" to="(290,130)"/>
+    <wire from="(200,170)" to="(200,200)"/>
+    <wire from="(200,200)" to="(200,230)"/>
+    <wire from="(660,150)" to="(660,170)"/>
+    <wire from="(310,150)" to="(660,150)"/>
+    <wire from="(70,190)" to="(160,190)"/>
+    <wire from="(160,190)" to="(160,230)"/>
+    <wire from="(70,190)" to="(70,240)"/>
+    <wire from="(270,150)" to="(270,200)"/>
+    <wire from="(200,200)" to="(270,200)"/>
+    <wire from="(110,150)" to="(180,150)"/>
+    <wire from="(110,210)" to="(180,210)"/>
+    <comp lib="0" loc="(660,170)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="B"/>
+      <a name="pull" val="up"/>
+      <a name="label" val="R"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(310,150)" name="Pull Resistor">
+      <a name="facing" val="north"/>
+      <a name="pull" val="1"/>
+    </comp>
+    <comp lib="0" loc="(110,210)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="C"/>
+    </comp>
+    <comp lib="0" loc="(310,150)" name="Transistor">
+      <a name="type" val="n"/>
     </comp>
     <comp lib="0" loc="(110,100)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="A"/>
     </comp>
-    <comp lib="0" loc="(340,340)" name="Ground"/>
-    <comp lib="0" loc="(110,210)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="C"/>
+    <comp lib="0" loc="(70,240)" name="Ground"/>
+    <comp lib="0" loc="(200,230)" name="Transistor">
+      <a name="type" val="n"/>
     </comp>
-    <comp lib="0" loc="(660,170)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
+    <comp lib="0" loc="(110,150)" name="Pin">
       <a name="tristate" val="false"/>
-      <a name="label" val="R"/>
-      <a name="labelloc" val="east"/>
+      <a name="label" val="B"/>
+    </comp>
+    <comp lib="0" loc="(200,170)" name="Transistor">
+      <a name="type" val="n"/>
     </comp>
   </circuit>
 </project>
