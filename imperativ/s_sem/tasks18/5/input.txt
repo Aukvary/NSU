@@ -1,0 +1,18 @@
+{
+"array": [
+1,
+2,
+3
+],
+"boolean": true,
+"color": "#82b92c",
+"null": null,
+"number": 123,
+"object": {
+"a": "b",
+"c": "d",
+"e": [ 5, {"key": -9} ]
+},
+"my string": "Hello World",
+"codename": "3/6_json"
+}

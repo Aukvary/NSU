@@ -1,0 +1,9 @@
+string:tokenize mama_mila__ramu_
+printregs
+concat 1 2
+string:concat 1 2
+clear 3
+printregs
+string:concat 2 1
+print 2
+omg:sos 666

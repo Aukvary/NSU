@@ -1,0 +1,39 @@
+{ 
+  "array": [ 
+    1, 
+    2, 
+    3 
+  ], 
+  "boolean": true, 
+  "color": "#82b92c", 
+  "null": null, 
+  "number": 123, 
+  "object": { 
+    "a": "b", 
+    "c": "d", 
+    "e": [ 5, {"key": -9} ] 
+  }, 
+  "my string": "Hello World" 
+} 
+<<<>>> 
+4 
+"object" 
+"e" 
+[1] 
+"key" 
+1 
+"null" 
+1 
+"my string" 
+1 
+"color" 
+2 
+"array" 
+[2] 
+1 
+"array" 
+3 
+"object" 
+"e" 
+[1] 
+-1 
