@@ -12,12 +12,6 @@ typedef uint32_t u32;
 #define PRINT(f, x) fprintf(f, "%u\n", x)
 #endif
 
-#define MOD 4294967296
-
-u32 mod_diff(u32 a, u32 b) {
-    return (a - b) % MOD;
-}
-
 void func() {
     FILE* in = fopen("input.txt", "rb");
     FILE* out = fopen("output.txt", "wb");
@@ -52,15 +46,15 @@ void func() {
 
     u32 cur_len = 2;
     u32 cur_l = 0;
-    u32 d = mod_diff(a[1], a[0]);
+    u32 d = a[1] - a[0];
 
     for (u32 i = 2; i < n; i++) {
-        if (mod_diff(a[i], a[i-1]) == d) {
+        if (a[i] - a[i-1] == d) {
             cur_len++;
         } else {
             cur_l = i-1;
             cur_len = 2;
-            d = mod_diff(a[i], a[i-1]);
+            d = a[i] - a[i-1];
         }
         
         if (cur_len > len || (cur_len == len && cur_l < l)) {

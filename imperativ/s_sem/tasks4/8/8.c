@@ -2,11 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern char symbol0, symbol1, symbol2, symbol3, symbol4, 
-            symbol5, symbol6, symbol7, symbol8, symbol9;
+extern char symbol0, symbol1, symbol2, symbol3, symbol4, symbol5, symbol6, symbol7, symbol8, symbol9;
 
-void* sym_addrs[] = { &symbol0, &symbol1, &symbol2, &symbol3, &symbol4, 
-                      &symbol5, &symbol6, &symbol7, &symbol8, &symbol9 };
+void* sym_addrs[] = { &symbol0, &symbol1, &symbol2, &symbol3, &symbol4, &symbol5, &symbol6, &symbol7, &symbol8, &symbol9 };
 
 typedef struct {
     int is_func;

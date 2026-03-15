@@ -4,7 +4,7 @@
 
 typedef struct {
     double c0, c1, c2, c3;
-    double l
+    double l;
 } CPol;
 
 typedef struct {
@@ -12,17 +12,17 @@ typedef struct {
     CPol x, y, z;
 } Row;
 
-double polynomial_value(CPol *p, double t) {
+double polynomial_value(CPol* p, double t) {
     double u = t - p->l;
     return p->c0 + p->c1 * u + p->c2 * u * u + p->c3 * u * u * u;
 }
 
-double polynomial_derivative(CPol *p, double t) {
+double polynomial_derivative(CPol* p, double t) {
     double u = t - p->l;
     return p->c1 + 2.0 * p->c2 * u + 3.0 * p->c3 * u * u;
 }
 
-double integrand(Row *span, double t) {
+double integrand(Row* span, double t) {
     double dx = polynomial_derivative(&(span->x), t);
     double dy = polynomial_derivative(&(span->y), t);
     double dz = polynomial_derivative(&(span->z), t);
@@ -30,7 +30,7 @@ double integrand(Row *span, double t) {
     return sqrt(dx*dx + dy*dy + dz*dz);
 }
 
-double simpson(Row *span, double a, double b, int n) {
+double simpson(Row* span, double a, double b, int n) {
     if (n % 2 != 0) n++;
     
     double h = (b - a) / n;
