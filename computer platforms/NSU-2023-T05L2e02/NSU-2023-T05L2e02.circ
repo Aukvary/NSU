@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="2.7.1" version="1.0">
-This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
-<lib desc="#Wiring" name="0">
+  This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+
+  <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="facing" val="north"/>
       <a name="fanout" val="1"/>
@@ -28,6 +29,10 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     </tool>
     <tool name="Pull Resistor">
       <a name="facing" val="north"/>
+    </tool>
+    <tool name="Constant">
+      <a name="width" val="8"/>
+      <a name="value" val="0x0"/>
     </tool>
   </lib>
   <lib desc="#Gates" name="1"/>
@@ -81,13 +86,34 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabel" val=""/>
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
-    <comp lib="0" loc="(360,460)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="output" val="true"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="Cout"/>
-      <a name="labelloc" val="east"/>
-    </comp>
+    <wire from="(260,250)" to="(320,250)"/>
+    <wire from="(260,210)" to="(320,210)"/>
+    <wire from="(580,230)" to="(580,240)"/>
+    <wire from="(390,200)" to="(390,460)"/>
+    <wire from="(260,360)" to="(440,360)"/>
+    <wire from="(390,80)" to="(390,90)"/>
+    <wire from="(260,210)" to="(260,230)"/>
+    <wire from="(360,130)" to="(360,150)"/>
+    <wire from="(260,150)" to="(360,150)"/>
+    <wire from="(440,140)" to="(440,360)"/>
+    <wire from="(360,460)" to="(390,460)"/>
+    <wire from="(260,250)" to="(260,360)"/>
+    <wire from="(420,140)" to="(440,140)"/>
+    <wire from="(240,230)" to="(260,230)"/>
+    <wire from="(390,150)" to="(400,150)"/>
+    <wire from="(390,130)" to="(400,130)"/>
+    <wire from="(390,160)" to="(400,160)"/>
+    <wire from="(390,170)" to="(400,170)"/>
+    <wire from="(390,120)" to="(400,120)"/>
+    <wire from="(390,110)" to="(400,110)"/>
+    <wire from="(390,140)" to="(400,140)"/>
+    <wire from="(360,130)" to="(370,130)"/>
+    <wire from="(390,100)" to="(400,100)"/>
+    <wire from="(390,80)" to="(470,80)"/>
+    <wire from="(390,200)" to="(470,200)"/>
+    <wire from="(260,150)" to="(260,210)"/>
+    <wire from="(380,230)" to="(580,230)"/>
+    <wire from="(470,80)" to="(470,200)"/>
     <comp lib="0" loc="(240,230)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
@@ -100,6 +126,29 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="tristate" val="false"/>
       <a name="label" val="R"/>
       <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="1" loc="(380,230)" name="XOR Gate">
+      <a name="width" val="8"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="0" loc="(390,170)" name="Constant"/>
+    <comp lib="0" loc="(360,460)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="output" val="true"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Cout"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(420,140)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+      <a name="appear" val="center"/>
+    </comp>
+    <comp lib="0" loc="(370,130)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+      <a name="appear" val="center"/>
     </comp>
   </circuit>
 </project>
