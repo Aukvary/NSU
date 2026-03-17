@@ -1,9 +1,38 @@
-string:tokenize mama_mila__ramu_ 
-printregs 
-concat 1 2 
-string:concat 1 2 
-clear 3 
-printregs 
-string:concat 2 1 
-print 2 
-omg:sos 666
+string:printregs
+string:store 5 erty
+store 4 omdfgsgh456
+printregs
+string:tokenize ______
+printregs
+string:tokenize a
+printregs
+string:tokenize adz910Za
+printregs
+string:tokenize a_ZaAz_za
+printregs
+string:tokenize _b_
+printregs
+string:tokenize __g___
+printregs
+string:tokenize sdfghha___
+printregs
+string:tokenize ___afdfghfgh
+printregs
+string:tokenize ___afdf_ghfghs_sdfgsfdgh__dfgh_Dfhj____dgj
+printregs
+string:tokenize afdfghfgh_Sdfgsdf_sd___sdg
+printregs
+string:tokenize aba_caba_daba_caba
+printregs
+string:tokenize _
+clear 6
+clear 5
+clear 4
+clear 3
+clear 2
+clear 10
+printregs
+sting:tokenize omg
+printregs
+tokenize s_ret_g_sdh
+printregs

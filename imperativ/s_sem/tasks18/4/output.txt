@@ -1,10 +1,42 @@
-0 = 3
-1 = mama
-2 = mila
-3 = ramu
-Missing function concat_2 in plugin core
-0 = 3
-1 = mamamila
-2 = mila
-milamamamila
-Missing plugin omg
+Missing function printregs_0 in plugin string
+Missing function store_2 in plugin string
+4 = omdfgsgh456 
+0 = 0 
+0 = 1 
+1 = a 
+0 = 1 
+1 = adz910Za 
+0 = 3 
+1 = a 
+2 = ZaAz 
+3 = za 
+0 = 1 
+1 = b 
+0 = 1 
+1 = g 
+0 = 1 
+1 = sdfghha 
+0 = 1 
+1 = afdfghfgh 
+0 = 6 
+1 = afdf 
+2 = ghfghs 
+3 = sdfgsfdgh 
+4 = dfgh 
+5 = Dfhj 
+6 = dgj 
+0 = 4 
+1 = afdfghfgh 
+2 = Sdfgsdf 
+3 = sd 
+4 = sdg 
+0 = 4 
+1 = aba 
+2 = caba 
+3 = daba 
+4 = caba 
+0 = 0 
+Missing plugin sting
+0 = 0 
+Missing function tokenize_1 in plugin core
+0 = 0 
