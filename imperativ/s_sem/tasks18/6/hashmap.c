@@ -5,7 +5,7 @@
 #ifdef HASHMAP_EXPORTS
 #define HM_API __declspec(dllexport)
 #else
-#define HM_API __declspec(dllimport)
+#define HM_API 
 #endif /*HASHMAP_EXPORTS*/
 #else
 #define HM_API __attribute__((visibility("default")))

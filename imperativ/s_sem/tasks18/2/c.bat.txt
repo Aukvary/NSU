@@ -1,1 +1,1 @@
-gcc -shared -o core.dll 2.c
+cl core.c /LD /O2 /Fe:core.dll

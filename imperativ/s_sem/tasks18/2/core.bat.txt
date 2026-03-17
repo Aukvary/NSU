@@ -1,0 +1,1 @@
+cl /LD /O2 /Fe:core.dll 2.c
