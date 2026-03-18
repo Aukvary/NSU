@@ -62,18 +62,12 @@ EXPORT void tokenize_1(State *state, char *arg) {
     char *temp_str = my_strdup(arg);
     if (!temp_str) return;
 
-    for (int i = 1; i < 256; i++) {
-        if (state->regs[i]) {
-            free(state->regs[i]);
-            state->regs[i] = NULL;
-        }
-    }
-
     int count = 0;
     char *token = strtok(temp_str, "_");
     
     while (token != NULL && count < 255) {
         count++;
+        if (state->regs[count]) free(state->regs[count]);
         state->regs[count] = my_strdup(token);
         token = strtok(NULL, "_");
     }
