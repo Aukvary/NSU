@@ -3,7 +3,7 @@
 #include <string.h>
 
 void radixPass(int* a, int* b, int* r, int n, int K) {
-    int* count = (int*)calloc(K + 1, sizeof(int));
+    int* count = calloc(K + 1, sizeof(int));
     for (int i = 0; i < n; i++) count[r[a[i]]]++;
     for (int i = 0, sum = 0; i <= K; i++) {
         int t = count[i];
@@ -25,10 +25,10 @@ int leq3(int a1, int a2, int a3, int b1, int b2, int b3) {
 void suffixArray(int* s, int* SA, int n, int K) {
     int n0 = (n + 2) / 3, n1 = (n + 1) / 3, n2 = n / 3;
     int n02 = n0 + n2;
-    int* s12 = (int*)malloc((n02 + 3) * sizeof(int));
-    int* SA12 = (int*)malloc((n02 + 3) * sizeof(int));
-    int* s0 = (int*)malloc(n0 * sizeof(int));
-    int* SA0 = (int*)malloc(n0 * sizeof(int));
+    int* s12 = malloc((n02 + 3) * sizeof(int));
+    int* SA12 = malloc((n02 + 3) * sizeof(int));
+    int* s0 = malloc(n0 * sizeof(int));
+    int* SA0 = malloc(n0 * sizeof(int));
 
     s12[n02] = s12[n02 + 1] = s12[n02 + 2] = 0;
     SA12[n02] = SA12[n02 + 1] = SA12[n02 + 2] = 0;
