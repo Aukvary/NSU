@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define SIZE 100000
+#define CHUNK_SIZE 100000
 
 typedef long long i64;
 
@@ -9,8 +9,8 @@ typedef struct {
     i64 y;
 } Vec2;
 
-Vec2 vecs[SIZE];
-Vec2 hull[SIZE];
+Vec2 vecs[CHUNK_SIZE];
+Vec2 hull[CHUNK_SIZE];
 int n;
 
 i64 orientation(Vec2 p, Vec2 q, Vec2 r) {

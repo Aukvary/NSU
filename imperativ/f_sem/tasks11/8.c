@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SIZE 1000000
+#define CHUNK_SIZE 1000000
 #define MOD 1000000007
 #define P 131
 
@@ -14,12 +14,12 @@ typedef struct HashNode {
     struct HashNode* next;
 } HashNode;
 
-HashNode* hash_table[SIZE];
+HashNode* hash_table[CHUNK_SIZE];
 int color_counter = 0;
 
 int find_or_insert(i64 hash) {
-    int index = hash % SIZE;
-    if (index < 0) index += SIZE;
+    int index = hash % CHUNK_SIZE;
+    if (index < 0) index += CHUNK_SIZE;
     
     HashNode* node = hash_table[index];
     while (node != NULL) {
@@ -42,7 +42,7 @@ int main() {
     int N, B;
     scanf("%d %d", &N, &B);
     
-    char S[SIZE + 1];
+    char S[CHUNK_SIZE + 1];
     scanf("%s", S);
     
     i64* p_pow = malloc(N * sizeof(i64));

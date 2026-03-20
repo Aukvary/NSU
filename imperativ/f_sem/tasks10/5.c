@@ -2,19 +2,19 @@
 #include <stdlib.h>
 
 #define MOD 1000000007
-#define SIZE 100000
+#define CHUNK_SIZE 100000
 
 int main() {
     FILE* in = fopen("input.txt", "r");
     if (!in) return 1;
 
-    int* nums = calloc(SIZE, sizeof(int));
+    int* nums = calloc(CHUNK_SIZE, sizeof(int));
     int count = 0;
 
-    int* stack = calloc(SIZE, sizeof(int));
+    int* stack = calloc(CHUNK_SIZE, sizeof(int));
     int top = -1;
-    int* left = calloc(SIZE, sizeof(int));
-    int* right = calloc(SIZE, sizeof(int));
+    int* left = calloc(CHUNK_SIZE, sizeof(int));
+    int* right = calloc(CHUNK_SIZE, sizeof(int));
 
     int val;
     while (fscanf(in, "%d", &val) != EOF) {

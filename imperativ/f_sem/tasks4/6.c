@@ -2,7 +2,7 @@
 
 #define DIGIT(c) (c >= '0' && c <= '9')
 #define TO_INT(c) (c - '0')
-#define SIZE 10000
+#define CHUNK_SIZE 10000
 
 int readTime(char* str, int* h, int* m, int* s) {
     int i = 0;
@@ -48,8 +48,8 @@ int readTime(char* str, int* h, int* m, int* s) {
 }
 
 int main() {
-    char buf[SIZE];
-    fgets(buf, SIZE, fopen("input.txt", "r"));
+    char buf[CHUNK_SIZE];
+    fgets(buf, CHUNK_SIZE, fopen("input.txt", "r"));
 
     int h = 0;
     int m = 0;

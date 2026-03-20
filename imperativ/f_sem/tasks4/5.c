@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#define SIZE 1000000
+#define CHUNK_SIZE 1000000
 
 void split(FILE* in) {
-    char s[SIZE] = { 0 };
+    char s[CHUNK_SIZE] = { 0 };
     char ch = 0;
     int bp = 0;
     int h = 0;

@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define SIZE 200
+#define CHUNK_SIZE 200
 #define ZERO 1e-10
 #define MAX_ITER 10000
 
 int n;
-double a[SIZE][SIZE];
-double b[SIZE];
-double x[SIZE];
-double a_copy[SIZE][SIZE];
-double b_copy[SIZE];
+double a[CHUNK_SIZE][CHUNK_SIZE];
+double b[CHUNK_SIZE];
+double x[CHUNK_SIZE];
+double a_copy[CHUNK_SIZE][CHUNK_SIZE];
+double b_copy[CHUNK_SIZE];
 
 void gauss_slau() {
-    double matrix[SIZE][SIZE + 1];
+    double matrix[CHUNK_SIZE][CHUNK_SIZE + 1];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             matrix[i][j] = a[i][j];
@@ -66,8 +66,8 @@ void gauss_slau() {
 }
 
 void iter_slau() {
-    double x_prev[SIZE] = {0.0};
-    double x_cur[SIZE];
+    double x_prev[CHUNK_SIZE] = {0.0};
+    double x_cur[CHUNK_SIZE];
     
     for (int iter = 0; iter < MAX_ITER; iter++) {
         for (int i = 0; i < n; i++) {

@@ -2,14 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define SIZE 1000001
+#define CHUNK_SIZE 1000001
 
 typedef struct node {
     char str[8];
     struct node* next;
 } node;
 
-node* nodes[SIZE] = { NULL };
+node* nodes[CHUNK_SIZE] = { NULL };
 
 void pushNode(node* head, node* value) {
     node* cur = head;
@@ -40,7 +40,7 @@ int main() {
         }
     }
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < CHUNK_SIZE; i++) {
         node* cur = nodes[i];
 
         while (cur != NULL) {

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define SIZE(a, b) ((a) > (b) ? a : b)
+#define CHUNK_SIZE(a, b) ((a) > (b) ? a : b)
 
 typedef struct LongNum_s {
     int len; 

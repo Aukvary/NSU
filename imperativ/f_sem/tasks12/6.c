@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 200005
+#define CHUNK_SIZE 200005
 
 typedef struct {
     long long val;
     int idx;
 } Object;
 
-Object d[SIZE];
+Object d[CHUNK_SIZE];
 int front = 0;
 int back = 0;
 
@@ -38,12 +38,12 @@ int main() {
     int n;
     scanf("%d", &n);
     
-    long long nums[SIZE];
+    long long nums[CHUNK_SIZE];
     for (int i = 0; i < n; i++) {
         scanf("%lld", &nums[i]);
     }
     
-    char cmds[SIZE * 2];
+    char cmds[CHUNK_SIZE * 2];
     scanf("%s", cmds);
     
     for (int i = 0, l = 0, r = 0; i < 2 * n - 1; i++) {

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define SIZE(a, b) ((a) > (b) ? (a) : (b))
+#define CHUNK_SIZE(a, b) ((a) > (b) ? (a) : (b))
 
 typedef struct {
     int len;
@@ -64,7 +64,7 @@ int compareAbs(const LongNum* v1, const LongNum* v2) {
 }
 
 LongNum addAbs(const LongNum* v1, const LongNum* v2) {
-    int len = SIZE(v1->len, v2->len);
+    int len = CHUNK_SIZE(v1->len, v2->len);
     LongNum num = {len, 0, {0}};
     
     int ost = 0;

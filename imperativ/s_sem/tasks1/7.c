@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#define SIZE 200
+#define CHUNK_SIZE 200
 
 int n;
-char target[SIZE][SIZE] = {0};
-char grid[SIZE][SIZE] = {0};
-char click[SIZE][SIZE] = {0};
+char target[CHUNK_SIZE][CHUNK_SIZE] = {0};
+char grid[CHUNK_SIZE][CHUNK_SIZE] = {0};
+char click[CHUNK_SIZE][CHUNK_SIZE] = {0};
 int clicks_count = 0;
 
 void toggle(int r, int c) {
@@ -69,7 +69,7 @@ int main(void) {
     
     scanf("%d", &n);
     for (int i = 1; i <= n; i++) {
-        char row[SIZE];
+        char row[CHUNK_SIZE];
         scanf("%s", row);
         for (int j = 1; j <= n; j++) {
             target[i][j] = (row[j-1] == '*');

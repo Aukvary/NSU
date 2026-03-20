@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define SIZE 100000
+#define CHUNK_SIZE 100000
 
 typedef struct {
     int next;    

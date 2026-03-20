@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define SIZE 1000001
+#define CHUNK_SIZE 1000001
 
 typedef struct {
     int count;
@@ -30,7 +30,7 @@ void add(vec** v, char* s) {
     strcpy((*v)->data[(*v)->count++], s);
 }
 
-vec* values[SIZE] = { NULL };
+vec* values[CHUNK_SIZE] = { NULL };
 
 int main() {
     int n;
@@ -48,7 +48,7 @@ int main() {
         add(&values[idx], tmp);
     }
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < CHUNK_SIZE; i++) {
         if (values[i] == NULL) continue;
         for (int j = 0; j < values[i]->count; j++) {
             printf("%d %s\n", i, values[i]->data[j]);

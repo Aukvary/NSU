@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 105
+#define CHUNK_SIZE 105
 
 typedef struct {
     int r;
@@ -9,8 +9,8 @@ typedef struct {
 } Vec2;
 
 int m, n;
-char maze[SIZE][SIZE];
-int dist[SIZE][SIZE];
+char maze[CHUNK_SIZE][CHUNK_SIZE];
+int dist[CHUNK_SIZE][CHUNK_SIZE];
 
 int dr[] = {-1, 1, 0, 0};
 int dc[] = {0, 0, -1, 1};
@@ -36,7 +36,7 @@ int main() {
         }
     }
 
-    Vec2 queue[SIZE * SIZE];
+    Vec2 queue[CHUNK_SIZE * CHUNK_SIZE];
     int head = 0, tail = 0;
 
     queue[tail++] = start;

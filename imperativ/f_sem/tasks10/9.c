@@ -1,13 +1,13 @@
 #include <stdio.h> 
 
-#define SIZE 1000005 
+#define CHUNK_SIZE 1000005 
 
 typedef struct { 
     int a[4]; 
 } Block; 
 
-static char input[SIZE]; 
-static Block stack[SIZE]; 
+static char input[CHUNK_SIZE]; 
+static Block stack[CHUNK_SIZE]; 
 
 int check_open(char x) { 
     return (x == '(' || x == '[' || x == '{' || x == '<'); 

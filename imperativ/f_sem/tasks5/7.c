@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define SIZE 100
+#define CHUNK_SIZE 100
 
 typedef struct {
     double p;
@@ -19,7 +19,7 @@ timeComplexity parse(const char* str) {
     if (strstr(ptr, "1)") == ptr) 
         return result;
     
-    char buf[SIZE];
+    char buf[CHUNK_SIZE];
     strncpy(buf, ptr, strcspn(ptr, ")"));
     buf[strcspn(ptr, ")")] = '\0';
     
@@ -68,11 +68,11 @@ int main() {
     FILE* in = fopen("input.txt", "r");
     fscanf(in, "%d\n", &n);
     
-    char buf1[SIZE], buf2[SIZE];
+    char buf1[CHUNK_SIZE], buf2[CHUNK_SIZE];
     
     for (int i = 0; i < n; i++) {
-        fgets(buf1, SIZE, in);
-        fgets(buf2, SIZE, in);
+        fgets(buf1, CHUNK_SIZE, in);
+        fgets(buf2, CHUNK_SIZE, in);
         
         buf1[strcspn(buf1, "\n")] = 0;
         buf2[strcspn(buf2, "\n")] = 0;

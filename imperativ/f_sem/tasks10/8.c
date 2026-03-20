@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 100000
+#define CHUNK_SIZE 100000
 
 int main() {
     freopen("input.txt", "r", stdin);
     
     int k;
     int n = 0;
-    int nums[SIZE];
+    int nums[CHUNK_SIZE];
     
     scanf("%d", &k);
     while (scanf("%d", &nums[n]) != EOF) {
         n++;
     }
     
-    long long dp[SIZE];
-    int queue[SIZE];
+    long long dp[CHUNK_SIZE];
+    int queue[CHUNK_SIZE];
     int front = 0;
     int back = 0;
     

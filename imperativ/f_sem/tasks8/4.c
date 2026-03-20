@@ -3,14 +3,14 @@
 #include <string.h>
 
 #define PATTERN "GGGGCC"
-#define SIZE 6
+#define CHUNK_SIZE 6
 
 void cacl_prefs(char* pattern, int* prefs) {
     int len = 0;
     prefs[0] = 0;
     int i = 1;
     
-    while (i < SIZE) {
+    while (i < CHUNK_SIZE) {
         if (pattern[i] == pattern[len]) {
             len++;
             prefs[i] = len;
@@ -32,7 +32,7 @@ int main() {
     int t;
     fscanf(in, "%d", &t);
     
-    int prefs[SIZE];
+    int prefs[CHUNK_SIZE];
     cacl_prefs(PATTERN, prefs);
     
     int row_count = 0;
@@ -48,7 +48,7 @@ int main() {
             j++;
         }
         
-        if (j == SIZE) {
+        if (j == CHUNK_SIZE) {
             row_count++;
             j = prefs[j - 1];
         }

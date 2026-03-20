@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define SIZE 100000
+#define CHUNK_SIZE 100000
 
 typedef enum {
     SORT,
@@ -11,7 +11,7 @@ typedef enum {
 } commands;
 
 void sort(int* nums, int n) {
-    int buckets[SIZE] = { 0 };
+    int buckets[CHUNK_SIZE] = { 0 };
     for (int i = 0; i < n; i++) {
         buckets[nums[i]] += 1;
     } 
@@ -82,8 +82,8 @@ int main() {
 
     int sorted = 0;
 
-    int nums1[SIZE];
-    int nums2[SIZE];
+    int nums1[CHUNK_SIZE];
+    int nums2[CHUNK_SIZE];
 
     int n = 0;
 

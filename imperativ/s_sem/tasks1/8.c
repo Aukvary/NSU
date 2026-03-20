@@ -7,10 +7,10 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 
 #define MOD 1000000000ULL
-#define SIZE 500
+#define CHUNK_SIZE 500
 
 typedef struct {
-    u32 d[SIZE];  
+    u32 d[CHUNK_SIZE];  
     int len;
 } LongNum;
 

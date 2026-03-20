@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define SIZE(a, b) ((a) > (b) ? a : b)
+#define CHUNK_SIZE(a, b) ((a) > (b) ? a : b)
 
 typedef struct LongNum_s {
     int len; // сколько цифр в числе
@@ -8,7 +8,7 @@ typedef struct LongNum_s {
 } LongNum;
 
 LongNum sum(LongNum* num1, LongNum* num2) {
-    int len = SIZE(num1->len, num2->len);
+    int len = CHUNK_SIZE(num1->len, num2->len);
 
     LongNum res = { len, { 0 }};
 

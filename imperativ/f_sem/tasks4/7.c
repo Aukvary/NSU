@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SIZE 1000
+#define CHUNK_SIZE 1000
 
 int main(void) {
-    char words[SIZE][SIZE];
-    char prefs[SIZE][SIZE];
+    char words[CHUNK_SIZE][CHUNK_SIZE];
+    char prefs[CHUNK_SIZE][CHUNK_SIZE];
     int n = 0;
-    char line[SIZE];
-    while (fgets(line, SIZE, fopen("input.txt", "r"))) {
+    char line[CHUNK_SIZE];
+    while (fgets(line, CHUNK_SIZE, fopen("input.txt", "r"))) {
         int l = strlen(line);
         if (l && (line[l-1] == '\n' || line[l-1] == '\r')) 
             line[--l] = '\0';
@@ -16,8 +16,8 @@ int main(void) {
             break;
 
         for (char *p = strtok(line, " "); p; p = strtok(NULL, " ")) {
-            strncpy(words[n], p, SIZE);
-            words[n][SIZE - 1] = '\0';
+            strncpy(words[n], p, CHUNK_SIZE);
+            words[n][CHUNK_SIZE - 1] = '\0';
             n++;
         }
     }
@@ -46,7 +46,7 @@ int main(void) {
         }
     }
 
-    char res[SIZE] = "";
+    char res[CHUNK_SIZE] = "";
     for (int i = n - 1; i > -1; i--) {
         if (i != n - 1) 
             strcat(res, "#");

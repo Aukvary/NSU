@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 1005
+#define CHUNK_SIZE 1005
 
-char maze[SIZE][SIZE];
-int visited[SIZE][SIZE];
+char maze[CHUNK_SIZE][CHUNK_SIZE];
+int visited[CHUNK_SIZE][CHUNK_SIZE];
 int n;
 
 int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 
 void fill(int r, int c) {
-    int* queue_r = malloc(SIZE * SIZE * sizeof(int));
-    int* queue_c = malloc(SIZE * SIZE * sizeof(int));
+    int* queue_r = malloc(CHUNK_SIZE * CHUNK_SIZE * sizeof(int));
+    int* queue_c = malloc(CHUNK_SIZE * CHUNK_SIZE * sizeof(int));
     int head = 0, tail = 0;
 
     queue_r[tail] = r;
@@ -50,7 +50,7 @@ int main() {
 
     int start_c = -1;
     for (int i = 0; i < n; i++) {
-        fgets(maze[i], SIZE + 2, stdin);
+        fgets(maze[i], CHUNK_SIZE + 2, stdin);
         if (i != 0) continue;
         for (int j = 0; j < n; j++) {
             if (maze[i][j] == ' ') {

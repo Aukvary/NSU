@@ -1,13 +1,13 @@
 #include <stdio.h>
 
 #define MOD 1000000007
-#define SIZE 300
+#define CHUNK_SIZE 300
 
 int n;
 int k;
 int p;
-int a[SIZE][SIZE] = {0};
-int b[SIZE] = {0};
+int a[CHUNK_SIZE][CHUNK_SIZE] = {0};
+int b[CHUNK_SIZE] = {0};
 int rank;
 
 int pow_mod(int x, int power, int mod) {
@@ -116,7 +116,7 @@ int main() {
     if (result == -1) {
         printf("0\n");
     } else if (rank == n) {
-        int x[SIZE] = {0};
+        int x[CHUNK_SIZE] = {0};
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < k; j++) {

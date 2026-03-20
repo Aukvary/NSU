@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SIZE 105
+#define CHUNK_SIZE 105
 
-int gauss_solve(double m[SIZE][SIZE], double b[SIZE], int n) {
-    double a[SIZE][SIZE + 1];
+int gauss_solve(double m[CHUNK_SIZE][CHUNK_SIZE], double b[CHUNK_SIZE], int n) {
+    double a[CHUNK_SIZE][CHUNK_SIZE + 1];
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -72,8 +72,8 @@ int main() {
     freopen("input.txt", "r", stdin);
     
     int n;
-    double x[SIZE];
-    double y[SIZE];
+    double x[CHUNK_SIZE];
+    double y[CHUNK_SIZE];
     
     scanf("%d", &n);
     for (int i = 0; i < n; i++) {
@@ -94,13 +94,13 @@ int main() {
         }
     }
     
-    double xn[SIZE];
+    double xn[CHUNK_SIZE];
     for (int i = 0; i < n; i++) {
         xn[i] = (x[i] - x_mean) / x_max;
     }
     
-    double a[SIZE][SIZE];
-    double b[SIZE];
+    double a[CHUNK_SIZE][CHUNK_SIZE];
+    double b[CHUNK_SIZE];
     
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -114,7 +114,7 @@ int main() {
             printf("0.000000 ");
         }
     } else {
-        double c[SIZE] = {0};
+        double c[CHUNK_SIZE] = {0};
         
         for (int i = 0; i < n; i++) {
             double scale = 1.0;
