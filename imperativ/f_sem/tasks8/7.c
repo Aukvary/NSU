@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define SIZE(a, b) ((a) > (b) ? (a) : (b))
 
 int main() {
     FILE* in = fopen("input.txt", "r");

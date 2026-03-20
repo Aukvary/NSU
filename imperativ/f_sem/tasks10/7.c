@@ -5,7 +5,7 @@ typedef struct {
     long long x;
     long long y;
     long long dist;
-} Point;
+} Vec2;
 
 int cmp(const void *a, const void *b) {
     return ((Point*)a)->dist - ((Point*)b)->dist;

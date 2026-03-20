@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX(a, b) ((a) > (b) ? a : b)
+#define SIZE(a, b) ((a) > (b) ? a : b)
 
 typedef struct LongNum_s {
     int len; 

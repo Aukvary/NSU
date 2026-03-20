@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define SIZE(a, b) ((a) > (b) ? (a) : (b))
 
 typedef struct node {
     int val;
@@ -35,8 +35,8 @@ node* rightRotate(node *y) {
     x->right = y;
     y->left = T2;
 
-    y->height = MAX(height(y->left), height(y->right)) + 1;
-    x->height = MAX(height(x->left), height(x->right)) + 1;
+    y->height = SIZE(height(y->left), height(y->right)) + 1;
+    x->height = SIZE(height(x->left), height(x->right)) + 1;
 
     return x;
 }
@@ -48,8 +48,8 @@ node* leftRotate(node *x) {
     y->left = x;
     x->right = T2;
 
-    x->height = MAX(height(x->left), height(x->right)) + 1;
-    y->height = MAX(height(y->left), height(y->right)) + 1;
+    x->height = SIZE(height(x->left), height(x->right)) + 1;
+    y->height = SIZE(height(y->left), height(y->right)) + 1;
 
     return y;
 }
@@ -69,7 +69,7 @@ node* push(node* node, int val, int *added) {
         return node;
     }
 
-    node->height = 1 + MAX(height(node->left), height(node->right));
+    node->height = 1 + SIZE(height(node->left), height(node->right));
     int balance = balanced(node);
 
     if (balance > 1 && val < node->left->val)
@@ -128,7 +128,7 @@ node* pop(node* head, int val, int *removed) {
 
     if (!head) return head;
 
-    head->height = 1 + MAX(height(head->left), height(head->right));
+    head->height = 1 + SIZE(height(head->left), height(head->right));
     int balance = balanced(head);
 
     if (balance > 1 && balanced(head->left) >= 0)

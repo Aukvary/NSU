@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define MAX 100001
+#define SIZE 100001
 
 uint32_t converte(uint32_t value) {
     return ((value >> 24) & 0x000000FF) |
@@ -21,7 +21,7 @@ int main() {
     uint32_t n;
     fread(&n, sizeof(uint32_t), 1, in);
     
-    if (n > MAX) {
+    if (n > SIZE) {
         n = converte(n);
         need_swap = 1;
     }
