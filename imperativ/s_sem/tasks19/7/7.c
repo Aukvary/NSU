@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define MAXN 2000
+#define SIZE 2000
 #define CHUNK_SIZE 64
 
 typedef uint64_t chunk;
 
-chunk matrix[MAXN][(MAXN / CHUNK_SIZE) + 1];
+chunk matrix[SIZE][(SIZE / CHUNK_SIZE) + 1];
 
 int main() {
     int n;
@@ -16,7 +16,7 @@ int main() {
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
-        char row[MAXN + 1];
+        char row[SIZE + 1];
         scanf("%s", row);
         for (int j = 0; j < n; j++) {
             if (row[j] == '1' || i == j) {
