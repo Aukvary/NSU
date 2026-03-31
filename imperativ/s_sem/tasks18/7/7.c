@@ -136,7 +136,7 @@ void process_queries(Node *root, FILE *f_in, FILE *f_out) {
                 }
             } else {
                 char str_idx[4] = {0};
-                sscanf(key, "[%[^]]]", str_idx);
+                sscanf(key, "[^[^]]]", str_idx);
                 int idx = atoi(str_idx);
                 current = current->entries[idx].node;
             }
