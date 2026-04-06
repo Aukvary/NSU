@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INF 1e18
+#define INT_MAX 1e18
 
 long long dist[301][301];
 int next_node[301][301];
@@ -32,7 +32,7 @@ int main() {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             if (i == j) dist[i][j] = 0;
-            else dist[i][j] = INF;
+            else dist[i][j] = INT_MAX;
             next_node[i][j] = j;
         }
     }
@@ -50,7 +50,7 @@ int main() {
     for (int mid = 1; mid <= n; mid++) {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
-                if (dist[i][mid] == INF || dist[mid][j] == INF) continue;
+                if (dist[i][mid] == INT_MAX || dist[mid][j] == INT_MAX) continue;
                 if (dist[i][j] > dist[i][mid] + dist[mid][j]) {
                     dist[i][j] = dist[i][mid] + dist[mid][j];
                     next_node[i][j] = next_node[i][mid];

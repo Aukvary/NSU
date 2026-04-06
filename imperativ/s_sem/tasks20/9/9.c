@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define INF 1e18
+#define INT_MAX 1e18
 
 typedef struct {
     int to;
@@ -78,7 +78,7 @@ int main() {
         int end = queries[q][1];
 
         for (int i = 1; i <= N; i++) {
-            dist[i] = INF;
+            dist[i] = INT_MAX;
             parent_edge[i] = -1;
         }
 
@@ -103,7 +103,7 @@ int main() {
             }
         }
 
-        if (dist[end] == INF) {
+        if (dist[end] == INT_MAX) {
             printf("DOOMED\n"); 
         } else {
             int path[200005], f = 0;
