@@ -1,199 +1,182 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
 
-#define MAXN 3000
-#define MAXM 10000
+#define MAX_NODES 3005
+#define MAX_EDGES 10005
+#define MAX_EDGES_STORAGE (2 * MAX_EDGES + 5)
 
-typedef struct {
-    int to, rev, cap;
-    int edge_id; 
-} Edge;
+int node_count;
+int edge_count;
+int graph_type;
+int source_node;
+int target_node;
+int edge_from[MAX_EDGES];
+int edge_to[MAX_EDGES];
+int first_edge_id[MAX_EDGES];
 
-typedef struct {
-    int u, v, id;
-} OEdge;
+int node_first_arc[MAX_NODES];
+int node_last_arc[MAX_NODES];
+int next_arc[MAX_EDGES_STORAGE];
+int arc_target[MAX_EDGES_STORAGE];
+int arc_capacity[MAX_EDGES_STORAGE];
+int reverse_arc[MAX_EDGES_STORAGE];
+int arc_counter;
 
-Edge *graph[MAXN + 1];
-int graph_size[MAXN + 1];
-int graph_capacity[MAXN + 1];
-int level[MAXN + 1];
-int iter[MAXN + 1];
-int parent[MAXN + 1];
-int parent_edge_id[MAXN + 1];
-int parent_rev[MAXN + 1];
+int node_first_used[MAX_NODES];
+int node_last_used[MAX_NODES];
+int next_used[MAX_EDGES];
+int used_u[MAX_EDGES];
+int used_v[MAX_EDGES];
+int used_id[MAX_EDGES];
+int used_alive[MAX_EDGES];
+int used_counter;
 
-int N, M, O;
-int s, t;
+int bfs_queue[MAX_NODES];
+int parent_vertex[MAX_NODES];
+int parent_edge_index[MAX_NODES];
+int visited_flag[MAX_NODES];
+int visit_timer;
+int current_path[MAX_EDGES];
+int path_length;
 
-OEdge edges[MAXM + 1];
-int edge_used[MAXM + 1];
-
-void add_edge(int from, int to, int cap, int edge_id) {
-    Edge e1 = {to, graph_size[to], cap, edge_id};
-    Edge e2 = {from, graph_size[from], 0, -1}; 
-    if (graph[from] == NULL) {
-        graph[from] = (Edge*)malloc(sizeof(Edge) * 2);
-        graph_capacity[from] = 2;
-    }
-    if (graph_size[from] >= graph_capacity[from]) {
-        graph_capacity[from] *= 2;
-        graph[from] = (Edge*)realloc(graph[from], sizeof(Edge) * graph_capacity[from]);
-    }
-    graph[from][graph_size[from]++] = e1;
-    if (graph[to] == NULL) {
-        graph[to] = (Edge*)malloc(sizeof(Edge) * 2);
-        graph_capacity[to] = 2;
-    }
-    if (graph_size[to] >= graph_capacity[to]) {
-        graph_capacity[to] *= 2;
-        graph[to] = (Edge*)realloc(graph[to], sizeof(Edge) * graph_capacity[to]);
-    }
-    graph[to][graph_size[to]++] = e2;
+void add_to_vertex_list(int vertex, int edge_index, int first[], int last[], int next[]) {
+    if (first[vertex] == -1) first[vertex] = edge_index;
+    else next[last[vertex]] = edge_index;
+    last[vertex] = edge_index;
+    next[edge_index] = -1;
 }
 
-int bfs() {
-    memset(level, -1, sizeof(level));
-    int queue[MAXN + 1];
-    int head = 0, tail = 0;
-    level[s] = 0;
-    queue[tail++] = s;
-    while (head < tail) {
-        int v = queue[head++];
-        for (int i = 0; i < graph_size[v]; i++) {
-            Edge *e = &graph[v][i];
-            if (e->cap > 0 && level[e->to] < 0) {
-                level[e->to] = level[v] + 1;
-                queue[tail++] = e->to;
+void add_directed_arc(int from_vertex, int to_vertex, int edge_id) {
+    int forward_arc = arc_counter, backward_arc = arc_counter + 1;
+    arc_target[forward_arc] = to_vertex;
+    arc_capacity[forward_arc] = 1;
+    reverse_arc[forward_arc] = backward_arc;
+    arc_target[backward_arc] = from_vertex;
+    arc_capacity[backward_arc] = 0;
+    reverse_arc[backward_arc] = forward_arc;
+    add_to_vertex_list(from_vertex, forward_arc, node_first_arc, node_last_arc, next_arc);
+    add_to_vertex_list(to_vertex, backward_arc, node_first_arc, node_last_arc, next_arc);
+    first_edge_id[edge_id] = forward_arc;
+    arc_counter += 2;
+}
+
+void add_undirected_arc(int from_vertex, int to_vertex, int edge_id) {
+    int forward_arc = arc_counter, backward_arc = arc_counter + 1;
+    arc_target[forward_arc] = to_vertex;
+    arc_capacity[forward_arc] = 1;
+    reverse_arc[forward_arc] = backward_arc;
+    arc_target[backward_arc] = from_vertex;
+    arc_capacity[backward_arc] = 1;
+    reverse_arc[backward_arc] = forward_arc;
+    add_to_vertex_list(from_vertex, forward_arc, node_first_arc, node_last_arc, next_arc);
+    add_to_vertex_list(to_vertex, backward_arc, node_first_arc, node_last_arc, next_arc);
+    first_edge_id[edge_id] = forward_arc;
+    arc_counter += 2;
+}
+
+int breadth_first_augment() {
+    int queue_start = 0, queue_end = 0;
+    for (int i = 1; i <= node_count; i++) parent_vertex[i] = -1;
+    bfs_queue[queue_end++] = source_node;
+    parent_vertex[source_node] = source_node;
+
+    while (queue_start < queue_end && parent_vertex[target_node] == -1) {
+        int current_vertex = bfs_queue[queue_start++];
+        for (int arc_index = node_first_arc[current_vertex]; arc_index != -1; arc_index = next_arc[arc_index]) {
+            int neighbor = arc_target[arc_index];
+            if (arc_capacity[arc_index] > 0 && parent_vertex[neighbor] == -1) {
+                parent_vertex[neighbor] = current_vertex;
+                parent_edge_index[neighbor] = arc_index;
+                bfs_queue[queue_end++] = neighbor;
+                if (neighbor == target_node) break;
             }
         }
     }
-    return level[t] != -1;
+
+    if (parent_vertex[target_node] == -1) return 0;
+
+    int current_vertex = target_node;
+    while (current_vertex != source_node) {
+        int arc_index = parent_edge_index[current_vertex];
+        arc_capacity[arc_index]--;
+        arc_capacity[reverse_arc[arc_index]]++;
+        current_vertex = parent_vertex[current_vertex];
+    }
+    return 1;
 }
 
-int dfs(int v, int f, int *flow_found) {
-    if (v == t) {
-        *flow_found = 1;
-        return f;
-    }
-    for (int i = iter[v]; i < graph_size[v]; i++) {
-        Edge *e = &graph[v][i];
-        if (e->cap > 0 && level[v] < level[e->to]) {
-            int d = dfs(e->to, (f < e->cap ? f : e->cap), flow_found);
-            if (*flow_found) {
-                e->cap -= d;
-                graph[e->to][e->rev].cap += d;
-                return d;
-            }
+void mark_as_used(int from_vertex, int to_vertex, int edge_id) {
+    used_u[used_counter] = from_vertex;
+    used_v[used_counter] = to_vertex;
+    used_id[used_counter] = edge_id;
+    used_alive[used_counter] = 1;
+    add_to_vertex_list(from_vertex, used_counter, node_first_used, node_last_used, next_used);
+    used_counter++;
+}
+
+int depth_first_search_path(int current_vertex) {
+    if (current_vertex == target_node) return 1;
+    visited_flag[current_vertex] = visit_timer;
+
+    for (int used_index = node_first_used[current_vertex]; used_index != -1; used_index = next_used[used_index]) {
+        if (!used_alive[used_index]) continue;
+        int next_vertex = used_v[used_index];
+        if (visited_flag[next_vertex] == visit_timer) continue;
+        if (depth_first_search_path(next_vertex)) {
+            used_alive[used_index] = 0;
+            current_path[path_length++] = used_index;
+            return 1;
         }
-        iter[v]++;
     }
     return 0;
 }
 
-int max_flow() {
-    int flow = 0;
-    while (bfs()) {
-        memset(iter, 0, sizeof(iter));
-        int flow_found;
-        do {
-            flow_found = 0;
-            int f = dfs(s, INT_MAX, &flow_found);
-            if (flow_found) {
-                flow += f;
-            }
-        } while (flow_found);
-    }
-    return flow;
-}
-
-void find_paths() {
-    int flow = max_flow();
-    printf("%d\n", flow);
-    
-    for (int p = 0; p < flow; p++) {
-        memset(parent, -1, sizeof(parent));
-        memset(parent_edge_id, -1, sizeof(parent_edge_id));
-        memset(parent_rev, -1, sizeof(parent_rev));
-        int queue[MAXN + 1];
-        int head = 0, tail = 0;
-        queue[tail++] = s;
-        parent[s] = s;
-        while (head < tail) {
-            int v = queue[head++];
-            for (int i = 0; i < graph_size[v]; i++) {
-                Edge *e = &graph[v][i];
-                if (e->cap == 0 && e->edge_id != -1 && parent[e->to] == -1 && e->to != s) {
-                    parent[e->to] = v;
-                    parent_edge_id[e->to] = e->edge_id;
-                    parent_rev[e->to] = i;
-                    queue[tail++] = e->to;
-                    if (e->to == t) break;
-                }
-            }
-        }
-        int path_edges[MAXM];
-        int path_len = 0;
-        int cur = t;
-        while (cur != s) {
-            int prev = parent[cur];
-            path_edges[path_len++] = parent_edge_id[cur];
-            for (int i = 0; i < graph_size[prev]; i++) {
-                if (graph[prev][i].edge_id == parent_edge_id[cur]) {
-                    graph[prev][i].cap = -1; 
-                    break;
-                }
-            }
-            cur = prev;
-        }
-        printf("%d\n", path_len);
-        for (int i = path_len - 1; i >= 0; i--) {
-            int eid = path_edges[i];
-            if (O == 0) {
-                if (edges[eid].u == parent[ (i == 0 ? t : (i == path_len-1 ? s : parent[path_edges[i-1]]) ) ]) {
-                    printf("%d %d %d\n", edges[eid].u, eid, edges[eid].v);
-                } else {
-                    printf("%d %d %d\n", edges[eid].v, eid, edges[eid].u);
-                }
-            } else {
-                printf("%d %d %d\n", edges[eid].u, eid, edges[eid].v);
-            }
-        }
-    }
-}
-
 int main() {
     freopen("input.txt", "r", stdin);
-    
-    scanf("%d %d %d", &N, &M, &O);
-    scanf("%d %d", &s, &t);
-    
-    for (int i = 1; i <= N; i++) {
-        graph[i] = NULL;
-        graph_size[i] = 0;
-        graph_capacity[i] = 0;
+
+    scanf("%d%d%d", &node_count, &edge_count, &graph_type);
+    scanf("%d%d", &source_node, &target_node);
+
+    for (int i = 1; i <= node_count; i++) {
+        node_first_arc[i] = node_last_arc[i] = -1;
+        node_first_used[i] = node_last_used[i] = -1;
     }
-    
-    for (int i = 1; i <= M; i++) {
-        int a, b;
-        scanf("%d %d", &a, &b);
-        edges[i].u = a;
-        edges[i].v = b;
-        edges[i].id = i;
-        if (O == 0) {
-            add_edge(a, b, 1, i);
-            add_edge(b, a, 1, i);
+
+    arc_counter = 0;
+    for (int i = 1; i <= edge_count; i++) {
+        scanf("%d%d", &edge_from[i], &edge_to[i]);
+        if (graph_type == 1) add_directed_arc(edge_from[i], edge_to[i], i);
+        else add_undirected_arc(edge_from[i], edge_to[i], i);
+    }
+
+    int max_flow = 0;
+    while (breadth_first_augment()) max_flow++;
+
+    used_counter = 0;
+    for (int i = 1; i <= edge_count; i++) {
+        int forward_arc = first_edge_id[i];
+        int backward_arc = reverse_arc[forward_arc];
+
+        if (graph_type == 1) {
+            if (arc_capacity[forward_arc] == 0) mark_as_used(edge_from[i], edge_to[i], i);
         } else {
-            add_edge(a, b, 1, i);
+            if (arc_capacity[forward_arc] == 0 && arc_capacity[backward_arc] == 2) mark_as_used(edge_from[i], edge_to[i], i);
+            else if (arc_capacity[forward_arc] == 2 && arc_capacity[backward_arc] == 0) mark_as_used(edge_to[i], edge_from[i], i);
         }
     }
-    
-    find_paths();
-    
-    for (int i = 1; i <= N; i++) {
-        free(graph[i]);
+
+    printf("%d\n", max_flow);
+
+    for (int flow_step = 0; flow_step < max_flow; flow_step++) {
+        path_length = 0;
+        visit_timer++;
+        depth_first_search_path(source_node);
+
+        printf("%d\n", path_length);
+        for (int i = path_length - 1; i >= 0; i--) {
+            int used_index = current_path[i];
+            printf("%d %d %d\n", used_u[used_index], used_id[used_index], used_v[used_index]);
+        }
     }
-    
+
     return 0;
 }
