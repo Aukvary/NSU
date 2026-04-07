@@ -59,25 +59,25 @@ Node pop() {
 int main() {
     freopen("input.txt", "r", stdin); 
     
-    int N, M, K;
-    scanf("%d %d %d", &N, &M, &K);
+    int n, m, k;
+    scanf("%d %d %d", &n, &m, &k);
 
     int queries[20][2];
-    for (int i = 0; i < K; i++) {
+    for (int i = 0; i < k; i++) {
         scanf("%d %d", &queries[i][0], &queries[i][1]);
     }
 
-    for (int i = 1; i <= M; i++) {
+    for (int i = 1; i <= m; i++) {
         int u, v, w;
         scanf("%d %d %d", &u, &v, &w);
         add_edge(u, v, w, i);
     }
 
-    for (int q = 0; q < K; q++) {
+    for (int q = 0; q < k; q++) {
         int start = queries[q][0];
         int end = queries[q][1];
 
-        for (int i = 1; i <= N; i++) {
+        for (int i = 1; i <= n; i++) {
             dist[i] = INF;
             parent_edge[i] = -1;
         }

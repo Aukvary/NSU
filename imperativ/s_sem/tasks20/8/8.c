@@ -11,7 +11,7 @@ typedef struct Edge {
 
 int main() {
     int n, m, start_node;
-    if (scanf("%d %d %d", &n, &m, &start_node) != 3) return 0;
+    scanf("%d %d %d", &n, &m, &start_node);
 
     Edge* edges = malloc(m * sizeof(Edge));
     for (int i = 0; i < m; i++) {

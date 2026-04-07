@@ -43,22 +43,22 @@ int count_path(int v) {
 int main() {
     freopen("input.txt", "r", stdin);
 
-    int N, M, K;
-    scanf("%d %d %d", &N, &M, &K);
+    int n, m, k;
+    scanf("%d %d %d", &n, &m, &k);
 
-    for (int i = 0; i < K; i++) {
+    for (int i = 0; i < k; i++) {
         scanf("%d", &friends[i]);
     }
 
-    for (int i = 1; i <= N; i++) adj[i] = NULL;
+    for (int i = 1; i <= n; i++) adj[i] = NULL;
 
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < m; i++) {
         int u, v, w;
         scanf("%d %d %d", &u, &v, &w);
         add_edge(u, v, w);
     }
 
-    for (int i = 1; i <= N; i++) {
+    for (int i = 1; i <= n; i++) {
         dist[i] = INF;
         parent[i] = -1;
         in_queue[i] = false;
@@ -85,7 +85,7 @@ int main() {
         }
     }
 
-    for (int i = 0; i < K; i++) {
+    for (int i = 0; i < k; i++) {
         int target = friends[i];
         printf("%lld %d", dist[target], count_path(target));
         print_path(target);

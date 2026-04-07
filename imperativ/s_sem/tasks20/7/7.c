@@ -18,7 +18,7 @@ int is_articulation[SIZE];
 int visited[SIZE];
 
 void add_edge(int u, int v) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
+    Node* newNode = malloc(sizeof(Node));
     newNode->to = v;
     newNode->next = adj[u];
     adj[u] = newNode;

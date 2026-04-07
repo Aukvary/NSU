@@ -27,7 +27,7 @@ int main() {
     freopen("input.txt", "r", stdin);
 
     int n, m, p, k;
-    if (scanf("%d %d %d %d", &n, &m, &p, &k) != 4) return 0;
+    scanf("%d %d %d %d", &n, &m, &p, &k);
 
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {

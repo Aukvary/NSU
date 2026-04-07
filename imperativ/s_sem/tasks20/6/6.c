@@ -45,13 +45,13 @@ void dfs(int v, int p_id) {
     }
 }
 
-int compare(const void* a, const void* b) {
+int cmp(const void* a, const void* b) {
     return (*(int*)a - *(int*)b);
 }
 
 int main() {
     int n, m;
-    if (scanf("%d %d", &n, &m) != 2) return 0;
+    scanf("%d %d", &n, &m);
 
     adj = calloc(n + 1, sizeof(Edge*));
     tin = malloc((n + 1) * sizeof(int));
@@ -74,7 +74,7 @@ int main() {
     }
 
     
-    qsort(bridges, bridge_count, sizeof(int), compare);
+    qsort(bridges, bridge_count, sizeof(int), cmp);
 
     printf("%d\n", bridge_count);
     for (int i = 0; i < bridge_count; i++) {
