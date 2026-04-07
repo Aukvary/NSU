@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define INF 2000000000000000LL 
+#define INT_MAX 2000000000000000LL 
 
 typedef struct Edge {
     int to;
@@ -58,8 +58,13 @@ int main() {
         add_edge(u, v, w);
     }
 
+<<<<<<< HEAD
     for (int i = 1; i <= n; i++) {
         dist[i] = INF;
+=======
+    for (int i = 1; i <= N; i++) {
+        dist[i] = INT_MAX;
+>>>>>>> refs/remotes/origin/main
         parent[i] = -1;
         in_queue[i] = false;
     }

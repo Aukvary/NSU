@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define INF 2e18
+#define INT_MAX 2e18
 
 typedef struct Edge {
     int u, v;
@@ -23,7 +23,7 @@ int main() {
     bool* negative_cycle = malloc((n + 1) * sizeof(bool));
 
     for (int i = 1; i <= n; i++) {
-        dist[i] = (long long)INF;
+        dist[i] = (long long)INT_MAX;
         reachable[i] = false;
         negative_cycle[i] = false;
     }
@@ -34,7 +34,7 @@ int main() {
 
     for (int i = 1; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            if (dist[edges[j].u] >= INF) continue;
+            if (dist[edges[j].u] >= INT_MAX) continue;
             if (dist[edges[j].v] > dist[edges[j].u] + edges[j].weight) {
                 dist[edges[j].v] = dist[edges[j].u] + edges[j].weight;
             }
@@ -44,7 +44,7 @@ int main() {
 
     for (int i = 1; i <= n; i++) {
         for (int j = 0; j < m; j++) {
-            if (dist[edges[j].u] >= INF) continue;
+            if (dist[edges[j].u] >= INT_MAX) continue;
             if (dist[edges[j].v] > dist[edges[j].u] + edges[j].weight) {
                 dist[edges[j].v] = dist[edges[j].u] + edges[j].weight;
                 negative_cycle[edges[j].v] = true;
@@ -63,7 +63,7 @@ int main() {
 
 
     for (int i = 1; i <= n; i++) {
-        if (dist[i] >= INF / 2) {
+        if (dist[i] >= INT_MAX / 2) {
             printf("*\n");
         } else if (negative_cycle[i]) {
             printf("-\n");
