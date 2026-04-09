@@ -5,7 +5,8 @@
 typedef long long i64;
 
 typedef struct {
-    int to, rev;
+    int to;
+    int rev;
     i64 cap;
 } Edge;
 
@@ -106,8 +107,8 @@ int main() {
     int height, width;
     scanf("%d%d", &height, &width);
     int total_cells = height * width;
-    i64 *first_value = (i64*)malloc(total_cells * sizeof(i64));
-    i64 *second_value = (i64*)malloc(total_cells * sizeof(i64));
+    i64 *first_value = malloc(total_cells * sizeof(i64));
+    i64 *second_value = malloc(total_cells * sizeof(i64));
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {

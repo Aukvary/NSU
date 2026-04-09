@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define INT_MAX 2000000000000000LL 
+#define SIZE 5001
 
 typedef struct Edge {
     int to;
@@ -10,11 +10,11 @@ typedef struct Edge {
     struct Edge* next;
 } Edge;
 
-Edge* adj[5001];
-long long dist[5001];
-int parent[5001];
+Edge* adj[SIZE];
+long long dist[SIZE];
+int parent[SIZE];
 int friends[51];
-bool in_queue[5001];
+bool in_queue[SIZE];
 int queue[1000000]; 
 
 void add_edge(int u, int v, int w) {
@@ -58,13 +58,8 @@ int main() {
         add_edge(u, v, w);
     }
 
-<<<<<<< HEAD
     for (int i = 1; i <= n; i++) {
-        dist[i] = INF;
-=======
-    for (int i = 1; i <= N; i++) {
-        dist[i] = INT_MAX;
->>>>>>> refs/remotes/origin/main
+        dist[i] = LLONG_MAX;
         parent[i] = -1;
         in_queue[i] = false;
     }
