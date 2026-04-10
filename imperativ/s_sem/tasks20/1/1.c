@@ -14,7 +14,8 @@ Edge* graph[SIZE] = {0};
 int indeg[SIZE] = {0};
 int topo[SIZE] = {0};
 int value[SIZE] = {0};
-int n, m;
+int n;
+int m;
 
 void add_edge(int from, int to) {
     Edge* e = malloc(sizeof(Edge));

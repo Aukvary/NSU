@@ -29,8 +29,8 @@ void dfs(int v, int p) {
     tin[v] = low[v] = ++timer;
     int children = 0;
     
-    for (Node* curr = adj[v]; curr != NULL; curr = curr->next) {
-        int to = curr->to;
+    for (Node* cur = adj[v]; cur != NULL; cur = cur->next) {
+        int to = cur->to;
         if (to == p) continue;
         if (visited[to]) {
             low[v] = MIN(low[v], tin[to]);

@@ -30,13 +30,13 @@ void print_stack(Node* node) {
 int main() {
     freopen("input.txt", "r", stdin);
     
-    int Q;
-    scanf("%d", &Q);
+    int q;
+    scanf("%d", &q);
 
     versions[0] = NULL;
     int current_version = 0;
 
-    for (int i = 0; i < Q; i++) {
+    for (int i = 0; i < q; i++) {
         char type;
         scanf(" %c", &type);
 

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
 
-#define INF 2000000000000000LL 
 #define SIZE 5001
 
 typedef struct Edge {
@@ -60,7 +60,7 @@ int main() {
     }
 
     for (int i = 1; i <= n; i++) {
-        dist[i] = INF;
+        dist[i] = LLONG_MAX;
         parent[i] = -1;
         in_queue[i] = false;
     }

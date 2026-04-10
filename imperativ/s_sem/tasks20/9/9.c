@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
 
-#define INT_MAX 1e18
+#define SIZE 100005
 
 typedef struct {
     int to;
@@ -17,10 +18,10 @@ typedef struct {
 } Node;
 
 Edge edges[200005] = {0};
-int head[100005], edge_cnt = 0;
-long long dist[100005] = {0};
-int parent_edge[100005] = {0};
-int parent_node[100005] = {0};
+int head[SIZE], edge_cnt = 0;
+long long dist[SIZE] = {0};
+int parent_edge[SIZE] = {0};
+int parent_node[SIZE] = {0};
 Node heap[1000005] = {0};
 int heap_size = 0;
 
@@ -59,7 +60,9 @@ Node pop() {
 int main() {
     freopen("input.txt", "r", stdin); 
     
-    int n, m, k;
+    int n;
+    int m;
+    int k;
     scanf("%d %d %d", &n, &m, &k);
 
     int queries[20][2];
@@ -77,13 +80,8 @@ int main() {
         int start = queries[q][0];
         int end = queries[q][1];
 
-<<<<<<< HEAD
         for (int i = 1; i <= n; i++) {
-            dist[i] = INF;
-=======
-        for (int i = 1; i <= N; i++) {
             dist[i] = INT_MAX;
->>>>>>> refs/remotes/origin/main
             parent_edge[i] = -1;
         }
 

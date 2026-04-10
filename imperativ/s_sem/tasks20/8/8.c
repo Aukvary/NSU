@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#define INT_MAX 2e18
+#include <limits.h>
 
 typedef struct Edge {
-    int u, v;
+    int u;
+    int v;
     long long weight;
 } Edge;
 
@@ -23,7 +23,7 @@ int main() {
     bool* negative_cycle = malloc((n + 1) * sizeof(bool));
 
     for (int i = 1; i <= n; i++) {
-        dist[i] = (long long)INT_MAX;
+        dist[i] = LLONG_MAX;
         reachable[i] = false;
         negative_cycle[i] = false;
     }
