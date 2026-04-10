@@ -1,0 +1,19 @@
+push 1 done
+push 4 done
+push 9 done
+push 16 done
+push 25 done
+Size: 5
+Capacity: 8
+vec[2] = 9
+Front: 1
+Back: 25
+[1, 4, 9, 16, 25]
+pop done
+Size: 4
+resize to 8 with default 42 done
+vec[6] = 42
+[1, 4, 9, 16, 42, 42, 42, 42]
+clear done
+Empty: yes
+destroy done

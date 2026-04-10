@@ -1,0 +1,19 @@
+push 1 
+push 4 
+push 9 
+push 16 
+push 25 
+size 
+capacity 
+at 2 
+front 
+back 
+print 
+pop 
+size 
+resize 8 42 
+at 6 
+print 
+clear 
+empty 
+destroy 

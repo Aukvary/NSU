@@ -4,7 +4,9 @@
 
 #define SIZE_N 105
 
-int a, b, m;
+int a;
+int b;
+int m;
 int g[SIZE_N][SIZE_N] = {0};
 int matchU[SIZE_N]; 
 int matchV[SIZE_N]; 
