@@ -45,7 +45,8 @@ void dfs2(int u, int c) {
 int main() {
     freopen("input.txt", "r", stdin);
 
-    int n, m;
+    int n;
+    int m;
     scanf("%d %d", &n, &m);
 
     for (int i = 0; i < m; i++) {

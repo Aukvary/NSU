@@ -4,7 +4,6 @@
 #include <limits.h>
 
 #define MAX_N 100
-#define INT_MAX INT_MAX
 
 int capacity[MAX_N + 1][MAX_N + 1] = {0};
 int parent[MAX_N + 1] = {0};
