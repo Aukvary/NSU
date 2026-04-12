@@ -1,0 +1,12 @@
+push_back 10 
+push_back 20 
+push_back 30 
+push_front 5 
+push_front 1 
+size 
+print 
+pop_front 
+pop_back 
+print 
+front 
+back

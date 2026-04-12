@@ -1,0 +1,8 @@
+JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+javac -h . Tree.java
+
+gcc -fPIC -shared -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -o librbtree.so tree.c
+
+javac Tree.java Main.java
+
+java -Djava.library.path=. Main

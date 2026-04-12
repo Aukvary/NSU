@@ -1,0 +1,12 @@
+push_back 10 done
+push_back 20 done
+push_back 30 done
+push_front 5 done
+push_front 1 done
+size = 5
+[1, 5, 10, 20, 30]
+pop_front = 1
+pop_back = 30
+[5, 10, 20]
+front = 5
+back = 20
