@@ -32,7 +32,7 @@ public class Main {
                 case "insert": {
                     int key = Integer.parseInt(parts[1]);
                     long value = Long.parseLong(parts[2]);
-                    boolean result = tree.insert(key, value);
+                    tree.insert(key, value);
                     fout.write("insert " + key + " " + value + " done\n");
                     break;
                 }
