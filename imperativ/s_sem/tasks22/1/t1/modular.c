@@ -1,8 +1,9 @@
 #include "modular.h"
 
-int MOD;
+int MOD = 2;
 
-static int ppow(int a, int e) {
+static int ppow(int a, int e)
+{
     long long res = 1;
     long long base = a;
 
@@ -17,7 +18,8 @@ static int ppow(int a, int e) {
     return (int)res;
 }
 
-int pnorm(int x) {
+int pnorm(int x)
+{
     int r = x % MOD;
     if (r < 0) {
         r += MOD;
@@ -25,11 +27,13 @@ int pnorm(int x) {
     return r;
 }
 
-int padd(int a, int b) {
+int padd(int a, int b)
+{
     return (int)(((long long)a + b) % MOD);
 }
 
-int psub(int a, int b) {
+int psub(int a, int b)
+{
     int r = a - b;
     if (r < 0) {
         r += MOD;
@@ -37,10 +41,12 @@ int psub(int a, int b) {
     return r;
 }
 
-int pmul(int a, int b) {
+int pmul(int a, int b)
+{
     return (int)(((long long)a * b) % MOD);
 }
 
-int pdiv(int a, int b) {
+int pdiv(int a, int b)
+{
     return pmul(a, ppow(b, MOD - 2));
 }

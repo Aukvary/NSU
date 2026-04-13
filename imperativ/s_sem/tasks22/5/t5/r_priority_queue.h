@@ -11,10 +11,8 @@ extern "C"
         void *data; 
         int priority; 
     } pq_item_t; 
-    
     typedef struct priority_queue priority_queue_t; 
     typedef void (*pq_free_func)(void *data); 
-    
     priority_queue_t *pq_create(size_t capacity); 
     void pq_destroy(priority_queue_t *queue, pq_free_func free_func); 
     bool pq_push(priority_queue_t *queue, void *data, int priority); 

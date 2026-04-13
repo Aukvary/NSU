@@ -1,121 +1,132 @@
 #include "modular.h"
 #include <assert.h>
+#include <limits.h>
 
-int main() {
-    MOD = 13;
-    
-    assert(pnorm(0) == 0);
-    assert(pnorm(5) == 5);
-    assert(pnorm(12) == 12);
-    assert(pnorm(13) == 0);
-    assert(pnorm(14) == 1);
-    assert(pnorm(25) == 12);
-    assert(pnorm(26) == 0);
-    assert(pnorm(-1) == 12);
-    assert(pnorm(-2) == 11);
-    assert(pnorm(-13) == 0);
-    assert(pnorm(-14) == 12);
-    assert(pnorm(-25) == 1);
-    assert(pnorm(-26) == 0);
-    
-    assert(padd(0, 0) == 0);
-    assert(padd(5, 7) == 12);
-    assert(padd(5, 8) == 0);
-    assert(padd(10, 5) == 2);
-    assert(padd(12, 1) == 0);
-    assert(padd(12, 2) == 1);
-    
-    assert(psub(5, 3) == 2);
-    assert(psub(3, 5) == 11);
-    assert(psub(0, 1) == 12);
-    assert(psub(1, 0) == 1);
-    assert(psub(12, 12) == 0);
-    assert(psub(0, 0) == 0);
-    
-    assert(pmul(0, 5) == 0);
-    assert(pmul(5, 0) == 0);
-    assert(pmul(1, 5) == 5);
-    assert(pmul(2, 6) == 12);
-    assert(pmul(2, 7) == 1);
-    assert(pmul(3, 4) == 12);
-    assert(pmul(3, 5) == 2);
-    assert(pmul(12, 12) == 1);
-    
-    assert(pdiv(1, 1) == 1);
-    assert(pdiv(1, 2) == 7);
-    assert(pmul(2, pdiv(1, 2)) == 1);
-    assert(pdiv(5, 2) == 9);
-    assert(pmul(2, 9) == 5);
-    assert(pdiv(7, 3) == 11);
-    assert(pmul(3, 11) == 7);
-    assert(pdiv(12, 5) == 5);
-    assert(pmul(5, 5) == 12);
-    assert(pdiv(0, 7) == 0);
-    
-    int x = pmul(padd(7, psub(2, 3)), 5);
-    assert(x == 4);
-    int y = pdiv(7, x);
-    assert(pmul(x, y) == 7);
-    
-    MOD = 2;
-    assert(pnorm(0) == 0);
-    assert(pnorm(1) == 1);
-    assert(pnorm(2) == 0);
-    assert(pnorm(3) == 1);
-    assert(pnorm(-1) == 1);
-    assert(pnorm(-2) == 0);
-    assert(padd(0, 0) == 0);
-    assert(padd(0, 1) == 1);
-    assert(padd(1, 1) == 0);
-    assert(psub(0, 1) == 1);
-    assert(psub(1, 0) == 1);
-    assert(psub(1, 1) == 0);
-    assert(pmul(0, 0) == 0);
-    assert(pmul(0, 1) == 0);
-    assert(pmul(1, 1) == 1);
-    assert(pdiv(1, 1) == 1);
-    
-    MOD = 7;
-    for (int i = 1; i < 7; i++) {
-        for (int j = 1; j < 7; j++) {
-            assert(pmul(pdiv(i, j), j) == i);
+static int ref_normalize(int val) {
+    int rem = val % MOD;
+    if (rem < 0) {
+        rem += MOD;
+    }
+    return rem;
+}
+
+static int ref_multiply(int x, int y) {
+    return (int)((1LL * x * y) % MOD);
+}
+
+static int ref_inverse(int val) {
+    long long r0 = MOD, r1 = val;
+    long long s0 = 0, s1 = 1;
+
+    while (r1 != 0) {
+        long long quotient = r0 / r1;
+        long long new_r = r0 - quotient * r1;
+        r0 = r1;
+        r1 = new_r;
+        long long new_s = s0 - quotient * s1;
+        s0 = s1;
+        s1 = new_s;
+    }
+
+    s0 %= MOD;
+    if (s0 < 0) {
+        s0 += MOD;
+    }
+    return (int)s0;
+}
+
+static int ref_divide(int dividend, int divisor) {
+    return ref_multiply(dividend, ref_inverse(divisor));
+}
+
+static void test_mod_small(int prime) {
+    MOD = prime;
+
+    int samples[] = {0, 1, prime - 1, prime, prime + 1, -1, -prime, -prime - 1, 45, -45, INT_MAX, INT_MIN};
+    int sample_count = sizeof(samples) / sizeof(samples[0]);
+
+    for (int idx = 0; idx < sample_count; idx++) {
+        assert(pnorm(samples[idx]) == ref_normalize(samples[idx]));
+    }
+
+    int test_values[] = {0, 1, 2, prime/2, prime-2, prime-1};
+    int tv_count = sizeof(test_values) / sizeof(test_values[0]);
+
+    for (int i = 0; i < tv_count; i++) {
+        for (int j = 0; j < tv_count; j++) {
+            int a = test_values[i];
+            int b = test_values[j];
+            if (a < 0 || a >= prime) continue;
+            if (b < 0 || b >= prime) continue;
+            assert(padd(a, b) == ref_normalize(a + b));
+            assert(psub(a, b) == ref_normalize(a - b));
+            assert(pmul(a, b) == ref_multiply(a, b));
+            if (b != 0) {
+                assert(pdiv(a, b) == ref_divide(a, b));
+            }
         }
     }
-    
+}
+
+static void test_edge_cases(int prime) {
+    MOD = prime;
+
+    assert(pnorm(prime) == 0);
+    assert(pnorm(-prime) == 0);
+    assert(padd(prime - 1, 1) == 0);
+    assert(psub(0, 1) == prime - 1);
+    assert(pmul(prime - 1, prime - 1) == 1);
+
+    assert(pdiv(0, 1) == 0);
+    assert(pdiv(1, 1) == 1);
+    assert(pdiv(prime - 1, 1) == prime - 1);
+    assert(pdiv(1, prime - 1) == prime - 1);
+    assert(pdiv(prime - 1, prime - 1) == 1);
+}
+
+static void test_mod_change() {
+    MOD = 7;
+    assert(pnorm(10) == 3);
+    assert(padd(5, 6) == 4);
+    assert(psub(5, 6) == 6);
+    assert(pmul(3, 5) == 1);
+    assert(pdiv(3, 5) == 2);
+
+    MOD = 13;
+    assert(pnorm(10) == 10);
+    assert(padd(5, 6) == 11);
+    assert(psub(5, 6) == 12);
+    assert(pmul(3, 5) == 2);
+    assert(pdiv(3, 5) == 8);
+
+    MOD = 7;
+    assert(pnorm(10) == 3);
+    assert(padd(5, 6) == 4);
+}
+
+static void test_large_prime() {
     MOD = 1000000007;
-    assert(pnorm(1000000007) == 0);
-    assert(pnorm(-1000000007) == 0);
-    assert(padd(1000000006, 1) == 0);
-    assert(padd(1000000006, 2) == 1);
-    assert(psub(0, 1) == 1000000006);
-    assert(pmul(1000000006, 2) == 1000000005);
+    assert(pnorm(2000000000) == 2000000000 % MOD);
     assert(pmul(1000000006, 1000000006) == 1);
-    assert(pdiv(1, 1000000006) == 1000000006);
-    
-    MOD = 3;
-    assert(pnorm(0) == 0);
-    assert(pnorm(1) == 1);
-    assert(pnorm(2) == 2);
-    assert(pnorm(3) == 0);
-    assert(padd(1, 2) == 0);
-    assert(psub(1, 2) == 2);
-    assert(pmul(2, 2) == 1);
-    assert(pdiv(2, 2) == 1);
-    
-    MOD = 5;
-    assert(pnorm(0) == 0);
-    assert(pnorm(1) == 1);
-    assert(pnorm(4) == 4);
-    assert(pnorm(5) == 0);
-    assert(padd(3, 4) == 2);
-    assert(psub(1, 4) == 2);
-    assert(pmul(2, 3) == 1);
-    assert(pdiv(2, 3) == 4);
-    assert(pmul(3, 4) == 2);
-    
-    MOD = 999983;
-    assert(pmul(999982, 999982) == 1);
-    assert(pdiv(1, 999982) == 999982);
-    
+    assert(pdiv(1, 2) == 500000004);
+    assert(pmul(2, 500000004) == 1);
+    assert(pdiv(1000000006, 1000000006) == 1);
+}
+
+int main(void) {
+    test_mod_small(2);
+    test_mod_small(3);
+    test_mod_small(5);
+    test_mod_small(13);
+    test_mod_small(17);
+
+    MOD = 50021;
+    assert(pmul(50020, 50020) == 1);
+
+    test_edge_cases(50021);
+    test_edge_cases(65537);
+    test_mod_change();
+    test_large_prime();
+
     return 0;
 }
