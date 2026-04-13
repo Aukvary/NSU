@@ -13,11 +13,7 @@ typedef struct {
     int priority;
 } pq_item_t;
 
-typedef struct priority_queue {
-    pq_item_t *items;
-    size_t capacity;
-    size_t size;
-} priority_queue_t;
+typedef struct priority_queue priority_queue_t;
 
 typedef void (*pq_free_func)(void *data);
 

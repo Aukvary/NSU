@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct priority_queue {
+    pq_item_t *items;
+    size_t capacity;
+    size_t size;
+};
+
 static void swap(pq_item_t *a, pq_item_t *b) {
     pq_item_t temp = *a;
     *a = *b;
@@ -56,15 +62,19 @@ void pq_destroy(priority_queue_t *queue, pq_free_func free_func) {
     if (!queue) return;
     if (free_func) {
         for (size_t i = 0; i < queue->size; ++i) {
-            free_func(queue->items[i].data);
+            if (queue->items[i].data)
+                free_func(queue->items[i].data);
         }
     }
-    free(queue->items);
+    if (queue->items)
+        free(queue->items);
     free(queue);
 }
 
 bool pq_push(priority_queue_t *queue, void *data, int priority) {
-    if (!queue || queue->size >= queue->capacity) return false;
+    if (!queue || !data) return false;
+    if (queue->size >= queue->capacity) return false;
+    
     queue->items[queue->size].data = data;
     queue->items[queue->size].priority = priority;
     queue->size++;
@@ -74,13 +84,25 @@ bool pq_push(priority_queue_t *queue, void *data, int priority) {
 
 bool pq_pop(priority_queue_t *queue, void **data, int *priority) {
     if (!queue || queue->size == 0) return false;
+    
     if (data) *data = queue->items[0].data;
     if (priority) *priority = queue->items[0].priority;
+    
     queue->size--;
+    
     if (queue->size > 0) {
+        // Копируем последний элемент в корень
         queue->items[0] = queue->items[queue->size];
+        // Очищаем последний элемент (опционально, для безопасности)
+        queue->items[queue->size].data = NULL;
+        queue->items[queue->size].priority = 0;
         heapify_down(queue, 0);
+    } else {
+        // Если очередь стала пустой, очищаем корневой элемент
+        queue->items[0].data = NULL;
+        queue->items[0].priority = 0;
     }
+    
     return true;
 }
 
@@ -100,15 +122,20 @@ bool pq_is_empty(const priority_queue_t *queue) {
 }
 
 bool pq_is_full(const priority_queue_t *queue) {
-    return queue ? queue->size >= queue->capacity : true;
+    return queue ? queue->size >= queue->capacity : false;
 }
 
 void pq_clear(priority_queue_t *queue, pq_free_func free_func) {
     if (!queue) return;
     if (free_func) {
         for (size_t i = 0; i < queue->size; ++i) {
-            free_func(queue->items[i].data);
+            if (queue->items[i].data)
+                free_func(queue->items[i].data);
         }
     }
     queue->size = 0;
+    for (size_t i = 0; i < queue->capacity; i++) {
+        queue->items[i].data = NULL;
+        queue->items[i].priority = 0;
+    }
 }
