@@ -128,9 +128,18 @@ bool pq_pop(priority_queue_t *queue, void **data, int *priority) {
     if (priority != NULL) *priority = queue->items[0].priority;
 
     queue->size--;
+    
     if (queue->size > 0) {
+        // Копируем последний элемент в корень
         queue->items[0] = queue->items[queue->size];
+        // Очищаем последний элемент (опционально, для безопасности)
+        queue->items[queue->size].data = NULL;
+        queue->items[queue->size].priority = 0;
         heapify_down(queue, 0);
+    } else {
+        // Если очередь стала пустой, очищаем корневой элемент
+        queue->items[0].data = NULL;
+        queue->items[0].priority = 0;
     }
 
     queue->items[queue->size].data = NULL;
