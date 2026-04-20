@@ -6,6 +6,7 @@ struct priority_queue {
     pq_item_t *items;
     size_t size;
     size_t capacity; 
+    bool is_dynamic;
 };
 
 static void swap_items(pq_item_t *first, pq_item_t *second) {
@@ -48,29 +49,27 @@ static void heapify_down(priority_queue_t *queue, size_t parent_index) {
 }
 
 static bool ensure_capacity(priority_queue_t *queue) {
-    pq_item_t *new_storage;
-    size_t new_capacity;
+    if (!queue->is_dynamic) return true;
 
-    if (queue->capacity != 0) return true;
+    if (queue->size < queue->capacity) return true;
 
-    new_capacity = (queue->size == 0 ? 4 : queue->size * 2);
-    if (new_capacity < queue->size) return false;
-
-    new_storage = (pq_item_t *)realloc(queue->items, new_capacity * sizeof(pq_item_t));
+    size_t new_capacity = (queue->capacity == 0) ? 4 : queue->capacity * 2;
+    
+    pq_item_t *new_storage = (pq_item_t *)realloc(queue->items, new_capacity * sizeof(pq_item_t));
     if (new_storage == NULL) return false;
 
     queue->items = new_storage;
+    queue->capacity = new_capacity;
     return true;
 }
 
 priority_queue_t *pq_create(size_t capacity) {
-    priority_queue_t *queue;
-
-    queue = (priority_queue_t *)malloc(sizeof(priority_queue_t));
+    priority_queue_t *queue = (priority_queue_t *)malloc(sizeof(priority_queue_t));
     if (queue == NULL) return NULL;
 
     queue->size = 0;
     queue->capacity = capacity;
+    queue->is_dynamic = (capacity == 0); 
     queue->items = NULL;
 
     if (capacity > 0) {
@@ -85,12 +84,10 @@ priority_queue_t *pq_create(size_t capacity) {
 }
 
 void pq_clear(priority_queue_t *queue, pq_free_func free_func) {
-    size_t index;
-
     if (queue == NULL) return;
 
     if (free_func != NULL) {
-        for (index = 0; index < queue->size; index++) {
+        for (size_t index = 0; index < queue->size; index++) {
             free_func(queue->items[index].data);
         }
     }
@@ -108,11 +105,9 @@ void pq_destroy(priority_queue_t *queue, pq_free_func free_func) {
 bool pq_push(priority_queue_t *queue, void *data, int priority) {
     if (queue == NULL) return false;
 
-    if (queue->capacity == 0) {
-        if (!ensure_capacity(queue)) return false;
-    } else {
-        if (queue->size >= queue->capacity) return false;
-    }
+    if (!ensure_capacity(queue)) return false;
+
+    if (!queue->is_dynamic && queue->size >= queue->capacity) return false;
 
     queue->items[queue->size].data = data;
     queue->items[queue->size].priority = priority;
@@ -130,20 +125,9 @@ bool pq_pop(priority_queue_t *queue, void **data, int *priority) {
     queue->size--;
     
     if (queue->size > 0) {
-        // Копируем последний элемент в корень
         queue->items[0] = queue->items[queue->size];
-        // Очищаем последний элемент (опционально, для безопасности)
-        queue->items[queue->size].data = NULL;
-        queue->items[queue->size].priority = 0;
         heapify_down(queue, 0);
-    } else {
-        // Если очередь стала пустой, очищаем корневой элемент
-        queue->items[0].data = NULL;
-        queue->items[0].priority = 0;
     }
-
-    queue->items[queue->size].data = NULL;
-    queue->items[queue->size].priority = 0;
 
     return true;
 }
@@ -158,8 +142,7 @@ bool pq_peek(priority_queue_t *queue, void **data, int *priority) {
 }
 
 size_t pq_size(const priority_queue_t *queue) {
-    if (queue == NULL) return 0;
-    return queue->size;
+    return (queue == NULL) ? 0 : queue->size;
 }
 
 bool pq_is_empty(const priority_queue_t *queue) {
@@ -168,6 +151,6 @@ bool pq_is_empty(const priority_queue_t *queue) {
 
 bool pq_is_full(const priority_queue_t *queue) {
     if (queue == NULL) return false;
-    if (queue->capacity == 0) return false;
+    if (queue->is_dynamic) return false; 
     return queue->size >= queue->capacity;
 }
