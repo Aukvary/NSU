@@ -19,6 +19,14 @@ void add_edge(int u, int v) {
     head[u] = edge_count++;
 }
 
+int get_unvisited_degree(int u) {
+    int count = 0;
+    for (int i = head[u]; i != -1; i = next[i]) {
+        if (!visited[to[i]]) count++;
+    }
+    return count;
+}
+
 void find_path() {
     int curr = rand() % n + 1;
     int len = 0;
@@ -29,16 +37,27 @@ void find_path() {
         visited[curr] = true;
         current_path[len++] = curr;
 
-        int neighbors[256];
-        int count = 0;
+        int best_neighbor = -1;
+        int min_deg = 1000001;
+        int candidates[1024]; 
+        int cand_count = 0;
+
         for (int i = head[curr]; i != -1; i = next[i]) {
-            if (!visited[to[i]]) {
-                if (count < 256) neighbors[count++] = to[i];
+            int v = to[i];
+            if (!visited[v]) {
+                int d = get_unvisited_degree(v);
+                if (d < min_deg) {
+                    min_deg = d;
+                    cand_count = 0;
+                    candidates[cand_count++] = v;
+                } else if (d == min_deg && cand_count < 1024) {
+                    candidates[cand_count++] = v;
+                }
             }
         }
 
-        if (count == 0) break;
-        curr = neighbors[rand() % count];
+        if (cand_count == 0) break;
+        curr = candidates[rand() % cand_count];
     }
 
     if (len > best_len) {

@@ -20,7 +20,7 @@ int main() {
             int is_nash = 1;
 
             for (int r = 0; r < n; r++) {
-                if (r != i && a[i][j] <= a[r][j]) {
+                if (r != i && a[i][j] >= a[r][j]) {
                     is_nash = 0;
                     break;
                 }
@@ -29,7 +29,7 @@ int main() {
             if (!is_nash) continue;
 
             for (int c = 0; c < m; c++) {
-                if (c != j && a[i][j] >= a[i][c]) {
+                if (c != j && a[i][j] <= a[i][c]) {
                     is_nash = 0;
                     break;
                 }
