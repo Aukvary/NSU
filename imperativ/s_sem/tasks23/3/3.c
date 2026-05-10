@@ -7,7 +7,7 @@ int main() {
     int n;
     scanf("%d", &n);
 
-    int *nums = (int *)malloc(n * sizeof(int));
+    int*nums = malloc(n * sizeof(int));
     long long total_sum = 0;
     for (int i = 0; i < n; i++) {
         scanf("%d", &nums[i]);

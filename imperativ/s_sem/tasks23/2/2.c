@@ -3,7 +3,7 @@
 
 int n, k, m, l;
 int switches[10][10][100];
-int current_voltage[100];
+int current_voltage[100] = {0};
 int solution[10];
 
 int solve(int remote_idx) {
@@ -49,8 +49,6 @@ int main() {
             }
         }
     }
-
-    memset(current_voltage, 0, sizeof(current_voltage));
 
     if (solve(0)) {
         printf("YES\n");

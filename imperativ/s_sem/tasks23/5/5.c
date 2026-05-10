@@ -34,8 +34,7 @@ bool solve(int v_idx) {
 int main() {
     freopen("input.txt", "r", stdin);
 
-    if (scanf("%d %d", &m_colors, &V_count) != 2) return 0;
-
+    scanf("%d %d", &m_colors, &V_count);
     for (int i = 0; i < V_count; i++) {
         for (int j = 0; j < V_count; j++) {
             graph[i][j] = 0;
