@@ -54,7 +54,7 @@ int main() {
         for (int i = g.head[u]; i != -1; i = g.next[i]) {
             int v = g.edges[i];
             if (dist[v] == -1) {
-                dist[v] = dist[u] + 1;
+                dist = dist[u] + 1;
                 queue[tail++] = v;
             }
         }
