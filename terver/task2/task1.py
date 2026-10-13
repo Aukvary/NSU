@@ -1,27 +1,3 @@
-"""Практическое задание 2. Байесовский классификатор.
-
-Наивный байесовский классификатор спам/не спам по материалам лекций
-(стр. 73-76):
-
-* текст письма превращается в множество слов в нижнем регистре
-  (пунктуация игнорируется, дубликаты считаются один раз);
-* приоры оцениваются долями классов в обучающей части;
-* вероятность слова в классе вычисляется со сглаживанием Лапласа:
-      P(w | Y) = (# писем класса Y со словом w + 1) / (# писем класса Y + 2);
-* слова считаются условно независимыми при известном классе (наивное
-  предположение):  P(W | Y) = prod_k P(w_k | Y);
-* решение принимается в логарифмическом масштабе, чтобы избежать
-  переполнения при перемножении малых вероятностей:
-      log P(спам) + sum log P(w_k | спам)  >  log P(не спам) + sum log P(w_k | не спам)
-  => спам, иначе не спам.
-
-Данные: Enron-Spam (каталог AUEB), сырые письма. Шапки писем
-удалены: классифицируем по содержимому, а не по служебным полям.
-Разбиение 80% (обучение) / 20% (тест), фиксированный seed.
-Метрики на тесте: точность (accuracy), чувствительность (sensitivity)
-и специфичность (specificity).
-"""
-
 import math
 import random
 import re
@@ -37,8 +13,6 @@ DATA_DIR = Path(__file__).parent / "data" / "enron_spam" / "extracted"
 HAM_USERS = ("beck-s", "farmer-d", "kaminski-v", "kitchen-l", "lokay-m", "williams-w3")
 SPAM_USERS = ("BG", "GP", "SH")
 
-# Слово — непрерывная последовательность букв (латиница/кириллица).
-# Пунктуация, цифры и прочие символы просто отбрасываются.
 WORD_RE = re.compile(r"[a-zа-яё]+")
 
 LABELS = ("spam", "ham")
@@ -46,30 +20,16 @@ LABEL_RU = {"spam": "спам", "ham": "не спам"}
 
 
 def preprocess(text: str) -> set[str]:
-    """Превращает текст в множество слов в нижнем регистре.
-
-    Пунктуация игнорируется, порядок слов не имеет значения,
-    дубликующиеся слова учитываются только один раз:
-    "Купите наш товар!" -> {"купите", "наш", "товар"}.
-    """
     return set(WORD_RE.findall(text.lower()))
 
 
 def email_body(path: Path) -> str:
-    """Возвращает тело письма, отбрасывая почтовые заголовки.
-
-    Заголовки отделены от тела первой пустой строкой.
-    """
     text = path.read_text(encoding="utf-8", errors="ignore")
     text = text.replace("\r\n", "\n")
     return text.partition("\n\n")[2]
 
 
 def load_emails() -> list[tuple[str, str]]:
-    """Читает все письма из корпуса.
-
-    Возвращает пары (текст тела, метка), метка — "spam" или "ham".
-    """
     emails: list[tuple[str, str]] = []
     for label, users in (("ham", HAM_USERS), ("spam", SPAM_USERS)):
         for user in users:
@@ -80,38 +40,25 @@ def load_emails() -> list[tuple[str, str]]:
 
 
 class NaiveBayesClassifier:
-    """Наивный байесовский классификатор спам/не спам."""
-
     def __init__(self) -> None:
-        # Для каждого класса: сколько писем содержит каждое слово.
         self.word_docs: dict[str, Counter] = {label: Counter() for label in LABELS}
-        # Сколько писем каждого класса в обучающей выборке.
         self.class_docs: dict[str, int] = {label: 0 for label in LABELS}
 
     def fit(self, emails: list[tuple[str, str]]) -> None:
-        """Обучает модель на выборке (текст, метка)."""
         for text, label in emails:
             self.class_docs[label] += 1
             for word in preprocess(text):
                 self.word_docs[label][word] += 1
 
     def log_word_prob(self, word: str, label: str) -> float:
-        """log P(w | Y) со сглаживанием Лапласа.
-
-        P(w | Y) = (# писем класса Y со словом w + 1) / (# писем класса Y + 2).
-        +1/+2 эквивалентно добавлению двух искусственных писем:
-        одного со словом и одного без него.
-        """
         n = self.class_docs[label]
         return math.log((self.word_docs[label][word] + 1) / (n + 2))
 
     def log_class_prob(self, label: str) -> float:
-        """log P(Y): доля писем класса в обучающей выборке."""
         total = sum(self.class_docs.values())
         return math.log(self.class_docs[label] / total)
 
     def log_scores(self, text: str) -> dict[str, float]:
-        """Не нормированные логарифмические оценки log P(Y) * prod P(w_k | Y)."""
         words = preprocess(text)
         return {
             label: self.log_class_prob(label)
@@ -120,13 +67,6 @@ class NaiveBayesClassifier:
         }
 
     def classify(self, text: str) -> str:
-        """Предсказывает класс письма.
-
-        Сравниваем log P(спам) * prod P(w_k | спам) и
-        log P(не спам) * prod P(w_k | не спам) в логарифмическом
-        масштабе — перемножать сами вероятности не нужно.
-        При равенстве (ничья) выбор произвольный: считаем не спамом.
-        """
         scores = self.log_scores(text)
         return "spam" if scores["spam"] > scores["ham"] else "ham"
 
@@ -134,7 +74,6 @@ class NaiveBayesClassifier:
 def split_train_test(
     emails: list[tuple[str, str]],
 ) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
-    """Перемешивает письма и делит на обучение (80%) и тест (20%)."""
     shuffled = list(emails)
     random.seed(SEED)
     random.shuffle(shuffled)
@@ -144,11 +83,6 @@ def split_train_test(
 
 
 def metrics(y_true: list[str], y_pred: list[str]) -> dict[str, float]:
-    """Считает точность, чувствительность и специфичность.
-
-    чувствительность = # спамов, верно помеченных как спам, / # всех спамов
-    специфичность    = # обычных, верно помеченных как не спам, / # всех обычных
-    """
     tp = sum(1 for t, p in zip(y_true, y_pred) if t == "spam" and p == "spam")
     fp = sum(1 for t, p in zip(y_true, y_pred) if t == "ham" and p == "spam")
     tn = sum(1 for t, p in zip(y_true, y_pred) if t == "ham" and p == "ham")
@@ -216,7 +150,6 @@ def report(
 
 
 def plot_confusion(res: dict[str, float]) -> str:
-    """Строит столбчатую диаграмму исходов классификации на тесте."""
     path = Path(__file__).parent / "task1_spam_confusion.png"
 
     fig, ax = plt.subplots(figsize=(9, 5.5))
