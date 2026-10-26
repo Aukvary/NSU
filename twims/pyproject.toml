@@ -8,7 +8,8 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "matplotlib"
+    "matplotlib",
+    "numpy"
 ]
 
 [project.scripts]
