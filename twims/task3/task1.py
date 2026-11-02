@@ -21,8 +21,8 @@ def bootstrap_ci(
     rng = np.random.default_rng(SEED)
     stats = np.empty(n_boot)
     for b in range(n_boot):
-        idx = rng.integers(0, n, size=n)
-        stats[b] = statistic(x[idx])
+        idxs = rng.integers(0, n, size=n)
+        stats[b] = statistic(x[idxs])
     lo = np.quantile(stats, alpha / 2)
     hi = np.quantile(stats, 1 - alpha / 2)
     return float(lo), float(hi)
@@ -46,24 +46,6 @@ def report(mad_point, var_point, mad_ci, var_ci) -> None:
     print(
         f"  95% ДИ:      [{var_lo:.4f}; {var_hi:.4f}]  (ширина {var_hi - var_lo:.4f})"
     )
-    print()
-
-    mad_rel = (mad_hi - mad_lo) / mad_point
-    var_rel = (var_hi - var_lo) / var_point
-
-    print("Сравнение:")
-    print("-" * 52)
-    print("MAD измеряется в единицах исходных данных, а дисперсия")
-    print("— в их квадрате, поэтому ширины интервалов напрямую")
-    print("сравнивать нельзя. Честная мера — относительная ширина")
-    print("(ширина ДИ / точечная оценка):")
-    print()
-    print(f"  отн. ширина ДИ MAD:         {mad_rel:.2%}")
-    print(f"  отн. ширина ДИ дисперсии:   {var_rel:.2%}")
-    print()
-    print("Вывод: оба интервала дают сопоставимую относительную")
-    print("неопределённость; разброс оценивается с точностью порядка")
-    print(f"{max(mad_rel, var_rel):.0%}. MAD устойчивее к выбросам, чем дисперсия.")
 
 
 def main() -> None:
@@ -80,4 +62,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    rng = np.random.default_rng(SEED)
+    idxs = rng.integers(0, 2, size=100)
+    print(idxs)
