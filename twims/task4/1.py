@@ -8,14 +8,11 @@ lam = 5.0
 N = 10_000
 n_values = [10, 50, 200]
 
-# Моделирование алгоритмов 2 и 3 (не зависят от n)
 counts_2, diffs_2 = simulate_algorithm_2(lam, N)
 counts_3, diffs_3, w1_3 = simulate_algorithm_3(lam, N)
 
-# Моделирование алгоритма 1 для разных n
 results_1 = {n: simulate_algorithm_1(lam, n, N) for n in n_values}
 
-# --- График 1: Распределение числа событий N(1) ---
 fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharey=True)
 k_max = int(lam + 4 * np.sqrt(lam) + 2)
 k_range = np.arange(0, k_max + 1)
@@ -26,7 +23,6 @@ for idx, n in enumerate(n_values):
     counts_1, _ = results_1[n]
 
     bins = np.arange(-0.5, k_max + 1.5, 1.0)
-    # Гистограммы относительных частот
     ax.hist(
         counts_1,
         bins=bins,
@@ -55,7 +51,6 @@ for idx, n in enumerate(n_values):
         edgecolor="darkorange",
     )
 
-    # Теоретическая кривая Пуассона
     ax.plot(k_range, poiss_pmf, "r.--", lw=2, ms=8, label=r"Теория: $\Pi_\lambda$")
 
     ax.set_title(rf"Число событий: $n = {n}$, $\lambda = {lam}$")
@@ -72,7 +67,6 @@ plt.suptitle(
 plt.tight_layout()
 plt.show()
 
-# --- График 2: Распределения расстояний между точками внутри [0, 1] ---
 fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharey=True)
 dist_bins = np.linspace(0, 0.7, 36)
 
@@ -80,7 +74,6 @@ for idx, n in enumerate(n_values):
     ax = axes[idx]
     _, diffs_1 = results_1[n]
 
-    # Нормированные гистограммы внутренних расстояний
     ax.hist(
         diffs_1,
         bins=dist_bins,

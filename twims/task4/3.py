@@ -10,7 +10,7 @@ fig, ax = plt.subplots(figsize=(9, 5))
 t_vals = np.linspace(0, 1.0, 200)
 exp_pdf = lam * np.exp(-lam * t_vals)
 
-counts_3, diffs_3, w1_3 = simulate_algorithm_3(lam, N)
+_, diffs_3, w1_3 = simulate_algorithm_3(lam, N)
 
 bins_comp = np.linspace(0, 1.0, 41)
 ax.hist(
